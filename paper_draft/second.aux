@@ -1,0 +1,133 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\Newlabel{eq}{1}
+\Newlabel{}{2}
+\citation{MAHDI2024100685}
+\citation{sousa2023leakagedetection}
+\Newlabel{inst1}{a}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{introduction}{{1}{1}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation and Relevance}{1}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Challenges}{1}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Contribution}{1}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related work}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Traditional Data-Driven Approaches}{1}{subsection.2.1}\protected@file@percent }
+\citation{punukollu2023leakdetection}
+\citation{kyriakou2018leakdb}
+\citation{mazaev2022probabilisticleaklocalization}
+\citation{barros_leak_2025}
+\citation{TORNYEVIADZI2023106062}
+\citation{falas2020pinnwatersecurity}
+\citation{lin2025digitaltwin}
+\citation{ORNGARDARSSON2022661}
+\citation{kyriakou2018leakdb}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Hybrid and Model-Based Methodologies}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Physics-Informed Neural Networks in WDNs}{2}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Leak-Specific Graph Learning Approaches}{2}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Benchmark Datasets and Evaluation Challenges}{2}{subsection.2.5}\protected@file@percent }
+\citation{barros_leak_2025}
+\citation{MAHDI2024100685,punukollu2023leakdetection}
+\citation{mazaev2022probabilisticleaklocalization}
+\citation{lin2025digitaltwin}
+\citation{barros_leak_2025,TORNYEVIADZI2023106062}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Research Gaps and Motivation}{3}{subsection.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}What is a Physics-Aware Neural Network?}{3}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Physics-Informed Neural Networks (PINNs)}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Physics-Aware Neural Networks (PANNs)}{3}{subsection.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces PINN vs PANN}}{3}{figure.1}\protected@file@percent }
+\newlabel{fig:pinn_pann}{{1}{3}{PINN vs PANN}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Localization methods}{3}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Research Gap}{3}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Problem Formulation and System Overview}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Problem Definition}{3}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Mathematical Formulation}{3}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}System Overview Diagram}{3}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Dataset}{3}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Dataset Description}{3}{subsection.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Figure of Hanoi WDN}}{4}{figure.2}\protected@file@percent }
+\newlabel{fig:diagram}{{2}{4}{Figure of Hanoi WDN}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Exploratory Analysis of Data}{4}{subsection.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Correlation heatmap of Hanoi WDN}}{4}{figure.3}\protected@file@percent }
+\newlabel{fig:diagram}{{3}{4}{Correlation heatmap of Hanoi WDN}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Distribution of leak and non-leak rows in the dataset.}}{4}{figure.4}\protected@file@percent }
+\newlabel{fig:leak_distribution}{{4}{4}{Distribution of leak and non-leak rows in the dataset}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Caption}}{5}{figure.5}\protected@file@percent }
+\newlabel{Distribution of Leak instances for all scenarios across nodes}{{5}{5}{Caption}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Feature Engineering and Pre-Processing}{5}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Adding columns}{5}{subsubsection.5.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Normalization}{5}{subsubsection.5.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Windowing function}{5}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.1}ANN}{5}{subsubsection.5.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Physics Loss}{6}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Equations}{6}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Physics Loss Algorithm}{6}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Physics Loss Algorithm}{6}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Pseudocode and Training Integration}{6}{subsection.6.4}\protected@file@percent }
+\newlabel{alg:physics_loss}{{6.4}{6}{Pseudocode and Training Integration}{subsection.6.4}{}}
+\newlabel{alg:training}{{6.4}{7}{Pseudocode and Training Integration}{Item.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Integration into Model}{7}{subsection.6.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}The Thought}{7}{subsection.6.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Model Architecture and Training Details}{7}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Architecture}{7}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.1}Base ANN Model}{7}{subsubsection.7.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Architecture Diagram of ANN}}{7}{figure.6}\protected@file@percent }
+\newlabel{fig:architecture_diagram}{{6}{7}{Architecture Diagram of ANN}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.2}Physics-Aware ANN Model}{7}{subsubsection.7.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Architecture Diagram of Physics-Aware ANN}}{8}{figure.7}\protected@file@percent }
+\newlabel{fig:architecture_diagram}{{7}{8}{Architecture Diagram of Physics-Aware ANN}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Training strategy and Hyper-parameters}{8}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Localization}{8}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Introduction}{8}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Algorithm}{9}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.1}1. Dynamic Baseline Acquisition}{9}{subsubsection.8.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.2}2. Residual Standardization (Z-Score Analysis)}{9}{subsubsection.8.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.3}3. Cumulative Evidence and Localization}{9}{subsubsection.8.2.3}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Hybrid Leak Detection and Localization Strategy}}{9}{algorithm.1}\protected@file@percent }
+\newlabel{alg:leak_localization}{{1}{9}{3. Cumulative Evidence and Localization}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Metrics}{9}{subsection.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Results and Discussion}{9}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Metrics}{9}{subsection.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Base Model Performance}{10}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.1}ANN}{10}{subsubsection.9.2.1}\protected@file@percent }
+\newlabel{tab:conf_matrix}{{9.2.1}{10}{ANN}{subsubsection.9.2.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Validation F1 score across training epochs for ANN}}{10}{figure.8}\protected@file@percent }
+\newlabel{fig:val_f1}{{8}{10}{Validation F1 score across training epochs for ANN}{figure.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}Physics-Aware Model Performance}{10}{subsection.9.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.3.1}ANN}{10}{subsubsection.9.3.1}\protected@file@percent }
+\newlabel{tab:conf_matrix}{{9.3.1}{10}{ANN}{subsubsection.9.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Validation F1 score across training epochs for Physics-Aware ANN}}{10}{figure.9}\protected@file@percent }
+\newlabel{fig:val_f1}{{9}{10}{Validation F1 score across training epochs for Physics-Aware ANN}{figure.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Comparison among models and existing Benchmarks}{10}{subsection.9.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}Why Classical Machine Learning Techniques Are Not Used}{11}{section.10}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces XGBoost on LeakDB Hanoi. $N$: trees; Thr.: threshold. ROC-AUC: 0.8705 ($N$=50), 0.8752 ($N$=100).}}{11}{table.1}\protected@file@percent }
+\newlabel{tab:xgboost}{{1}{11}{XGBoost on LeakDB Hanoi. $N$: trees; Thr.: threshold. ROC-AUC: 0.8705 ($N$=50), 0.8752 ($N$=100)}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {11}Validity of Loss Function}{11}{section.11}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Physics loss convergence across training epochs}}{11}{figure.10}\protected@file@percent }
+\newlabel{fig:physics_loss}{{10}{11}{Physics loss convergence across training epochs}{figure.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {12}Sensitivity Analysis}{11}{section.12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Worst-case robustness across demand perturbations. The Physics-informed ANN mitigates performance collapse under negative demand shifts.}}{11}{figure.11}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Performance under extreme demand reduction ($\alpha =-0.15$). The Physics-ANN exhibits significantly slower degradation as pressure sensitivity increases.}}{12}{figure.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13}Localization Results}{12}{section.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.1}Quantitative Results}{12}{subsection.13.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.2}Qualitative Results}{12}{subsection.13.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.3}Comparison with Baselines}{12}{subsection.13.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {14}Limitations}{12}{section.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {15}Conclusion}{12}{section.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {16}Future Work}{12}{section.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {17}Acknowledgements}{12}{section.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {18}Appendix}{12}{section.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {18.1}Ablation Studies}{12}{subsection.18.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {18.1.1}Window Size}{12}{subsubsection.18.1.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Ablation: window size.}}{12}{table.2}\protected@file@percent }
+\newlabel{tab:abl_window}{{2}{12}{Ablation: window size}{table.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {18.1.2}Temporal Columns}{12}{subsubsection.18.1.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Ablation: temporal columns.}}{12}{table.3}\protected@file@percent }
+\newlabel{tab:abl_temporal}{{3}{12}{Ablation: temporal columns}{table.3}{}}
+\bibstyle{elsarticle-harv}
+\bibdata{References/S1944398624107059,References/pmc_11647635,References/citation-393247205,References/pinn_secure,References/S0952197623002464,References/citations-20251115T090154,References/citations-probability,References/we_emailed,References/leakdb,References/gnn_leak}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {18.1.3}Physics-Aware Mechanism}{13}{subsubsection.18.1.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Ablation: physics-aware mechanism (100 scenarios).}}{13}{table.4}\protected@file@percent }
+\newlabel{tab:abl_physics}{{4}{13}{Ablation: physics-aware mechanism (100 scenarios)}{table.4}{}}
+\gdef \@abspage@last{13}

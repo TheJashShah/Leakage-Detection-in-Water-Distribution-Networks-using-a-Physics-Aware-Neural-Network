@@ -1,0 +1,51 @@
+For window size:
+
+WINDOW_SIZE = 1:
+Test metrics: acc = 0.8014, precision = 0.9195, recall = 0.4640, f1 = 0.6168
+Confusion matrix:
+ [[168631   3677]
+ [ 48502  41990]]
+100%|██████████| 1027/1027 [00:01<00:00, 632.98it/s]
+Best threshold = 0.6043967
+ROC-AUC = 0.7122088863428231
+
+WINDOW_SIZE = 6:
+Test metrics: acc = 0.8271, precision = 0.9362, recall = 0.5344, f1 = 0.6804
+Confusion matrix:
+ [[168940   3293]
+ [ 42132  48360]]
+100%|██████████| 1027/1027 [00:01<00:00, 547.45it/s]
+Best threshold = 0.6272592
+ROC-AUC = 0.805540651292591
+
+WINDOW_SIZE = 12:
+Test metrics: acc = 0.8323, precision = 0.9009, recall = 0.5767, f1 = 0.7033
+Confusion matrix:
+ [[166403   5740]
+ [ 38303  52189]]
+100%|██████████| 1026/1026 [00:02<00:00, 411.22it/s]
+Best threshold = 0.59566313
+ROC-AUC = 0.8257059370161269
+Input Dimension: 1200
+
+For Temporal Columns:
+
+With Temporal Columns:
+Test metrics: acc = 0.8323, precision = 0.9009, recall = 0.5767, f1 = 0.7033
+Confusion matrix:
+ [[166403   5740]
+ [ 38303  52189]]
+100%|██████████| 1026/1026 [00:02<00:00, 411.22it/s]
+Best threshold = 0.59566313
+ROC-AUC = 0.8257059370161269
+Input Dimension: 1200
+
+Without Temporal Columns:
+Test metrics: acc = 0.8258, precision = 0.9057, recall = 0.5518, f1 = 0.6858
+Confusion matrix:
+ [[166946   5197]
+ [ 40563  49929]]
+100%|██████████| 1026/1026 [00:02<00:00, 347.01it/s]
+Best threshold = 0.61742574
+ROC-AUC = 0.7886652038300204
+Input Dimension: 1176

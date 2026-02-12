@@ -1,0 +1,10 @@
+XGBOOST WITH N_ESTIMATORS = 50
+
+XGBoost @ 0.5Acc=0.8959 | P=0.9519 | R=0.6557 | F1=0.7765
+Confusion @ 0.5 = [[1314434   16822]
+ [ 174627  332562]]
+
+XGBoost @ optimal thresholdThreshold=0.4431
+P=0.8695 | R=0.7003 | F1=0.7758
+Confusion = [[1277956   53300]
+ [ 151999  355190]]roc_auc = 0.8705

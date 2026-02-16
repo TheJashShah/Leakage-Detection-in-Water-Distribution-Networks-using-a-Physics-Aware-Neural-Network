@@ -255,18 +255,6 @@ In comparison, as our data is discrete (at 30 minutes time-step), we use PANNs, 
     \label{fig:pinn_pann}
 \end{figure}
 
-\subsection{Localization methods}
-
-\subsection{Research Gap}
-
-\section{Problem Formulation and System Overview}
-
-\subsection{Problem Definition}
-
-\subsection{Mathematical Formulation}
-
-\subsection{System Overview Diagram}
-
 \section{Dataset}
 
 \subsection{Dataset Description}
@@ -462,8 +450,6 @@ For the ANN model, each window is reshaped into a one-dimensional feature vector
 
 This flattened representation serves as the input to the fully connected network.
 
-
-
 \section{Physics Loss}
 All physical systems are governed by the conservation of mass and conservation of energy, and the Water Distribution Network is also assumed to be governed by these laws. The network is modeled as a directed graph, where vertices represent nodes, and edges represent pipes connecting nodes. \textit{Mass conservation} is enforced at each node, and \textit{Energy conservation} is enforced along each pipe. The equations used for these are discussed below.
 
@@ -572,47 +558,78 @@ where $\lambda_{\mathrm{mass}}$ and $\lambda_{\mathrm{energy}}$ are hyperparamet
 
 \subsection{Pseudocode and Training Integration}
 
-Algorithm~\ref{alg:physics_loss} computes the physics loss given model predictions and pipe parameters. Algorithm~\ref{alg:training} shows how it is integrated into the Physics-Aware ANN training loop. Predictions are denormalized before the physics loss is evaluated, since the conservation laws apply in physical units.
-
-\noindent\textbf{Algorithm 1: Physics Loss}
+\begin{algorithm}[H]
+\caption{Physics Loss Computation}
 \label{alg:physics_loss}
+\begin{algorithmic}[1]
 
-\small
-\noindent\textit{Input:} $\hat{p}$ (pred. pressure), $\hat{Q}$ (pred. flow), $D$ (demand), $L,D,C$ (pipe params), $\mathsf{edge\_index}$
+\Require $\hat{p}$ (pred. pressure), $\hat{Q}$ (pred. flow), $D$ (demand), $L,D,C$ (pipe params), $\mathsf{edge\_index}$
+\Ensure $\mathcal{L}_{\mathrm{phys}}, \mathcal{L}_{\mathrm{total}}$
 
-\noindent\textit{Output:} $\mathcal{L}_{\mathrm{phys}}$, $\mathcal{L}_{\mathrm{total}}$
+\State \textbf{Aggregate Flow at Nodes}
+\State $\mathsf{flow\_in}[i] \gets \sum_{j:\mathrm{dst}(j)=i} \hat{Q}_j$
+\State $\mathsf{flow\_out}[i] \gets \sum_{j:\mathrm{src}(j)=i} \hat{Q}_j$
 
-\begin{enumerate}
-    \item Aggregate flow at nodes: $\mathsf{flow\_in}[i] \leftarrow \sum_{j:\mathsf{dst}(j)=i} \hat{Q}_j$, $\mathsf{flow\_out}[i] \leftarrow \sum_{j:\mathsf{src}(j)=i} \hat{Q}_j$
-    \item Mass residual: $r^{(i)}_{\mathrm{mass}} \leftarrow \mathsf{flow\_in}[i] - \mathsf{flow\_out}[i] - D_i$
-    \item $\mathcal{L}_{\mathrm{mass}} \leftarrow \mathrm{mean}\bigl((r_{\mathrm{mass}} / \bar{D})^2\bigr)$
-    \item Hazen-Williams head loss: $h_k \leftarrow 10.67 \cdot L_k |\hat{Q}_k|^{1.852} / (C_k^{1.852} D_k^{4.87})$
-    \item Predicted pressure drop: $\Delta p_k \leftarrow \mathsf{sign}(\hat{Q}_k) \cdot (\hat{p}_{\mathsf{src}(k)} - \hat{p}_{\mathsf{dst}(k)})$
-    \item Energy residual: $r^{(k)}_{\mathrm{energy}} \leftarrow \Delta p_k - h_k$
-    \item $\mathcal{L}_{\mathrm{energy}} \leftarrow \mathrm{mean}\bigl((r_{\mathrm{energy}} / \bar{p})^2\bigr)$
-    \item $\mathcal{L}_{\mathrm{phys}} \leftarrow \lambda_{\mathrm{mass}} \mathcal{L}_{\mathrm{mass}} + \lambda_{\mathrm{energy}} \mathcal{L}_{\mathrm{energy}}$
-    \item $\mathcal{L}_{\mathrm{total}} \leftarrow \mathcal{L}_{\mathrm{WBCE}} + \lambda_{\mathrm{phys}} \mathcal{L}_{\mathrm{phys}}$
-\end{enumerate}
+\State \textbf{Mass Conservation Residual}
+\State $r^{(i)}_{\mathrm{mass}} \gets \mathsf{flow\_in}[i] - \mathsf{flow\_out}[i] - D_i$
+\State $\mathcal{L}_{\mathrm{mass}} \gets \mathrm{mean}\!\left( \left(\frac{r_{\mathrm{mass}}}{\bar{D}}\right)^2 \right)$
 
-\vspace{0.3em}
-\noindent\textbf{Algorithm 2: Training Loop with Physics Loss}
+\State \textbf{Hazen--Williams Head Loss}
+\State $h_k \gets 10.67 \cdot L_k \frac{|\hat{Q}_k|^{1.852}}{C_k^{1.852} D_k^{4.87}}$
+
+\State \textbf{Predicted Pressure Drop}
+\State $\Delta p_k \gets \mathrm{sign}(\hat{Q}_k)\big(\hat{p}_{\mathrm{src}(k)} - \hat{p}_{\mathrm{dst}(k)}\big)$
+
+\State \textbf{Energy Residual}
+\State $r^{(k)}_{\mathrm{energy}} \gets \Delta p_k - h_k$
+\State $\mathcal{L}_{\mathrm{energy}} \gets \mathrm{mean}\!\left( \left(\frac{r_{\mathrm{energy}}}{\bar{p}}\right)^2 \right)$
+
+\State \textbf{Total Physics Loss}
+\State $\mathcal{L}_{\mathrm{phys}} \gets \lambda_{\mathrm{mass}}\mathcal{L}_{\mathrm{mass}} + \lambda_{\mathrm{energy}}\mathcal{L}_{\mathrm{energy}}$
+
+\State \textbf{Combined Training Loss}
+\State $\mathcal{L}_{\mathrm{total}} \gets \mathcal{L}_{\mathrm{WBCE}} + \lambda_{\mathrm{phys}}\mathcal{L}_{\mathrm{phys}}$
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Training Loop with Physics Loss}
 \label{alg:training}
+\begin{algorithmic}[2]
 
-\begin{enumerate}
-    \item Set $\lambda_{\mathrm{phys}}$ by epoch: $0.01$ if $e < 10$, $0.03$ if $10 \le e < 20$, else $0.05$
-    \item For each batch $(x_b, y_b, \mathsf{scenario\_ids}, D_b)$:
-    \begin{enumerate}
-        \item Load pipe params $(L, D, C)$ for each scenario in batch
-        \item Denormalize $D_b$ to physical units
-        \item Forward: $(\hat{y}, \hat{p}, \hat{Q}) \leftarrow \mathsf{model}(x_b)$
-        \item Denormalize $\hat{p}$, $\hat{Q}$ to physical units
-        \item $\mathcal{L}_{\mathrm{WBCE}} \leftarrow \mathsf{weighted\_BCE}(\hat{y}, y_b)$
-        \item $\mathcal{L}_{\mathrm{total}} \leftarrow \mathsf{PhysicsLoss}(\mathcal{L}_{\mathrm{WBCE}}, \hat{p}, \hat{Q}, D_b, L, D, C, \mathsf{edge\_index}, \lambda_{\mathrm{phys}})$
-        \item Backpropagate $\mathcal{L}_{\mathrm{total}}$, update parameters
-    \end{enumerate}
-\end{enumerate}
+\Require Training data $(x_b, y_b, \mathsf{scenario\_ids}, D_b)$
+\Ensure Updated model parameters
 
-\normalsize
+\State \textbf{Set Physics Weight by Epoch}
+\If{$e < 10$}
+    \State $\lambda_{\mathrm{phys}} \gets 0.01$
+\ElsIf{$10 \le e < 20$}
+    \State $\lambda_{\mathrm{phys}} \gets 0.03$
+\Else
+    \State $\lambda_{\mathrm{phys}} \gets 0.05$
+\EndIf
+
+\For{each batch $(x_b, y_b, \mathsf{scenario\_ids}, D_b)$}
+
+    \State Load pipe parameters $(L,D,C)$ for batch
+    \State Denormalize $D_b$ to physical units
+
+    \State $(\hat{y}, \hat{p}, \hat{Q}) \gets \mathsf{model}(x_b)$
+    \State Denormalize $\hat{p}, \hat{Q}$
+
+    \State $\mathcal{L}_{\mathrm{WBCE}} \gets \mathsf{weighted\_BCE}(\hat{y}, y_b)$
+
+    \State Compute $\mathcal{L}_{\mathrm{total}}$ using Algorithm~\ref{alg:physics_loss}
+
+    \State Backpropagate $\mathcal{L}_{\mathrm{total}}$
+    \State Update model parameters
+
+\EndFor
+
+\end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Integration into Model}
 To use this loss in the ANN model, the \textit{.inp} files of each scenario are formatted into a \textit{.csv} file containing the pipe length, diameter, and roughness coefficient of each pipe in the scenario, and this information is also integrated into the dataset class. As the node-pipe connection is constant for all scenarios, a constant \textit{edge\_list} is made and used. While training, the physics loss is added with the classification loss, and the result is used for backpropagation.
@@ -725,10 +742,6 @@ This is done to make sure that the physics loss does not dominate the classifica
     \label{fig:architecture_diagram}
 \end{figure}
 
-
-
-\subsection{Training strategy and Hyper-parameters}
-
 \section{Localization}
 
 \subsection{Introduction}
@@ -775,7 +788,7 @@ This accumulation ensures that the localization decision converges towards the n
 \begin{algorithm}
 \caption{Hybrid Leak Detection and Localization Strategy}
 \label{alg:leak_localization}
-\begin{algorithmic}[1]
+\begin{algorithmic}[3]
 \Require Real-time Pressure Data stream $P_t$, Trained ANN Model $\mathcal{M}$
 \Ensure Detected Leak Event $E$, Localized Node $L_{est}$
 
@@ -817,10 +830,9 @@ This accumulation ensures that the localization decision converges towards the n
 \end{algorithmic}
 \end{algorithm}
 
-
-\subsection{Metrics}
-
 \section{Results and Discussion}
+
+\subsection{Detection Results and Detection}
 
 \subsection{Metrics}
 
@@ -925,8 +937,6 @@ Highest Validation F1 for the ANN model is \textbf{0.7483}.
 \end{figure}
 
 
-
-
 \subsection{Physics-Aware Model Performance}
 
 The ANN model is trained on 490 scenarios, with the validation and test sets being 105 scenarios each. The ANN model is trained for a set 30 epochs, and the model with the highest validation F1 is used for testing. The model is tested at a set threshold of \textbf{0.5}.
@@ -1005,8 +1015,6 @@ Highest Validation F1 for the ANN model is \textbf{0.7549}.
 \label{fig:val_f1}
 \end{figure}
 
-
-
 \subsection{Comparison among models and existing Benchmarks}
 
 \textbf{Comparison between ANN and Physics-Aware ANN:}
@@ -1024,6 +1032,125 @@ Physics-Aware ANN & \textbf{0.9303}   & \textbf{0.9659}    & 0.7747 & \textbf{0.
 The Physics-Aware ANN gets an improvement of 0.98\% in accuracy, 5.64\% in precision, and 1.51\% in F1 compared to the ANN, while having a decrease of 1.79\% in recall. The Physics-Aware ANN reduces the number of false positives by 23,628 (62.98\% reduction), at the cost of increasing the false negatives by 7,187 (6.71\% increase). This indicates that the Physics-Aware ANN is more conservative while predicting leaks, issuing leak predictions only when they are physically consistent and more confident than the ANN, which has a more liberal behavior while predicting leaks.
 
 In practical deployment, this trade-off means that the Physics-Aware ANN incurs a slight delay in detecting certain leak events, however, it also drastically lowers the number of false alarms, resulting in a significant reduction of un-necessary human intervention and monetary costs.
+
+\subsection{Localization Results}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\hline
+\textbf{Model} & \textbf{True Positives (TP)} & \textbf{False Negatives (FN)} & \textbf{Avg. Time to Localize} \\
+\hline
+Physics-Aware ANN & 95 & 25 & 11h 24m \\
+Standard ANN      & 95 & 25 & 31h 19m \\
+\hline
+\end{tabular}
+\caption{Fault localization performance comparison}
+\end{table}
+
+\bigskip
+
+Total fault cases:
+\[
+\text{Total} = TP + FN = 95 + 25 = 120
+\]
+
+Localization accuracy:
+\[
+\text{Accuracy} = \frac{TP}{TP + FN} = \frac{95}{120} = 79.17\%
+\]
+
+Both models achieve identical localization accuracy of 79.17\%, indicating equivalent fault detection capability under the rule-based localization framework.
+
+\bigskip
+
+Time reduction achieved by the Physics-Aware ANN:
+\[
+\Delta T = 31h\,19m - 11h\,24m = 19h\,55m
+\]
+
+Converting to hours:
+\[
+11h\,24m = 11.40 \text{ hours}, \quad
+31h\,19m = 31.32 \text{ hours}
+\]
+
+Percentage reduction in localization time:
+\[
+\text{Time Improvement} =
+\frac{31.32 - 11.40}{31.32} \times 100
+\approx 63.6\%
+\]
+
+\bigskip
+
+Fault localization in this study is performed using a deterministic rule-based decision system applied uniformly to the outputs of both neural network models. The localization algorithm and implementation remain identical across experiments, ensuring that any observed performance differences arise solely from the predictive characteristics of the underlying models.
+
+The Physics-Aware ANN incorporates physical constraints during training by optimizing a composite objective:
+
+\[
+\mathcal{L}_{total} = \mathcal{L}_{data} + \lambda \mathcal{L}_{physics}
+\]
+
+where $\mathcal{L}_{data}$ represents the prediction error and $\mathcal{L}_{physics}$ enforces system-consistent physical relationships.
+
+In contrast, the standard ANN minimizes only:
+
+\[
+\mathcal{L}_{standard} = \mathcal{L}_{data}
+\]
+
+Since the localization mechanism is rule-based and identical for both models, the equal accuracy (79.17\%) indicates comparable prediction correctness. However, the Physics-Aware ANN reduces the average localization time by approximately 63.6\%. This suggests that incorporating physical constraints produces outputs that align more efficiently with the rule-based decision logic, reducing ambiguity and accelerating fault isolation without modifying the localization algorithm itself.
+
+\subsection{Plots of Selected Scenarios}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{122_ann.jpeg}
+    
+    \vspace{2mm}
+    
+    \includegraphics[width=\linewidth]{122_paann.jpeg}
+    
+    \caption{Scenario 122: ANN (top) and Physics-Aware ANN (bottom) scenario-wise detection.}
+    \label{fig:scenario1}
+\end{figure}
+
+Scenario $122$ shows that the Physics-Aware Model produces very less false alarms compared to the base ANN model.
+
+\vspace{0.2cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{320_ann.jpeg}
+    
+    \vspace{2mm}
+    
+    \includegraphics[width=\linewidth]{320_paann.jpeg}
+    
+    \caption{Scenario 320: ANN (top) and Physics-Aware ANN (bottom) scenario-wise detection.}
+    \label{fig:scenario1}
+\end{figure}
+
+Scenario $320$ shows that both the models are quite good in predicting leaks.
+
+\vspace{0.2cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{673_ann.jpeg}
+    
+    \vspace{2mm}
+    
+    \includegraphics[width=\linewidth]{673_paann.jpeg}
+    
+    \caption{Scenario 673: ANN (top) and Physics-Aware ANN (bottom) scenario-wise detection.}
+    \label{fig:scenario1}
+\end{figure}
+
+Scenario $673$ shows that the Physics-Aware Model produces very less false alarms compared to the base ANN model.
+
+\vspace{0.2cm}
 
 \section{Why Classical Machine Learning Techniques Are Not Used}
 

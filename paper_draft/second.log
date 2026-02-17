@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.14)  16 FEB 2026 22:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.14)  17 FEB 2026 19:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1179,80 +1179,83 @@ Overfull \hbox (12.60077pt too wide) in paragraph at lines 739--740
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8 <./ann_architecture (1).png>]
-Underfull \hbox (badness 2469) in paragraph at lines 756--758
+Underfull \hbox (badness 2469) in paragraph at lines 756--757
 []\T1/txr/m/n/10 (+20) During nor-mal op-er-a-tion (when the ANN prob-a-bil-ity
  []
 
 [9 <./physics_ann_architecture (2).png>] [10]
-Overfull \hbox (20.43007pt too wide) in paragraph at lines 1024--1030
+Overfull \hbox (20.43007pt too wide) in paragraph at lines 1033--1039
  [][] 
  []
 
 
-Overfull \hbox (141.70999pt too wide) in paragraph at lines 1040--1048
+Overfull \hbox (141.70999pt too wide) in paragraph at lines 1049--1057
  [][] 
- []
-
-
-Underfull \hbox (badness 1033) in paragraph at lines 1063--1064
-[]\T1/txr/m/n/10 (+20) Both mod-els achieve iden-ti-cal lo-cal-iza-tion ac-cu-racy of
  []
 
 [11]
-<122_ann.jpeg, id=425, 1420.30624pt x 609.27625pt>
+Underfull \hbox (badness 1033) in paragraph at lines 1072--1073
+[]\T1/txr/m/n/10 (+20) Both mod-els achieve iden-ti-cal lo-cal-iza-tion ac-cu-racy of
+ []
+
+<122_ann.jpeg, id=424, 1420.30624pt x 609.27625pt>
 File: 122_ann.jpeg Graphic file (type jpg)
 <use 122_ann.jpeg>
-Package pdftex.def Info: 122_ann.jpeg  used on input line 1109.
+Package pdftex.def Info: 122_ann.jpeg  used on input line 1118.
 (pdftex.def)             Requested size: 252.0pt x 108.09383pt.
-<122_paann.jpeg, id=426, 1410.26875pt x 609.27625pt>
+<122_paann.jpeg, id=425, 1410.26875pt x 609.27625pt>
 File: 122_paann.jpeg Graphic file (type jpg)
 <use 122_paann.jpeg>
-Package pdftex.def Info: 122_paann.jpeg  used on input line 1113.
+Package pdftex.def Info: 122_paann.jpeg  used on input line 1122.
 (pdftex.def)             Requested size: 252.0pt x 108.86546pt.
-<320_ann.jpeg, id=427, 1404.24625pt x 616.3025pt>
+
+Underfull \vbox (badness 2932) has occurred while \output is active []
+
+<320_ann.jpeg, id=426, 1404.24625pt x 616.3025pt>
 File: 320_ann.jpeg Graphic file (type jpg)
 <use 320_ann.jpeg>
-Package pdftex.def Info: 320_ann.jpeg  used on input line 1125.
+Package pdftex.def Info: 320_ann.jpeg  used on input line 1134.
 (pdftex.def)             Requested size: 252.0pt x 110.59111pt.
-<320_paann.jpeg, id=428, 1426.32875pt x 618.31pt>
+<320_paann.jpeg, id=427, 1426.32875pt x 618.31pt>
 File: 320_paann.jpeg Graphic file (type jpg)
 <use 320_paann.jpeg>
-Package pdftex.def Info: 320_paann.jpeg  used on input line 1129.
+Package pdftex.def Info: 320_paann.jpeg  used on input line 1138.
 (pdftex.def)             Requested size: 252.0pt x 109.23424pt.
-<673_ann.jpeg, id=429, 1410.26875pt x 614.295pt>
+<673_ann.jpeg, id=428, 1410.26875pt x 614.295pt>
 File: 673_ann.jpeg Graphic file (type jpg)
 <use 673_ann.jpeg>
-Package pdftex.def Info: 673_ann.jpeg  used on input line 1141.
+Package pdftex.def Info: 673_ann.jpeg  used on input line 1150.
 (pdftex.def)             Requested size: 252.0pt x 109.7622pt.
-<673_paann.jpeg, id=430, 1414.28375pt x 613.29124pt>
+<673_paann.jpeg, id=429, 1414.28375pt x 613.29124pt>
 File: 673_paann.jpeg Graphic file (type jpg)
 <use 673_paann.jpeg>
-Package pdftex.def Info: 673_paann.jpeg  used on input line 1145.
+Package pdftex.def Info: 673_paann.jpeg  used on input line 1154.
 (pdftex.def)             Requested size: 252.0pt x 109.27405pt.
- [12 <./122_ann.jpeg> <./122_paann.jpeg> <./320_ann.jpeg> <./320_paann.jpeg> <./673_ann.jpeg> <./673_paann.jpeg>]
+
+Underfull \vbox (badness 3568) has occurred while \output is active []
+
+ [12 <./122_ann.jpeg> <./122_paann.jpeg> <./320_ann.jpeg> <./320_paann.jpeg>]
 LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
-(Font)              scaled to size 7.59998pt on input line 1161.
+(Font)              scaled to size 7.59998pt on input line 1170.
 LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
-(Font)              scaled to size 5.69998pt on input line 1161.
+(Font)              scaled to size 5.69998pt on input line 1170.
 LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
-(Font)              scaled to size 8.54997pt on input line 1173.
+(Font)              scaled to size 8.54997pt on input line 1182.
 LaTeX Font Info:    Font shape `T1/txr/b/n' in size <9> not available
-(Font)              Font shape `T1/txr/bx/n' tried instead on input line 1173.
+(Font)              Font shape `T1/txr/bx/n' tried instead on input line 1182.
+ [13 <./673_ann.jpeg> <./673_paann.jpeg>]
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [13]
-
-LaTeX Warning: Reference `fig:abl_window' on page 14 undefined on input line 1393.
-
-
-LaTeX Warning: Reference `fig:abl_temporal' on page 14 undefined on input line 1411.
-
-
-LaTeX Warning: Reference `fig:abl_physics' on page 14 undefined on input line 1428.
+LaTeX Warning: Reference `fig:abl_window' on page 14 undefined on input line 1402.
 
 [14]
-Overfull \hbox (27.91495pt too wide) in paragraph at lines 1435--1441
+
+LaTeX Warning: Reference `fig:abl_temporal' on page 15 undefined on input line 1420.
+
+
+LaTeX Warning: Reference `fig:abl_physics' on page 15 undefined on input line 1437.
+
+
+Overfull \hbox (27.91495pt too wide) in paragraph at lines 1444--1450
  [][] 
  []
 
@@ -1349,20 +1352,20 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `second.out' has not changed.
-(rerunfilecheck)             Checksum: 3C096FA776B87DF0EA9F33E80ECF7D38;11201.
+(rerunfilecheck)             Checksum: DE1FD281915EAB219E317E51B5244773;11163.
  ) 
 Here is how much of TeX's memory you used:
- 37236 strings out of 467866
- 835302 string characters out of 5418325
- 1459238 words of memory out of 5000000
- 64803 multiletter control sequences out of 15000+600000
- 731337 words of font info for 539 fonts, out of 8000000 for 9000
+ 37240 strings out of 467866
+ 835385 string characters out of 5418325
+ 1441326 words of memory out of 5000000
+ 64809 multiletter control sequences out of 15000+600000
+ 731468 words of font info for 538 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,19n,118p,1164b,2278s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\david\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtcxr.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbmi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxmi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxr.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txex.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txsy.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on second.pdf (15 pages, 1672964 bytes).
+ <C:\Users\david\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtcxr.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbmi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxmi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxr.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txex.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txsy.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on second.pdf (15 pages, 1674371 bytes).
 PDF statistics:
- 625 PDF objects out of 1000 (max. 8388607)
+ 620 PDF objects out of 1000 (max. 8388607)
  137 named destinations out of 1000 (max. 500000)
  144465 words of extra memory for PDF output out of 154059 (max. 10000000)
 

@@ -745,86 +745,95 @@ This is done to make sure that the physics loss does not dominate the classifica
 \section{Localization}
 
 \subsection{Introduction}
-While the Deep Learning (ANN) module is responsible for the temporal detection of anomalies (identifying \textit{when} a leak occurs), the spatial localization (identifying \textit{where} the leak is located) is handled by a separate, physics-informed statistical engine. This hybrid approach leverages the strengths of both domains: the ANN captures complex, non-linear patterns to detect incipient events, while the localization module relies on hydraulic first principles—specifically, the analysis of pressure residuals relative to a dynamic baseline.
+While the Deep Learning (ANN) module handles the temporal detection of anomalies (identifying \textit{when} a leak occurs), spatial localization (identifying \textit{where} the leak is located) is managed by a topology-informed statistical engine. Designed specifically for real-time operation, this algorithm processes sequential data streams. This hybrid architecture leverages the strengths of both domains: the ANN captures complex, non-linear patterns to detect incipient events, while the localization module relies on hydraulic first principles and network graph theory.
 
-The localization logic operates on the hypothesis that a leak event introduces a localized pressure drop that is statistically significant compared to the node's historical variance. To ensure robustness against sensor noise and hydraulic transients, the system employs a "triggered snapshot" mechanism. Localization is not a continuous process; it is a conditional state activated only when the ANN confidence score exceeds a defined threshold ($\tau_{conf} > 0.75$). This ensures that the localization algorithm only processes frames where a high probability of a physical anomaly exists, thereby reducing false positives.
+A major challenge in hydraulic localization is signal drift. When a leak occurs, the initial pressure drop is most severe at the source node. However, as the transient wave propagates, pressure drops accumulate at physical boundaries, such as dead-ends or downstream junctions, often causing purely statistical algorithms to drift away from the true source over time. To combat this, the proposed real-time module introduces an "Anti-Drift" mechanism combining time-decayed voting, graph-based neighbor validation, and a stability lock, triggered only when the ANN confidence exceeds a threshold ($\tau_{conf} > 0.75$).
 
 \subsection{Algorithm}
-The localization algorithm proceeds in three distinct phases: Baseline Acquisition, Residual Standardization, and Temporal Aggregation.
+The real-time localization algorithm operates in three distinct phases: Lagged Baseline Snapshot, Topological Scoring, and Time-Decayed Voting.
 
-\subsubsection{1. Dynamic Baseline Acquisition}
-During normal operation (when the ANN probability $P(leak) < 0.2$), the system maintains a rolling buffer of pressure readings for all $N$ sensor nodes. Let $p_i(t)$ denote the pressure at node $i$ at time $t$. The system continuously updates the mean ($\mu_i$) and standard deviation ($\sigma_i$) for each sensor based on a window of stable steps $W_{stable}$.
-Upon the detection of a leak event at time $t_{trigger}$, the updating of this buffer is immediately halted. This freezes the "healthy" state of the network, providing a static reference frame against which the unfolding leak event is compared.
+\subsubsection{1. Lagged Baseline Snapshot}
+During normal operation (when the ANN probability $P(leak) < 0.60$), the system maintains a lightweight rolling buffer of pressure readings for all $N$ sensor nodes. Upon the ANN triggering a leak state at time $t_{trigger}$, the system immediately captures a "snapshot" of the network's healthy state. 
 
-\subsubsection{2. Residual Standardization (Z-Score Analysis)}
-Once the system enters the active leak state, it calculates the raw pressure drop (residual) for every sensor at each time step $t$:
+To prevent the baseline from being contaminated by the incipient, pre-trigger transient wave of the leak, a lag period ($W_{lag} = 50$ steps) is excluded. The reference mean ($\mu_i$) and standard deviation ($\sigma_i$) for each sensor $i$ are calculated from a stable historical window ($W_{base} = 200$ steps) preceding the lag:
 \begin{equation}
-    \Delta p_i(t) = \mu_i - p_i(t)
+    \mathcal{B}_{clean} = P_{t_{trigger} - W_{lag} - W_{base} \ : \ t_{trigger} - W_{lag}}
 \end{equation}
-To account for sensor heterogeneity—where some nodes naturally exhibit higher variance than others—the raw drop is standardized into a Z-score. A minimum noise floor ($\epsilon \approx 0.1$) is applied to $\sigma_i$ to prevent hypersensitivity in stable sensors:
+This frozen baseline acts as the static reference frame for the duration of the event.
+
+\subsubsection{2. Topological and Physics-Aware Scoring}
+At each active leak step $t$, the algorithm calculates the positive pressure residual and standardizes it into a Z-score, applying a noise floor ($\epsilon = 0.05$):
 \begin{equation}
-    Z_i(t) = \frac{\Delta p_i(t)}{\max(\sigma_i, \epsilon)}
+    Z_i(t) = \frac{\max(0, \mu_i - p_i(t))}{\max(\sigma_i, \epsilon)}
 \end{equation}
-A physics-based gate is applied to filter out negligible fluctuations. A sensor $i$ is considered a candidate only if its drop exceeds a minimum hydraulic significance threshold ($\delta_{min} = 0.2$) and its statistical significance exceeds $3\sigma$:
+Rather than evaluating nodes in isolation, the system utilizes the network's adjacency graph. A node $i$ is evaluated based on its own drop, the supporting drops of its physical neighbors $\mathcal{N}_i$, and its structural degree $D_i$. 
+
+If $Z_i(t) > 1.0$, a Topological Score $S_i(t)$ is computed. It incorporates a Neighbor Support Ratio ($R_i$), rewarding nodes whose adjacent neighbors also exhibit drops, and a Degree Multiplier ($M_i = 1 + 0.05 \times D_i$), which lightly penalizes dead-ends ($D=1$) in favor of central junctions:
 \begin{equation}
-    S_i(t) = 
-    \begin{cases} 
-    Z_i(t) & \text{if } \Delta p_i(t) > \delta_{min} \text{ and } Z_i(t) > 3.0 \\
-    0 & \text{otherwise}
-    \end{cases}
+    R_i = \min\left(1.0, \frac{\frac{1}{|\mathcal{N}_i|} \sum_{j \in \mathcal{N}_i} Z_j(t)}{Z_i(t)}\right)
+\end{equation}
+\begin{equation}
+    S_i(t) = Z_i(t) \times (1 + R_i) \times M_i
 \end{equation}
 
-\subsubsection{3. Cumulative Evidence and Localization}
-To mitigate the impact of instantaneous sensor noise, the algorithm does not rely on a single time step. Instead, it employs a cumulative voting mechanism over the duration of the detected event ($t_{trigger}$ to $t_{current}$). The cumulative score $C_i$ for each node is updated recursively:
+\subsubsection{3. Time-Decayed Voting and Anti-Drift Lock}
+To prioritize the initial hydraulic wave closest to the true leak source, the system applies a rapid time-decaying weight $W(t)$ based on the duration $\Delta t = t - t_{trigger}$:
 \begin{equation}
-    C_i = \sum_{t=t_{trigger}}^{t_{current}} S_i(t)
+    W(t) = \frac{1}{1 + 0.1 \times \Delta t}
 \end{equation}
-The predicted leak location $\hat{L}$ is identified as the node with the maximum accumulated evidence at the end of the event window:
-\begin{equation}
-    \hat{L} = \operatorname*{argmax}_{i \in \{1, \dots, N\}} (C_i)
-\end{equation}
-This accumulation ensures that the localization decision converges towards the node that exhibits the most consistent and statistically significant pressure drop over the duration of the anomaly.
+At each step, the top 3 candidate nodes are awarded points scaled by $W(t)$, and the cumulative vote $V_i$ for each node is recursively updated. 
 
-\begin{algorithm}
-\caption{Hybrid Leak Detection and Localization Strategy}
+To definitively prevent late-stage drift toward network boundaries, a \textbf{Stability Lock} is enforced. If the leading suspect $\hat{L}$ remains unchanged for a consecutive threshold of $k_{lock} = 10$ time steps, the algorithm considers the localization converged and halts suspect updating. 
+
+\textbf{Handling Simultaneous Leaks:} In scenarios involving multiple simultaneous bursts, the combination of time-decayed voting and the Stability Lock acts as a dominant-signal isolator. The node experiencing the most severe and immediate pressure gradient (the primary leak) accumulates early votes rapidly. The algorithm intentionally locks onto this primary source, preventing the system from oscillating confusingly between multiple coordinates. Secondary leaks can subsequently be localized once the primary anomaly is isolated by network operators and the baseline resets.
+
+% NOTE: If you are using a two-column format (like IEEE), change \begin{algorithm} to \begin{algorithm*} 
+% and \end{algorithm} to \end{algorithm*}. This will make the block span the top of the page and fix gaps.
+\begin{algorithm}[htbp]
+\caption{Real-Time Physics-Aware Localization Strategy}
 \label{alg:leak_localization}
-\begin{algorithmic}[3]
-\Require Real-time Pressure Data stream $P_t$, Trained ANN Model $\mathcal{M}$
-\Ensure Detected Leak Event $E$, Localized Node $L_{est}$
-
-\State \textbf{Initialize:} 
-\State $\mathcal{B} \leftarrow \emptyset$ \Comment{Rolling Baseline Buffer}
-\State $S \leftarrow \{0, \dots, 0\}$ \Comment{Cumulative Score Vector for $N$ nodes}
-\State $LeakActive \leftarrow \text{False}$
+\begin{algorithmic}[1]
+\Require Real-time Pressure stream $P_t$, ANN Model $\mathcal{M}$, Adjacency Graph $\mathcal{G}$
+\Ensure Localized Node $L_{est}$
+\State $\mathcal{B} \leftarrow \emptyset$, \ $V \leftarrow \vec{0}$, \ $LeakActive \leftarrow \text{False}$, \ $IsLocked \leftarrow \text{False}$
+\State $L_{curr} \leftarrow \text{null}$, \ $Stability \leftarrow 0$
 
 \While{stream is active at time $t$}
-    \State $x_t \leftarrow \text{Preprocess}(P_{t-w:t})$ \Comment{Sliding Window Input}
-    \State $p_{leak} \leftarrow \mathcal{M}(x_t)$ \Comment{Get Probability from ANN}
+    \State $p_{leak} \leftarrow \mathcal{M}(P_{t-w:t})$ 
     
-    \If{$p_{leak} < 0.2$ \textbf{and not} $LeakActive$}
-        \State $\text{Update}(\mathcal{B}, P_t)$ \Comment{Update healthy baseline stats}
-        \State $\mu, \sigma \leftarrow \text{CalculateStats}(\mathcal{B})$
-    \ElsIf{$p_{leak} > 0.75$}
-        \State $LeakActive \leftarrow \text{True}$ \Comment{Trigger Event}
-    \EndIf
-    
-    \If{$LeakActive$}
-        \For{each sensor node $i \in \{1, \dots, N\}$}
-            \State $\Delta_i \leftarrow \mu_i - P_{i,t}$ \Comment{Calculate Pressure Drop}
-            \State $Z_i \leftarrow \Delta_i / \sigma_i$ \Comment{Standardize (Z-Score)}
-            
-            \State \emph{// Physics Gate: Ignore negligible drops}
-            \If{$\Delta_i > \delta_{min}$ \textbf{and} $Z_i > 3.0$}
-                \State $S_i \leftarrow S_i + Z_i$ \Comment{Accumulate Evidence}
-            \EndIf
-        \EndFor
+    \If{not $LeakActive$}
+        \If{$p_{leak} < 0.60$} \text{Append } $P_t$ \text{ to } $\mathcal{B}$ \EndIf
+        \If{$p_{leak} > 0.75$}
+            \State $LeakActive \leftarrow \text{True}$, \ $t_{start} \leftarrow t$
+            \State $\mu, \sigma \leftarrow \text{ExtractLaggedStats}(\mathcal{B}, lag=50, win=200)$
+        \EndIf
+    \Else
+        \If{$p_{leak} < 0.40$} \textbf{Reset System State} \EndIf
         
-        \State $L_{est} \leftarrow \operatorname*{argmax}_{i}(S)$ \Comment{Identify leading suspect}
-    \EndIf
-    
-    \If{$p_{leak} < 0.50$ \textbf{for} $k$ steps}
-        \State $LeakActive \leftarrow \text{False}$ \Comment{Reset System}
-        \State \Return $L_{est}$
+        \If{not $IsLocked$}
+            \State $W_t \leftarrow 1 / (1 + 0.1 \times (t - t_{start}))$
+            \State $C \leftarrow \emptyset$ \Comment{Candidate List}
+            
+            \For{each node $i \in \{1, \dots, N\}$}
+                \State $Z_i \leftarrow \max(0, \mu_i - P_{i,t}) / \sigma_i$
+                \If{$Z_i > 1.0$}
+                    \State Add $(i, \text{CalcTopoScore}(Z_i, \mathcal{G}))$ to $C$
+                \EndIf
+            \EndFor
+            
+            \State Sort $C$ descending by TopoScore
+            \For{rank $r \in \{0, 1, 2\}$ from top 3 of $C$}
+                \State $V_{C[r].id} \leftarrow V_{C[r].id} + (3 - r) \times W_t$
+            \EndFor
+            
+            \State $L_{new} \leftarrow \operatorname*{argmax}(V)$
+            \If{$L_{new} == L_{curr}$}
+                \State $Stability \leftarrow Stability + 1$
+                \If{$Stability > 10$} $IsLocked \leftarrow \text{True}$ \EndIf
+            \Else
+                \State $L_{curr} \leftarrow L_{new}$, \ $Stability \leftarrow 0$
+            \EndIf
+        \EndIf
     \EndIf
 \EndWhile
 \end{algorithmic}

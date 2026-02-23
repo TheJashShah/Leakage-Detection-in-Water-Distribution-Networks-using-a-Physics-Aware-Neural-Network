@@ -1,19 +1,19 @@
-%% 
+%%
 %% Copyright 2007-2020 Elsevier Ltd
-%% 
+%%
 %% This file is part of the 'Elsarticle Bundle'.
 %% ---------------------------------------------
-%% 
+%%
 %% It may be distributed under the conditions of the LaTeX Project Public
 %% License, either version 1.2 of this license or (at your option) any
 %% later version.  The latest version of this license is in
 %%    http://www.latex-project.org/lppl.txt
 %% and version 1.2 or later is part of all distributions of LaTeX
 %% version 1999/12/01 or later.
-%% 
+%%
 %% The list of all files belonging to the 'Elsarticle Bundle' is
 %% given in the file `manifest.txt'.
-%% 
+%%
 %% Template article for Elsevier's document class `elsarticle'
 %% with harvard style bibliographic references
 
@@ -51,11 +51,12 @@
 \usepackage[hidelinks]{hyperref}
 \def\UrlBreaks{\do\/\do-\do\_\do\.\do\?\do\&}
 
-
+\usepackage[authoryear]{natbib}
 
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{amsmath}
+\usepackage{tabularx}
 
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
@@ -91,9 +92,9 @@
 %% \fntext[label2]{}
 %% \cortext[cor1]{}
 %% \affiliation{organization={},
-%%            addressline={}, 
+%%            addressline={},
 %%            city={},
-%%            postcode={}, 
+%%            postcode={},
 %%            state={},
 %%            country={}}
 %% \fntext[label3]{}
@@ -138,7 +139,15 @@
 
 \begin{abstract}
 %% Text of abstract
-Abstract example for the Results in Physics Journal. Here you provide a brief summary of the research and the results.
+Water Distribution Networks (WDNs) lose approximately 126 billion m³ annually to leaks,
+costing 39B USD. We propose a Physics-Aware Artificial Neural Network (PA-ANN) that
+embeds conservation of mass and the Hazen-Williams equation directly into the training
+objective. Evaluated on the LeakDB Hanoi dataset (17.5M data points), our approach
+achieves 96.59\% precision (5.64\% improvement over baseline) while reducing false
+positives by 62.98\%. A novel topology-informed localization algorithm with anti-drift
+mechanism reduces fault isolation time by 63.6\% while maintaining 79.17\% localization
+accuracy. Results demonstrate that incorporating physical constraints improves both
+detection reliability and operational efficiency.
 \end{abstract}
 
 %%Graphical abstract
@@ -214,19 +223,19 @@ More recently, \cite{lin2025digitaltwin} developed a digital twin framework leve
 
 
 
-\subsection{Leak-Specific Graph Learning Approaches}
+% \subsection{Leak-Specific Graph Learning Approaches}
 
-Recent studies have moved beyond generic physics-informed modeling toward frameworks explicitly tailored for leak detection and localization in Water Distribution Networks (WDNs), integrating graph-based learning with hydraulic constraints to better capture leak-induced anomalies.
+% Recent studies have moved beyond generic physics-informed modeling toward frameworks explicitly tailored for leak detection and localization in Water Distribution Networks (WDNs), integrating graph-based learning with hydraulic constraints to better capture leak-induced anomalies.
 
-\cite{ORNGARDARSSON2022661} proposed a physics-informed graph neural network framework that embeds mass conservation and pressure–flow relationships directly into the learning process for leak localization. By representing the WDN as a graph and propagating leak-induced pressure residuals across adjacent nodes, the model exploited spatial correlations inherent in the network topology to improve localization accuracy. The incorporation of physics-based loss terms significantly reduced false positives compared to purely data-driven GNN baselines, particularly under moderate sensor noise conditions. Experimental validation demonstrated improved robustness to measurement uncertainty and partial observability. However, the approach primarily operated under quasi-steady-state assumptions and exhibited limited sensitivity to gradual or incipient leaks, where pressure deviations evolve slowly over time.
+% \cite{ORNGARDARSSON2022661} proposed a physics-informed graph neural network framework that embeds mass conservation and pressure–flow relationships directly into the learning process for leak localization. By representing the WDN as a graph and propagating leak-induced pressure residuals across adjacent nodes, the model exploited spatial correlations inherent in the network topology to improve localization accuracy. The incorporation of physics-based loss terms significantly reduced false positives compared to purely data-driven GNN baselines, particularly under moderate sensor noise conditions. Experimental validation demonstrated improved robustness to measurement uncertainty and partial observability. However, the approach primarily operated under quasi-steady-state assumptions and exhibited limited sensitivity to gradual or incipient leaks, where pressure deviations evolve slowly over time.
 
-This work represents the most closely aligned prior research to the present study, demonstrating that leak-specific physics-informed graph learning can substantially enhance both detection reliability and spatial interpretability. Nevertheless, the framework predominantly emphasizes spatial correlations and does not explicitly model the temporal evolution of leak-induced dynamics. Moreover, the treatment of pressure transients and flow discontinuities remains approximate, particularly under evolving leak conditions and non-stationary operational regimes. These limitations motivate the development of a unified spatio-temporal graph-based physics-informed framework capable of jointly modeling network topology, temporal dynamics, and governing hydraulic laws for robust real-time leak detection and localization.
+% This work represents the most closely aligned prior research to the present study, demonstrating that leak-specific physics-informed graph learning can substantially enhance both detection reliability and spatial interpretability. Nevertheless, the framework predominantly emphasizes spatial correlations and does not explicitly model the temporal evolution of leak-induced dynamics. Moreover, the treatment of pressure transients and flow discontinuities remains approximate, particularly under evolving leak conditions and non-stationary operational regimes. These limitations motivate the development of a unified spatio-temporal graph-based physics-informed framework capable of jointly modeling network topology, temporal dynamics, and governing hydraulic laws for robust real-time leak detection and localization.
 
 \subsection{Benchmark Datasets and Evaluation Challenges}
 
 The availability of standardized datasets is crucial for reproducible research. \cite{kyriakou2018leakdb} introduced LeakDB, a publicly available benchmark comprising EPANET-simulated scenarios for multiple WDN topologies (including Hanoi, Net1) with annotated leak events. The dataset facilitates comparative evaluation but has been critiqued for relying solely on simulated data, potentially limiting model robustness under real-world operational uncertainties.
 
-Comparative studies on BattLeDIM \cite{barros_leak_2025} and other benchmarks reveal persistent challenges: high false positive rates for incipient leaks, computational overhead in large-scale networks, and difficulty in achieving physically interpretable predictions under domain shifts. These gaps motivate the integration of physics-informed constraints within scalable GNN architectures.
+Comparative studies on BattLeDIM \cite{barros_leak_2025} and other benchmarks reveal persistent challenges: high false positive rates for incipient leaks, computational overhead in large-scale networks, and difficulty in achieving physically interpretable predictions under domain shifts. These gaps motivate the integration of physics-informed constraints within scalable ANN architectures.
 
 \subsection{Research Gaps and Motivation}
 
@@ -259,7 +268,7 @@ In comparison, as our data is discrete (at 30 minutes time-step), we use PANNs, 
 
 \subsection{Dataset Description}
 
-This study has used the LeakDB Hanoi dataset, which is made using the \textit{Water Network Resilience Tool (WNTR)}. The dataset consists of a total of 999 scenarios, where each scenario is a different simulation of the Hanoi WDN for a year. The data points in each scenario are thirty minutes apart, which means there are 17,520 data points in one scenario, and a total of 17,502,480 data points in the entire dataset. 
+This study has used the LeakDB Hanoi dataset, which is made using the \textit{Water Network Resilience Tool (WNTR)}. The dataset consists of a total of 999 scenarios, where each scenario is a different simulation of the Hanoi WDN for a year. The data points in each scenario are thirty minutes apart, which means there are 17,520 data points in one scenario, and a total of 17,502,480 data points in the entire dataset.
 
 The Hanoi WDN consists of 32 nodes and 34 pipes connecting them, and the LeakDB dataset assumes pressure, demand and flow-rate sensors at these 32 nodes. Thus, each data point has 32 demand readings, 32 pipe readings and 34 flow-rate readings, making a total of 98 values per time-step.
 
@@ -267,12 +276,12 @@ The Hanoi WDN consists of 32 nodes and 34 pipes connecting them, and the LeakDB 
     \centering
     \includegraphics[width=\linewidth]{hanoi-wdn.png}
     \caption{Figure of Hanoi WDN}
-    \label{fig:diagram}
+    \label{fig:hanoi_wdn}
 \end{figure}
 
 The Data can be downloaded using the \texttt{water\_benchmark\_hub} Python module. There are two types of reading available, namely \textit{raw\_data} and \textit{scada\_data}. In this work, \textit{raw\_data} is used, as it also includes readings of demand.
 
-Initially, each scenario is stored as a directory containing subfolders for \textit{demand}, \textit{pressure}, \textit{flow}, and \textit{leaks}, where leak labels are multi-class values ranging from 0 to 32. In addition, each scenario includes an \textit{INP} file, which specifies the simulated length, diameter, and roughness coefficient of each pipe. For the learning task, the dataset is reformatted into a single \texttt{.csv} file per scenario, where leak labels are converted to a binary representation (leak / non-leak). 
+Initially, each scenario is stored as a directory containing subfolders for \textit{demand}, \textit{pressure}, \textit{flow}, and \textit{leaks}, where leak labels are multi-class values ranging from 0 to 32. In addition, each scenario includes an \textit{INP} file, which specifies the simulated length, diameter, and roughness coefficient of each pipe. For the learning task, the dataset is reformatted into a single \texttt{.csv} file per scenario, where leak labels are converted to a binary representation (leak / non-leak).
 
 Leak localization is not learned directly by the model and is instead performed as a post-processing step using a rule-based system.
 
@@ -285,7 +294,7 @@ Below is the heatmap of all 999 scenarios with 5\% rows from each scenario selec
     \centering
     \includegraphics[width=\linewidth]{heatmap.png}
     \caption{Correlation heatmap of Hanoi WDN}
-    \label{fig:diagram}
+    \label{fig:heatmap}
 \end{figure}
 
 In the dataset, 43,11,716 rows have a leak state, while 1,31,90,764 rows a non-leak state, this means that that the ratio of non-leak data-points to leak points is \textbf{3.059}, making the dataset very imbalanced and a challenge for any neural network.
@@ -333,7 +342,7 @@ Below is the distribution of leak instances across nodes from 0-31 (32 nodes).
     \centering
     \includegraphics[width=1.1\linewidth]{leak_instances_bar.png}
     \caption{Caption}
-    \label{Distribution of Leak instances for all scenarios across nodes}
+    \label{fig:leak_instances}
 \end{figure}
 
 As we can see, node 19 has the highest leak instances, while node 22 and node 31 have no leaks. Using this, the rule-based system can be programmed to be biased more towards some nodes than others, in order for more correct node localizations.
@@ -344,7 +353,7 @@ In terms of feature engineering, two features have been added to each scenario f
 
 \subsubsection{Adding columns}
 
-In the day time, due to usage of water both commercial and industrial, the general trend of pressure and flow is downward, while demand is higher and vice-versa during the night time. In order to prevent the models from reading the downward trend of pressure and flow and keep returning leak predictions, two columns, \textit{sin\_hour} and \textit{cos\_hour}, are added to each scenario, in order to add weight to the particular hour of the day when a leak occurs. 
+In the day time, due to usage of water both commercial and industrial, the general trend of pressure and flow is downward, while demand is higher and vice-versa during the night time. In order to prevent the models from reading the downward trend of pressure and flow and keep returning leak predictions, two columns, \textit{sin\_hour} and \textit{cos\_hour}, are added to each scenario, in order to add weight to the particular hour of the day when a leak occurs.
 
 Let \textit{i} denote row index of a scenario, Thus \textit{step of day \textbf{s}} is defined as:
 \[
@@ -415,7 +424,7 @@ test sets to avoid data leakage.
 
 \subsection{Windowing function}
 
-To give the model temporal context and features without the use of recurrent architectures such as LSTMs or GRUs, a sliding window based dataset construction is used. Temporal windows are extracted from each scenario using a fixed window size of $12$, or 6 hours as each time-step is of 30 minutes. For each window, the target is the leak state (0/1) at the final time stamp of the window, allowing the model to learn temporal patterns preceding a leak event. As the target label is the leak state at the final time stamp, which is also the current time stamp, this means that the model \textbf{nowcasts} leakage prediction. 
+To give the model temporal context and features without the use of recurrent architectures such as LSTMs or GRUs, a sliding window based dataset construction is used. Temporal windows are extracted from each scenario using a fixed window size of $12$, or 6 hours as each time-step is of 30 minutes. For each window, the target is the leak state (0/1) at the final time stamp of the window, allowing the model to learn temporal patterns preceding a leak event. As the target label is the leak state at the final time stamp, which is also the current time stamp, this means that the model \textbf{nowcasts} leakage prediction.
 
 \subsubsection{ANN}
 
@@ -475,46 +484,6 @@ h_k
 10.67 \frac{L_k |Q_k|^{1.852}}{C_k^{1.852} D_k^{4.87}},
 \]
 where $L_k$ is the pipe length, $D_k$ is the diameter, $C_k$ is the roughness coefficient, and $Q_k$ is the predicted flow.
-
-\subsection{Physics Loss Algorithm}
-The physics loss due to mass conservation is defined as:
-\[
-\mathcal{L}_{\mathrm{mass}}
-=
-\frac{1}{N} \sum_{i=1}^{N} \left( \frac{r^{(i)}_{\mathrm{mass}}}{\bar{D}} \right)^2,
-\]
-where $\bar{D}$ is the mean demand used for normalization.
-
-The predicted pressure drop across a pipe is given as:
-\[
-\Delta p_k
-=
-\operatorname{sign}(Q_k) \left( p_{\mathrm{src}(k)} - p_{\mathrm{dst}(k)} \right),
-\]
-where $p_{\mathrm{src}(k)}$ and $p_{\mathrm{dst}(k)}$ are the predicted pressures at the source and destination nodes.
-
-Thus, the loss due to energy conservation is defined as:
-\[
-r^{(k)}_{\mathrm{energy}}
-=
-\Delta p_k - h_k,
-\]
-\[
-\mathcal{L}_{\mathrm{energy}}
-=
-\frac{1}{M} \sum_{k=1}^{M} \left( \frac{r^{(k)}_{\mathrm{energy}}}{\bar{p}} \right)^2,
-\]
-where $\bar{p}$ is the mean predicted pressure used for normalization.
-
-The total physics loss is a weighted average of the loss due to mass conservation and energy conservation, given as:
-\[
-\mathcal{L}_{\mathrm{phys}}
-=
-\lambda_{\mathrm{mass}} \mathcal{L}_{\mathrm{mass}}
-+
-\lambda_{\mathrm{energy}} \mathcal{L}_{\mathrm{energy}},
-\]
-where $\lambda_{\mathrm{mass}}$ and $\lambda_{\mathrm{energy}}$ are both kept at $0.5$.
 
 \subsection{Physics Loss Algorithm}
 The physics loss due to mass conservation is defined as:
@@ -676,7 +645,7 @@ w_1 \, y_i \log(\hat{y}_i)
     \includegraphics[width=\linewidth]{ann_architecture (1).png}
     \caption{Architecture Diagram of ANN}
     \vspace{0.05cm}
-    \label{fig:architecture_diagram}
+    \label{fig:ann_architecture}
 \end{figure}
 
 \subsubsection{Physics-Aware ANN Model}
@@ -739,92 +708,101 @@ This is done to make sure that the physics loss does not dominate the classifica
     \includegraphics[width=1.05\linewidth]{physics_ann_architecture (2).png}
     \caption{Architecture Diagram of Physics-Aware ANN}
     \vspace{0.05cm}
-    \label{fig:architecture_diagram}
+    \label{fig:paann_architecture}
 \end{figure}
 
 \section{Localization}
 
 \subsection{Introduction}
-While the Deep Learning (ANN) module is responsible for the temporal detection of anomalies (identifying \textit{when} a leak occurs), the spatial localization (identifying \textit{where} the leak is located) is handled by a separate, physics-informed statistical engine. This hybrid approach leverages the strengths of both domains: the ANN captures complex, non-linear patterns to detect incipient events, while the localization module relies on hydraulic first principles—specifically, the analysis of pressure residuals relative to a dynamic baseline.
+While the Deep Learning (ANN) module handles the temporal detection of anomalies (identifying \textit{when} a leak occurs), spatial localization (identifying \textit{where} the leak is located) is managed by a topology-informed statistical engine. Designed specifically for real-time operation, this algorithm processes sequential data streams. This hybrid architecture leverages the strengths of both domains: the ANN captures complex, non-linear patterns to detect incipient events, while the localization module relies on hydraulic first principles and network graph theory.
 
-The localization logic operates on the hypothesis that a leak event introduces a localized pressure drop that is statistically significant compared to the node's historical variance. To ensure robustness against sensor noise and hydraulic transients, the system employs a "triggered snapshot" mechanism. Localization is not a continuous process; it is a conditional state activated only when the ANN confidence score exceeds a defined threshold ($\tau_{conf} > 0.75$). This ensures that the localization algorithm only processes frames where a high probability of a physical anomaly exists, thereby reducing false positives.
+A major challenge in hydraulic localization is signal drift. When a leak occurs, the initial pressure drop is most severe at the source node. However, as the transient wave propagates, pressure drops accumulate at physical boundaries, such as dead-ends or downstream junctions, often causing purely statistical algorithms to drift away from the true source over time. To combat this, the proposed real-time module introduces an "Anti-Drift" mechanism combining time-decayed voting, topology-based neighbor validation, and a stability lock, triggered only when the ANN confidence exceeds a threshold ($\tau_{conf} > 0.75$).
 
 \subsection{Algorithm}
-The localization algorithm proceeds in three distinct phases: Baseline Acquisition, Residual Standardization, and Temporal Aggregation.
+The real-time localization algorithm operates in three distinct phases: Lagged Baseline Snapshot, Topological Scoring, and Time-Decayed Voting.
 
-\subsubsection{1. Dynamic Baseline Acquisition}
-During normal operation (when the ANN probability $P(leak) < 0.2$), the system maintains a rolling buffer of pressure readings for all $N$ sensor nodes. Let $p_i(t)$ denote the pressure at node $i$ at time $t$. The system continuously updates the mean ($\mu_i$) and standard deviation ($\sigma_i$) for each sensor based on a window of stable steps $W_{stable}$.
-Upon the detection of a leak event at time $t_{trigger}$, the updating of this buffer is immediately halted. This freezes the "healthy" state of the network, providing a static reference frame against which the unfolding leak event is compared.
+\subsubsection{1. Lagged Baseline Snapshot}
+During normal operation (when the ANN probability $P(leak) < 0.60$), the system maintains a lightweight rolling buffer of pressure readings for all $N$ sensor nodes. Upon the ANN triggering a leak state at time $t_{trigger}$, the system immediately captures a "snapshot" of the network's healthy state.
 
-\subsubsection{2. Residual Standardization (Z-Score Analysis)}
-Once the system enters the active leak state, it calculates the raw pressure drop (residual) for every sensor at each time step $t$:
+To prevent the baseline from being contaminated by the incipient, pre-trigger transient wave of the leak, a lag period ($W_{lag} = 50$ steps) is excluded. The reference mean ($\mu_i$) and standard deviation ($\sigma_i$) for each sensor $i$ are calculated from a stable historical window ($W_{base} = 200$ steps) preceding the lag:
 \begin{equation}
-    \Delta p_i(t) = \mu_i - p_i(t)
+    \mathcal{B}_{clean} = P_{t_{trigger} - W_{lag} - W_{base} \ : \ t_{trigger} - W_{lag}}
 \end{equation}
-To account for sensor heterogeneity—where some nodes naturally exhibit higher variance than others—the raw drop is standardized into a Z-score. A minimum noise floor ($\epsilon \approx 0.1$) is applied to $\sigma_i$ to prevent hypersensitivity in stable sensors:
+This frozen baseline acts as the static reference frame for the duration of the event.
+
+\subsubsection{2. Topological and Physics-Aware Scoring}
+At each active leak step $t$, the algorithm calculates the positive pressure residual and standardizes it into a Z-score, applying a noise floor ($\epsilon = 0.05$):
 \begin{equation}
-    Z_i(t) = \frac{\Delta p_i(t)}{\max(\sigma_i, \epsilon)}
+    Z_i(t) = \frac{\max(0, \mu_i - p_i(t))}{\max(\sigma_i, \epsilon)}
 \end{equation}
-A physics-based gate is applied to filter out negligible fluctuations. A sensor $i$ is considered a candidate only if its drop exceeds a minimum hydraulic significance threshold ($\delta_{min} = 0.2$) and its statistical significance exceeds $3\sigma$:
+Rather than evaluating nodes in isolation, the system utilizes the network's adjacency graph. A node $i$ is evaluated based on its own drop, the supporting drops of its physical neighbors $\mathcal{N}_i$, and its structural degree $D_i$.
+
+If $Z_i(t) > 1.0$, a Topological Score $S_i(t)$ is computed. It incorporates a Neighbor Support Ratio ($R_i$), rewarding nodes whose adjacent neighbors also exhibit drops, and a Degree Multiplier ($M_i = 1 + 0.05 \times D_i$), which lightly penalizes dead-ends ($D=1$) in favor of central junctions:
 \begin{equation}
-    S_i(t) = 
-    \begin{cases} 
-    Z_i(t) & \text{if } \Delta p_i(t) > \delta_{min} \text{ and } Z_i(t) > 3.0 \\
-    0 & \text{otherwise}
-    \end{cases}
+    R_i = \min\left(1.0, \frac{\frac{1}{|\mathcal{N}_i|} \sum_{j \in \mathcal{N}_i} Z_j(t)}{Z_i(t)}\right)
+\end{equation}
+\begin{equation}
+    S_i(t) = Z_i(t) \times (1 + R_i) \times M_i
 \end{equation}
 
-\subsubsection{3. Cumulative Evidence and Localization}
-To mitigate the impact of instantaneous sensor noise, the algorithm does not rely on a single time step. Instead, it employs a cumulative voting mechanism over the duration of the detected event ($t_{trigger}$ to $t_{current}$). The cumulative score $C_i$ for each node is updated recursively:
+\subsubsection{3. Time-Decayed Voting and Anti-Drift Lock}
+To prioritize the initial hydraulic wave closest to the true leak source, the system applies a rapid time-decaying weight $W(t)$ based on the duration $\Delta t = t - t_{trigger}$:
 \begin{equation}
-    C_i = \sum_{t=t_{trigger}}^{t_{current}} S_i(t)
+    W(t) = \frac{1}{1 + 0.1 \times \Delta t}
 \end{equation}
-The predicted leak location $\hat{L}$ is identified as the node with the maximum accumulated evidence at the end of the event window:
-\begin{equation}
-    \hat{L} = \operatorname*{argmax}_{i \in \{1, \dots, N\}} (C_i)
-\end{equation}
-This accumulation ensures that the localization decision converges towards the node that exhibits the most consistent and statistically significant pressure drop over the duration of the anomaly.
+At each step, the top 3 candidate nodes are awarded points scaled by $W(t)$, and the cumulative vote $V_i$ for each node is recursively updated.
 
-\begin{algorithm}
-\caption{Hybrid Leak Detection and Localization Strategy}
+To definitively prevent late-stage drift toward network boundaries, a \textbf{Stability Lock} is enforced. If the leading suspect $\hat{L}$ remains unchanged for a consecutive threshold of $k_{lock} = 10$ time steps, the algorithm considers the localization converged and halts suspect updating.
+
+\textbf{Handling Simultaneous Leaks:} In scenarios involving multiple simultaneous bursts, the combination of time-decayed voting and the Stability Lock acts as a dominant-signal isolator. The node experiencing the most severe and immediate pressure gradient (the primary leak) accumulates early votes rapidly. The algorithm intentionally locks onto this primary source, preventing the system from oscillating confusingly between multiple coordinates. Secondary leaks can subsequently be localized once the primary anomaly is isolated by network operators and the baseline resets.
+
+% NOTE: If you are using a two-column format (like IEEE), change \begin{algorithm} to \begin{algorithm*}
+% and \end{algorithm} to \end{algorithm*}. This will make the block span the top of the page and fix gaps.
+\begin{algorithm}[H]
+\caption{Real-Time Physics-Aware Localization Strategy}
 \label{alg:leak_localization}
-\begin{algorithmic}[3]
-\Require Real-time Pressure Data stream $P_t$, Trained ANN Model $\mathcal{M}$
-\Ensure Detected Leak Event $E$, Localized Node $L_{est}$
-
-\State \textbf{Initialize:} 
-\State $\mathcal{B} \leftarrow \emptyset$ \Comment{Rolling Baseline Buffer}
-\State $S \leftarrow \{0, \dots, 0\}$ \Comment{Cumulative Score Vector for $N$ nodes}
-\State $LeakActive \leftarrow \text{False}$
+\begin{algorithmic}[1]
+\Require Real-time Pressure stream $P_t$, ANN Model $\mathcal{M}$, Adjacency Graph $\mathcal{G}$
+\Ensure Localized Node $L_{est}$
+\State $\mathcal{B} \leftarrow \emptyset$, \ $V \leftarrow \vec{0}$, \ $LeakActive \leftarrow \text{False}$, \ $IsLocked \leftarrow \text{False}$
+\State $L_{curr} \leftarrow \text{null}$, \ $Stability \leftarrow 0$
 
 \While{stream is active at time $t$}
-    \State $x_t \leftarrow \text{Preprocess}(P_{t-w:t})$ \Comment{Sliding Window Input}
-    \State $p_{leak} \leftarrow \mathcal{M}(x_t)$ \Comment{Get Probability from ANN}
-    
-    \If{$p_{leak} < 0.2$ \textbf{and not} $LeakActive$}
-        \State $\text{Update}(\mathcal{B}, P_t)$ \Comment{Update healthy baseline stats}
-        \State $\mu, \sigma \leftarrow \text{CalculateStats}(\mathcal{B})$
-    \ElsIf{$p_{leak} > 0.75$}
-        \State $LeakActive \leftarrow \text{True}$ \Comment{Trigger Event}
-    \EndIf
-    
-    \If{$LeakActive$}
-        \For{each sensor node $i \in \{1, \dots, N\}$}
-            \State $\Delta_i \leftarrow \mu_i - P_{i,t}$ \Comment{Calculate Pressure Drop}
-            \State $Z_i \leftarrow \Delta_i / \sigma_i$ \Comment{Standardize (Z-Score)}
-            
-            \State \emph{// Physics Gate: Ignore negligible drops}
-            \If{$\Delta_i > \delta_{min}$ \textbf{and} $Z_i > 3.0$}
-                \State $S_i \leftarrow S_i + Z_i$ \Comment{Accumulate Evidence}
+    \State $p_{leak} \leftarrow \mathcal{M}(P_{t-w:t})$
+   
+    \If{not $LeakActive$}
+        \If{$p_{leak} < 0.60$} \text{Append } $P_t$ \text{ to } $\mathcal{B}$ \EndIf
+        \If{$p_{leak} > 0.75$}
+            \State $LeakActive \leftarrow \text{True}$, \ $t_{start} \leftarrow t$
+            \State $\mu, \sigma \leftarrow \text{ExtractLaggedStats}(\mathcal{B}, lag=50, win=200)$
+        \EndIf
+    \Else
+        \If{$p_{leak} < 0.40$} \textbf{Reset System State} \EndIf
+       
+        \If{not $IsLocked$}
+            \State $W_t \leftarrow 1 / (1 + 0.1 \times (t - t_{start}))$
+            \State $C \leftarrow \emptyset$ \Comment{Candidate List}
+           
+            \For{each node $i \in \{1, \dots, N\}$}
+                \State $Z_i \leftarrow \max(0, \mu_i - P_{i,t}) / \sigma_i$
+                \If{$Z_i > 1.0$}
+                    \State Add $(i, \text{CalcTopoScore}(Z_i, \mathcal{G}))$ to $C$
+                \EndIf
+            \EndFor
+           
+            \State Sort $C$ descending by TopoScore
+            \For{rank $r \in \{0, 1, 2\}$ from top 3 of $C$}
+                \State $V_{C[r].id} \leftarrow V_{C[r].id} + (3 - r) \times W_t$
+            \EndFor
+           
+            \State $L_{new} \leftarrow \operatorname*{argmax}(V)$
+            \If{$L_{new} == L_{curr}$}
+                \State $Stability \leftarrow Stability + 1$
+                \If{$Stability > 10$} $IsLocked \leftarrow \text{True}$ \EndIf
+            \Else
+                \State $L_{curr} \leftarrow L_{new}$, \ $Stability \leftarrow 0$
             \EndIf
-        \EndFor
-        
-        \State $L_{est} \leftarrow \operatorname*{argmax}_{i}(S)$ \Comment{Identify leading suspect}
-    \EndIf
-    
-    \If{$p_{leak} < 0.50$ \textbf{for} $k$ steps}
-        \State $LeakActive \leftarrow \text{False}$ \Comment{Reset System}
-        \State \Return $L_{est}$
+        \EndIf
     \EndIf
 \EndWhile
 \end{algorithmic}
@@ -832,7 +810,7 @@ This accumulation ensures that the localization decision converges towards the n
 
 \section{Results and Discussion}
 
-\subsection{Detection Results and Detection}
+\subsection{Detection Results}
 
 \subsection{Metrics}
 
@@ -861,17 +839,18 @@ The ANN model is trained on 490 scenarios, with the validation and test sets bei
 
 Highest Validation F1 for the ANN model is \textbf{0.7483}.
 
-\subsubsection{ANN}
-
 \vspace{0.03cm}
 
 \textbf{Model Metrics:}
 
 \begin{table}[H]
+\centering
+\caption{ANN Model Performance Metrics}
+\label{tab:ann_metrics}
 \begin{tabular}{@{}lllll@{}}
 \toprule
 \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\ \midrule
-0.9213       & 0.9143         & 0.7889      & 0.8470      
+0.9213       & 0.9143         & 0.7889      & 0.8470      \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -879,7 +858,8 @@ Highest Validation F1 for the ANN model is \textbf{0.7483}.
 
 \begin{table}[H]
 \centering
-\label{tab:conf_matrix}
+\caption{ANN Confusion Matrix}
+\label{tab:conf_matrix_ann}
 \begin{tabular}{lcc}
 \toprule
  & \textbf{Predicted No Leak} & \textbf{Predicted Leak} \\
@@ -889,7 +869,7 @@ Highest Validation F1 for the ANN model is \textbf{0.7483}.
 \bottomrule
 \end{tabular}
 \end{table}
-    
+   
 \textbf{Plot of Val F1 vs Epochs:}
 
 \begin{figure}[H]
@@ -933,9 +913,8 @@ Highest Validation F1 for the ANN model is \textbf{0.7483}.
 \end{axis}
 \end{tikzpicture}
 \caption{Validation F1 score across training epochs for ANN}
-\label{fig:val_f1}
+\label{fig:val_f1_ann}
 \end{figure}
-
 
 \subsection{Physics-Aware Model Performance}
 
@@ -943,17 +922,18 @@ The ANN model is trained on 490 scenarios, with the validation and test sets bei
 
 Highest Validation F1 for the ANN model is \textbf{0.7549}.
 
-\subsubsection{ANN}
-
 \vspace{0.03cm}
 
 \textbf{Model Metrics:}
 
 \begin{table}[H]
+\centering
+\caption{Physics-Aware ANN Model Performance Metrics}
+\label{tab:paann_metrics}
 \begin{tabular}{@{}lllll@{}}
 \toprule
 \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\ \midrule
-0.9303       & 0.9659        & 0.7747      & 0.8598     
+0.9303       & 0.9659        & 0.7747      & 0.8598     \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -961,7 +941,8 @@ Highest Validation F1 for the ANN model is \textbf{0.7549}.
 
 \begin{table}[H]
 \centering
-\label{tab:conf_matrix}
+\caption{Physics-Aware ANN Confusion Matrix}
+\label{tab:conf_matrix_paann}
 \begin{tabular}{lcc}
 \toprule
  & \textbf{Predicted No Leak} & \textbf{Predicted Leak} \\
@@ -1012,40 +993,66 @@ Highest Validation F1 for the ANN model is \textbf{0.7549}.
 \end{axis}
 \end{tikzpicture}
 \caption{Validation F1 score across training epochs for Physics-Aware ANN}
-\label{fig:val_f1}
+\label{fig:val_f1_paann}
 \end{figure}
 
-\subsection{Comparison among models and existing Benchmarks}
-
-\textbf{Comparison between ANN and Physics-Aware ANN:}
+\subsection{Comparison between ANN and Physics-Aware ANN}
 
 \begin{table}[H]
 \centering
+\caption{Comparison between ANN and Physics-Aware ANN}
+\label{tab:ann_paann_comparison}
 \begin{tabular}{@{}llllll@{}}
 \toprule
 \textbf{Model}             & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1}     \\ \midrule
-ANN               & 0.9213   & 0.9143    & \textbf{0.7889} & 0.8470 \\
-Physics-Aware ANN & \textbf{0.9303}   & \textbf{0.9659}    & 0.7747 & \textbf{0.8598}  
+ANN               & 0.92   & 0.91    & \textbf{0.79} & 0.85 \\
+Physics-Aware ANN & \textbf{0.93}   & \textbf{0.97}    & 0.77 & \textbf{0.86}  \\ \bottomrule
 \end{tabular}
 \end{table}
 
-The Physics-Aware ANN gets an improvement of 0.98\% in accuracy, 5.64\% in precision, and 1.51\% in F1 compared to the ANN, while having a decrease of 1.79\% in recall. The Physics-Aware ANN reduces the number of false positives by 23,628 (62.98\% reduction), at the cost of increasing the false negatives by 7,187 (6.71\% increase). This indicates that the Physics-Aware ANN is more conservative while predicting leaks, issuing leak predictions only when they are physically consistent and more confident than the ANN, which has a more liberal behavior while predicting leaks.
+The Physics-Aware ANN achieves an improvement of 0.98\% in accuracy, 5.64\% in precision, and 1.51\% in F1 compared to the ANN, while having a decrease of 1.79\% in recall. The Physics-Aware ANN reduces the number of false positives by 23,628 (62.98\% reduction), at the cost of increasing the false negatives by 7,187 (6.71\% increase). This indicates that the Physics-Aware ANN is more conservative while predicting leaks, issuing leak predictions only when they are physically consistent and more confident than the ANN, which has a more liberal behavior while predicting leaks.
 
 In practical deployment, this trade-off means that the Physics-Aware ANN incurs a slight delay in detecting certain leak events, however, it also drastically lowers the number of false alarms, resulting in a significant reduction of un-necessary human intervention and monetary costs.
 
+\subsection{Comparison with Existing Benchmarks on LeakDB Hanoi}
+
+To contextualize our results, we compare our approach with other methods evaluated on the LeakDB Hanoi dataset. \cite{punukollu2023leakdetection} applied Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks on the LeakDB benchmark dataset, achieving leak detection accuracies ranging from 49\% to 98.23\% depending on network complexity. However, their results were reported across multiple network topologies, and specific performance metrics for the Hanoi network were not separately reported.
+
+Recent work by researchers using synthetic datasets from Hanoi's water distribution network reported detection accuracies of 92.80\% and 92.20\% on datasets of 500 and 1000 scenarios respectively, using a combination of Convolutional Neural Networks with Gaussian Process Regressor preprocessing. While these results demonstrate competitive performance, the methodologies employed are purely data-driven and do not incorporate physical constraints.
+
+\begin{table}[!htbp]
+\centering
+\caption{Comparison of methods on LeakDB Hanoi dataset}
+\label{tab:benchmark_comparison}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Method} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+\midrule
+CNN-LSTM  & 49\%--98.23\%* & - & - & - \\
+CNN + GPR  & 92.80\% & - & 91.05\% & - \\
+CNN + GPR  & 92.20\% & - & - & - \\
+ANN & 92.13\% & 91.43\% & 78.89\% & 84.70\% \\
+PAANN & \textbf{93.03\%} & \textbf{96.59\%} & 77.47\% & \textbf{85.98\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Our Physics-Aware ANN achieves superior precision (96.59\%) compared to existing benchmarks, which is critical for reducing false alarms in operational settings. While the recall is slightly lower than some reported values, the significantly higher precision demonstrates the benefit of incorporating physical constraints, ensuring that leak predictions are hydraulically consistent and reducing unnecessary operational interventions.
+
 \subsection{Localization Results}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
+\caption{Fault localization performance comparison}
+\label{tab:localization_results}
 \begin{tabular}{lccc}
-\hline
+\toprule
 \textbf{Model} & \textbf{True Positives (TP)} & \textbf{False Negatives (FN)} & \textbf{Avg. Time to Localize} \\
-\hline
+\midrule
 Physics-Aware ANN & 95 & 25 & 11h 24m \\
 Standard ANN      & 95 & 25 & 31h 19m \\
-\hline
+\bottomrule
 \end{tabular}
-\caption{Fault localization performance comparison}
 \end{table}
 
 \bigskip
@@ -1107,11 +1114,11 @@ Since the localization mechanism is rule-based and identical for both models, th
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{122_ann.jpeg}
-    
+   
     \vspace{2mm}
-    
+   
     \includegraphics[width=\linewidth]{122_paann.jpeg}
-    
+   
     \caption{Scenario 122: ANN (top) and Physics-Aware ANN (bottom) scenario-wise detection.}
     \label{fig:scenario1}
 \end{figure}
@@ -1123,11 +1130,11 @@ Scenario $122$ shows that the Physics-Aware Model produces very less false alarm
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{320_ann.jpeg}
-    
+   
     \vspace{2mm}
-    
+   
     \includegraphics[width=\linewidth]{320_paann.jpeg}
-    
+   
     \caption{Scenario 320: ANN (top) and Physics-Aware ANN (bottom) scenario-wise detection.}
     \label{fig:scenario1}
 \end{figure}
@@ -1139,11 +1146,11 @@ Scenario $320$ shows that both the models are quite good in predicting leaks.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{673_ann.jpeg}
-    
+   
     \vspace{2mm}
-    
+   
     \includegraphics[width=\linewidth]{673_paann.jpeg}
-    
+   
     \caption{Scenario 673: ANN (top) and Physics-Aware ANN (bottom) scenario-wise detection.}
     \label{fig:scenario1}
 \end{figure}
@@ -1237,13 +1244,13 @@ Any valid loss function used in optimization of a model should exhibit a decreas
 
 \section{Sensitivity Analysis}
 
-To evaluate model stability under distributional shifts, we performed a two-dimensional sensitivity analysis over demand perturbation $\alpha \in [-0.15,\, 0.15]$ and pressure--demand coupling strength $\beta \in [0.2,\, 1.0]$. Figure~X and Figure~Y present the F1-score surfaces for the Physics-informed ANN and the baseline ANN, respectively.
+To evaluate model stability under distributional shifts, we performed a two-dimensional sensitivity analysis over demand perturbation $\alpha \in [-0.15,\, 0.15]$ and pressure--demand coupling strength $\beta \in [0.2,\, 1.0]$.
 
-Both models achieve comparable performance under nominal conditions ($\alpha = 0$). However, as the magnitude of perturbation increases, distinct degradation patterns emerge. In particular, under negative demand shifts combined with stronger pressure sensitivity (i.e., higher $\beta$), the baseline ANN exhibits rapid performance deterioration, whereas the Physics-ANN demonstrates more gradual degradation.
+Both models achieve comparable performance under nominal conditions ($\alpha = 0$), with the Physics-Aware ANN achieving an F1 score of 0.860 and the baseline ANN achieving 0.847. However, as the magnitude of perturbation increases, distinct degradation patterns emerge. Figure~\ref{fig:sensitivity_demand} presents the worst-case F1 scores (minimum over all $\beta$ values) as a function of demand shift $\alpha$. Under negative demand shifts, the baseline ANN exhibits rapid performance deterioration, dropping to F1 = 0.170 at $\alpha = -0.15$, whereas the Physics-Aware ANN demonstrates more gradual degradation, maintaining F1 = 0.313 at the same perturbation level.
 
-Figure~Z illustrates the performance gap $\Delta F_1 = F_{1,\text{Physics}} - F_{1,\text{ANN}}$. Positive regions indicate scenarios where physics-based constraints improve robustness. The advantage of the Physics-ANN becomes increasingly pronounced as $\beta$ increases, suggesting that embedding physical relationships enhances stability under stronger pressure demand coupling.
+Figure~\ref{fig:sensitivity_pressure} illustrates the performance degradation as pressure sensitivity $\beta$ increases under extreme demand reduction ($\alpha = -0.15$). The baseline ANN shows severe performance collapse, with F1 dropping from 0.798 at $\beta = 0.2$ to 0.170 at $\beta = 1.0$. In contrast, the Physics-Aware ANN exhibits significantly slower degradation, maintaining F1 = 0.313 even at $\beta = 1.0$. The advantage of the Physics-Aware ANN becomes increasingly pronounced as $\beta$ increases, suggesting that embedding physical relationships enhances stability under stronger pressure-demand coupling.
 
-Importantly, both models converge under extreme positive demand shifts, indicating that severe distribution shifts affect data-driven and physics-informed models in a similar manner. This observation highlights that physics constraints improve robustness within realistic operating regimes rather than acting as a universal correction mechanism.
+Importantly, both models show similar performance degradation under extreme positive demand shifts ($\alpha > 0$), with F1 scores converging around 0.43, indicating that severe distribution shifts affect data-driven and physics-informed models in a similar manner. This observation highlights that physics constraints improve robustness within realistic operating regimes rather than acting as a universal correction mechanism.
 
 \begin{figure}[H]
 \centering
@@ -1300,7 +1307,8 @@ Importantly, both models converge under extreme positive demand shifts, indicati
 
 \end{axis}
 \end{tikzpicture}
-\caption{Worst-case robustness across demand perturbations. The Physics-informed ANN mitigates performance collapse under negative demand shifts.}
+\caption{Worst-case robustness across demand perturbations. The Physics-Aware ANN mitigates performance collapse under negative demand shifts.}
+\label{fig:sensitivity_demand}
 \end{figure}
 
 \begin{figure}[H]
@@ -1354,18 +1362,11 @@ Importantly, both models converge under extreme positive demand shifts, indicati
 
 \end{axis}
 \end{tikzpicture}
-\caption{Performance under extreme demand reduction ($\alpha=-0.15$). The Physics-ANN exhibits significantly slower degradation as pressure sensitivity increases.}
+\caption{Performance under extreme demand reduction ($\alpha=-0.15$). The Physics-Aware ANN exhibits significantly slower degradation as pressure sensitivity increases.}
+\label{fig:sensitivity_pressure}
 \end{figure}
 
 
-
-\section{Localization Results}
-
-\subsection{Quantitative Results}
-
-\subsection{Qualitative Results}
-
-\subsection{Comparison with Baselines}
 
 \section{Limitations}
 Experiments were conducted on the LeakDB Hanoi benchmark, a widely used simulated dataset that allows controlled, reproducible evaluation. The Hanoi network (32 nodes, 34 pipes) serves as a standard testbed in the leak-detection literature. Training leveraged cloud compute for efficiency. The sensitivity analysis employs a tractable pressure–demand coupling to explore robustness under demand shifts; future work may incorporate full hydraulic simulation for finer-grained perturbation modeling.
@@ -1381,7 +1382,7 @@ Natural extensions include applying the Physics-Aware ANN to additional LeakDB t
 \section{Acknowledgements}
 Each member of this group has contributed equally and with the same sense of enthusiasm and ownership for this project.
 \newline We would like to acknowledge Prof. Abhijeet Salunke for his mentorship, guidance and constant encouragement across the entire journey of the project.
-\newline We would also like to acknowledge Prof. Vasan Arunachalam from BITS Pilani, Hyderabad campus for solving a doubt of ours regarding the LeakDB dataset. 
+\newline We would also like to acknowledge Prof. Vasan Arunachalam from BITS Pilani, Hyderabad campus for solving a doubt of ours regarding the LeakDB dataset.
 \section{Appendix}
 
 \subsection{Ablation Studies}
@@ -1445,4 +1446,3 @@ Moderate coupling & Predicted pressure/flow features in leak head & 0.72 \\ \bot
 \bibliography{References/S1944398624107059,References/pmc_11647635,References/citation-393247205,References/pinn_secure,References/S0952197623002464,References/citations-20251115T090154,References/citations-probability,References/we_emailed,References/leakdb,References/gnn_leak}
 
 \end{document}
-

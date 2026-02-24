@@ -1028,6 +1028,7 @@ Recent work by researchers using synthetic datasets from Hanoi's water distribut
 \toprule
 \textbf{Method} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
 \midrule
+Transformer & 95.19\% & - & - & 97.52\% \\ 
 CNN-LSTM  & 49\%--98.23\%* & - & - & - \\
 CNN + GPR  & 92.80\% & - & 91.05\% & - \\
 CNN + GPR  & 92.20\% & - & - & - \\
@@ -1037,7 +1038,23 @@ PAANN & \textbf{93.03\%} & \textbf{96.59\%} & 77.47\% & \textbf{85.98\%} \\
 \end{tabular}
 \end{table}
 
-Our Physics-Aware ANN achieves superior precision (96.59\%) compared to existing benchmarks, which is critical for reducing false alarms in operational settings. While the recall is slightly lower than some reported values, the significantly higher precision demonstrates the benefit of incorporating physical constraints, ensuring that leak predictions are hydraulically consistent and reducing unnecessary operational interventions.
+\begin{table}[!htbp]
+\centering
+\caption{Model parameter comparison}
+\label{tab:parameter_comparison}
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Method} & \textbf{Trainable Parameters} \\
+\midrule
+Transformer & $\sim$8--12 Million (estimated) \\
+CNN-LSTM & $\sim$1.0--1.2 Million (estimated) \\
+ANN (Ours) & 764,289 \\
+PAANN (Ours) & 773,187 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Our Physics-Aware ANN achieves superior precision (96.59\%) compared to existing deep learning benchmarks, which is particularly critical for minimizing false alarms in operational leak detection systems. Importantly, this improvement is achieved with a substantially more parameter-efficient architecture, whereas conventional CNN and LSTM models typically contain on the order of $\sim$1--2 million trainable parameters, and Transformer-based architectures often require even higher parameter counts due to multi-head attention mechanisms. While the recall is slightly lower than some reported values, the markedly higher precision—combined with a compact model size—highlights the effectiveness of embedding physical constraints directly into the learning framework. By enforcing hydraulic consistency within the prediction process, the proposed approach reduces spurious detections, limits unnecessary operational interventions, and provides a computationally efficient yet hydraulically reliable solution suitable for real-world deployment.
 
 \subsection{Localization Results}
 

@@ -17,6 +17,7 @@
 *.nav
 *.snm
 *.vrb
+%OUTDIR%/
 
 ############################
 # Temporary / backup files

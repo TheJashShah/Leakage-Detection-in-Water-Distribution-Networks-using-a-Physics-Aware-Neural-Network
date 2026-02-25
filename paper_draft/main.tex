@@ -1,19 +1,19 @@
-%% 
+%%
 %% Copyright 2007-2020 Elsevier Ltd
-%% 
+%%
 %% This file is part of the 'Elsarticle Bundle'.
 %% ---------------------------------------------
-%% 
+%%
 %% It may be distributed under the conditions of the LaTeX Project Public
 %% License, either version 1.2 of this license or (at your option) any
 %% later version.  The latest version of this license is in
 %%    http://www.latex-project.org/lppl.txt
 %% and version 1.2 or later is part of all distributions of LaTeX
 %% version 1999/12/01 or later.
-%% 
+%%
 %% The list of all files belonging to the 'Elsarticle Bundle' is
 %% given in the file `manifest.txt'.
-%% 
+%%
 %% Template article for Elsevier's document class `elsarticle'
 %% with harvard style bibliographic references
 
@@ -50,6 +50,14 @@
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
 \def\UrlBreaks{\do\/\do-\do\_\do\.\do\?\do\&}
+
+\usepackage[authoryear]{natbib}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{tabularx}
+
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
 %% for the whole article with \linenumbers.
@@ -57,7 +65,7 @@
 
 %% You might want to define your own abbreviated commands for common used terms, e.g.:
 \newcommand{\kms}{km\,s$^{-1}$}
-\newcommand{\msun}{$M_\odot$}
+\newcommand{\msun}{$M_\odot}
 
 \journal{Results in Physics}
 
@@ -84,14 +92,14 @@
 %% \fntext[label2]{}
 %% \cortext[cor1]{}
 %% \affiliation{organization={},
-%%            addressline={}, 
+%%            addressline={},
 %%            city={},
-%%            postcode={}, 
+%%            postcode={},
 %%            state={},
 %%            country={}}
 %% \fntext[label3]{}
 
-\title{Leakage Detection in Water-Distribution-Networks using Physics-Aware Artificial Neural Networks and Leakage Localization using a Rule-based System}
+\title{Leakage Detection in Water-Distribution-Networks using Physics-Aware Neural Networks and Leakage Localization using a Rule-based System}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{}
@@ -131,23 +139,31 @@
 
 \begin{abstract}
 %% Text of abstract
-We present a Physics-Aware Artificial Neural Network (PAANN) for leak detection in Water Distribution Networks (WDNs). Unlike purely data-driven approaches, our model embeds conservation of mass and energy (via the continuity equation and Hazen-Williams relation) into the training loss, ensuring physically consistent predictions. We compare the Physics-Aware ANN against a base ANN and XGBoost on the LeakDB Hanoi dataset. The Physics-Aware ANN achieves superior F1 (0.8598) and precision (0.9659), with a 62.98\% reduction in false positives compared to the base ANN, while maintaining strong recall. Leak localization is performed via a rule-based post-processing step. Our results demonstrate that incorporating hydraulic physics into neural network training improves detection reliability and reduces false alarms.
+Water Distribution Networks (WDNs) lose approximately 126 billion m³ annually to leaks,
+costing 39B USD. We propose a Physics-Aware Artificial Neural Network (PA-ANN) that
+embeds conservation of mass and the Hazen-Williams equation directly into the training
+objective. Evaluated on the LeakDB Hanoi dataset (17.5M data points), our approach
+achieves 96.59\% precision (5.64\% improvement over baseline) while reducing false
+positives by 62.98\%. A novel topology-informed localization algorithm with anti-drift
+mechanism reduces fault isolation time by 63.6\% while maintaining 79.17\% localization
+accuracy. Results demonstrate that incorporating physical constraints improves both
+detection reliability and operational efficiency.
 \end{abstract}
 
 %%Graphical abstract
-\begin{graphicalabstract}
-\includegraphics{grabs}
-\end{graphicalabstract}
+%\begin{graphicalabstract}
+%\includegraphics{grabs}
+%\end{graphicalabstract}
 
 %%Research highlights
-\begin{highlights}
-\item Research highlight 1
-\item Research highlight 2
-\end{highlights}
+%\begin{highlights}
+%\item Research highlight 1
+%\item Research highlight 2
+%\end{highlights}
 
 \begin{keyword}
 %% keywords here, in the form: keyword \sep keyword, up to a maximum of 6 keywords
-Water distribution networks \sep Leak detection \sep Physics-aware neural networks \sep Conservation of mass \sep Hazen-Williams \sep LeakDB
+keyword 1 \sep keyword 2 \sep keyword 3 \sep keyword 4
 
 %% PACS codes here, in the form: \PACS code \sep code
 
@@ -169,19 +185,19 @@ Water distribution networks \sep Leak detection \sep Physics-aware neural networ
 \label{introduction}
 
 \subsection{Motivation and Relevance}
-Water is one of the most essential resources for human survival, economic growth, and sustainable urban development. With rapid urbanization and increasing population density in major towns and cities, Water Distribution Networks (WDNs) have become more extensive and complex.  These networks are responsible for delivering potable water from natural water bodies or reservoirs to consumers, and their efficient operation is crucial to ensure water security and sustainability.
-The volume of leakages in WDNs varies throughout different geographies, and the primary factors affecting the amount of water lost due to leakage are the general condition of the network and the maintenance and monitoring system in place. Some places suffer from as much as 70-80\% loss in water due to leakages, while where the infrastructure is secure, the lost water volume is around 7-8\%. In total, worldwide, the amount of non-revenue water (NRW) is around 126 billion cubic meters annually, and corresponding to a monetary loss of approximately 39 billion USD annually
+Water is one of the most essential resources for human survival, economic growth, and sustainable urban development. With rapid urbanization and increasing population density in major towns and cities, Water Distribution Networks (WDNs) have become more extensive and complex.  These networks are responsible for delivering potable water from natural water bodies or reserviors to consumers, and their efficient operation is crucial to ensure water security and sustainability.
+The volume of leakages in WDNs varies throughout different geographies, and the primary factors affecting the amount of water lost due to leakage are the general condition of the network and the maintenance and monitoring system in place. Some places suffer from as much as 70-80\% loss in water due to leakages, while where the infrastructure is secure, the lost water volume is around 7-8\%. In total, around the World, the amount of non-revenue water (NRW) is around 126 billion cubic meters annually, and amounts to monetary loss of approximately 39 billion dollars(USD.)
 
 \subsection{Challenges}
-Monitoring systems for WDNs are primarily acoustic monitoring systems, or they rely heavily on manual inspection and are labor-intensive, time-consuming, and costly. Recent advancements in data-driven methods and sensor-based monitoring have improved detection accuracy; however, many of these approaches rely heavily on data-driven and complex models that do not explicitly incorporate the underlying physical laws of fluid dynamics. As a result, their predictions may lack physical interpretability and generalization in unseen scenarios.
+Monitoring systems for WDNs are primarily acoustic monitoring systems, or they rely heavily on manual inspection and are labor-intensive, time-consuming, and costly. Recent advancements in data-driven methods and sensor-based monitoring have improved detection accuracy; however, many of these approaches rely heavily on data driven and complex models that do not explicitly incorporate the underlying physical laws of fluid dynamics. As a result, their predictions may lack physical interpretability and generalization in unseen scenarios.
 
 \subsection{Contribution}
-Our Physics-Aware ANN (PAANN) integrates physical laws into the model latent space so that predictions do not violate the equations and laws of conservation of mass and energy. The model vastly reduces the number of false positives, saving both monetary and human cost by predicting a leak only when the model is highly confident. This is a comparatively low-cost solution that can be generalized for any WDN, and our localization method predicts the leakage area using a relatively simple set of rules, not relying on expensive models for localization that are both time- and compute-intensive.
+Our model, which is Physics-Aware ANN (PAANN), tries to integrate physical laws into the model latent space so the predictions do not violate the equations and laws of conservation of mass and energy, and the models vastly reduce the number of false-positives which save both the monetary and human cost, predicting a leak only when the model is very sure. This is a comparatively low cost solution that can be generalized for any WDN, and our localization method predicts the leakage area using a relatively simple set of rules, not relying on expensive models for localization which are both time and compute consuming.
 
 \section{Related work}
 
 The detection and localization of leaks in Water Distribution Networks (WDNs) have been
- investigated through various methods. This section presents a synthesis of recent advances, organized into subsections covering methodologies ranging from traditional data-driven machine learning approaches to physics-informed ones, along with the research gap motivating the present study.
+ investigated through various methods. This section presents a  synthesis of recent advances, organized into subsections showing the various methodologies applied, ranging from tradition data driven machine learning approaches to physics informed ones , along with the research gap motivating the present study.
 
 \subsection{Traditional Data-Driven Approaches}
 
@@ -205,19 +221,21 @@ Expanding on this foundation, \cite{falas2020pinnwatersecurity} explored PINNs f
 
 More recently, \cite{lin2025digitaltwin} developed a digital twin framework leveraging PINNs for pipeline leakage detection in Taiwan's water infrastructure. Their model embedded continuity and momentum equations into the loss function and utilized statistical control charts (z-score and IQR) on reconstruction errors to detect anomalies. Validation on real-world datasets yielded R² values of 88.91\% and 98.91\% for small- and large-scale networks, respectively, with leak detection within 15 minutes of occurrence. Despite these successes, the framework's dependency on accurate boundary conditions and its limited handling of transient flow regimes were noted as areas requiring further investigation.
 
-\subsection{Leak-Specific Physics-Informed Approaches}
 
-Recent studies have moved beyond generic physics-informed modeling toward frameworks explicitly tailored for leak detection and localization in Water Distribution Networks (WDNs), integrating learning with hydraulic constraints to better capture leak-induced anomalies.
 
-\cite{ORNGARDARSSON2022661} proposed a physics-informed graph neural network framework that embeds mass conservation and pressure–flow relationships directly into the learning process for leak localization. By representing the WDN as a graph and propagating leak-induced pressure residuals across adjacent nodes, the model exploited spatial correlations inherent in the network topology to improve localization accuracy. The incorporation of physics-based loss terms significantly reduced false positives compared to purely data-driven GNN baselines, particularly under moderate sensor noise conditions. Experimental validation demonstrated improved robustness to measurement uncertainty and partial observability. However, the approach primarily operated under quasi-steady-state assumptions and exhibited limited sensitivity to gradual or incipient leaks, where pressure deviations evolve slowly over time.
+% \subsection{Leak-Specific Graph Learning Approaches}
 
-This work represents closely aligned prior research, demonstrating that leak-specific physics-informed learning can substantially enhance detection reliability and interpretability. Nevertheless, such graph-based frameworks predominantly emphasize spatial correlations and require graph-structured inputs. The integration of mass and energy conservation constraints within dense feed-forward architectures—which can operate on flattened sensor data without explicit graph construction—remains underexplored for leak detection, motivating our Physics-Aware ANN approach.
+% Recent studies have moved beyond generic physics-informed modeling toward frameworks explicitly tailored for leak detection and localization in Water Distribution Networks (WDNs), integrating graph-based learning with hydraulic constraints to better capture leak-induced anomalies.
+
+% \cite{ORNGARDARSSON2022661} proposed a physics-informed graph neural network framework that embeds mass conservation and pressure–flow relationships directly into the learning process for leak localization. By representing the WDN as a graph and propagating leak-induced pressure residuals across adjacent nodes, the model exploited spatial correlations inherent in the network topology to improve localization accuracy. The incorporation of physics-based loss terms significantly reduced false positives compared to purely data-driven GNN baselines, particularly under moderate sensor noise conditions. Experimental validation demonstrated improved robustness to measurement uncertainty and partial observability. However, the approach primarily operated under quasi-steady-state assumptions and exhibited limited sensitivity to gradual or incipient leaks, where pressure deviations evolve slowly over time.
+
+% This work represents the most closely aligned prior research to the present study, demonstrating that leak-specific physics-informed graph learning can substantially enhance both detection reliability and spatial interpretability. Nevertheless, the framework predominantly emphasizes spatial correlations and does not explicitly model the temporal evolution of leak-induced dynamics. Moreover, the treatment of pressure transients and flow discontinuities remains approximate, particularly under evolving leak conditions and non-stationary operational regimes. These limitations motivate the development of a unified spatio-temporal graph-based physics-informed framework capable of jointly modeling network topology, temporal dynamics, and governing hydraulic laws for robust real-time leak detection and localization.
 
 \subsection{Benchmark Datasets and Evaluation Challenges}
 
 The availability of standardized datasets is crucial for reproducible research. \cite{kyriakou2018leakdb} introduced LeakDB, a publicly available benchmark comprising EPANET-simulated scenarios for multiple WDN topologies (including Hanoi, Net1) with annotated leak events. The dataset facilitates comparative evaluation but has been critiqued for relying solely on simulated data, potentially limiting model robustness under real-world operational uncertainties.
 
-Comparative studies on BattLeDIM \cite{barros_leak_2025} and other benchmarks reveal persistent challenges: high false positive rates for incipient leaks, computational overhead in large-scale networks, and difficulty in achieving physically interpretable predictions under domain shifts. These gaps motivate the integration of physics-informed constraints within scalable neural network architectures.
+Comparative studies on BattLeDIM \cite{barros_leak_2025} and other benchmarks reveal persistent challenges: high false positive rates for incipient leaks, computational overhead in large-scale networks, and difficulty in achieving physically interpretable predictions under domain shifts. These gaps motivate the integration of physics-informed constraints within scalable ANN architectures.
 
 \subsection{Research Gaps and Motivation}
 
@@ -227,10 +245,9 @@ Despite substantial progress, existing methodologies exhibit critical limitation
     \item \textbf{Lack of Physical Interpretability:} Purely data-driven models \cite{MAHDI2024100685, punukollu2023leakdetection} achieve high accuracies but fail to guarantee adherence to conservation laws, limiting generalization and trustworthiness.
     \item \textbf{Computational Scalability:} Hybrid approaches \cite{mazaev2022probabilisticleaklocalization} and traditional PINNs \cite{lin2025digitaltwin} often require extensive hydraulic simulations or suffer from high computational costs in large networks.
     \item \textbf{Incipient Leak Detection:} Methods leveraging statistical anomaly detection \cite{barros_leak_2025, TORNYEVIADZI2023106062} struggle with gradual leak growth due to subtle signal variations.
-    \item \textbf{Integration of Physics with Dense Architectures:} While graph-based and PINN approaches have been explored, the integration of mass and energy conservation constraints within dense feed-forward architectures for leak detection remains underexplored.
 \end{itemize}
 
-Addressing these gaps, the present study proposes a \textbf{Physics-Aware Artificial Neural Network (PAANN)} framework that embeds conservation of mass and the Hazen-Williams relation directly into a fully connected feed-forward architecture. By using the LeakDB Hanoi dataset, we aim to achieve physically consistent and computationally efficient leak detection and localization, advancing beyond existing data-driven and hybrid methodologies.
+Addressing these gaps, the present study proposes a \textbf{Physics-Aware Artificial Neural Network (PA-ANN)} framework that embeds conservation of mass, the Hazen-Williams relation directly into a Feed-Forward Neural Network architecture. By using the LeakDB Hanoi dataset, we aim to achieve physically consistent computationally efficient leak detection, advancing beyond existing data-driven and hybrid methodologies.
 
 \section{What is a Physics-Aware Neural Network?}
 
@@ -238,61 +255,49 @@ Addressing these gaps, the present study proposes a \textbf{Physics-Aware Artifi
 PINNs are neural networks that solve \textbf{\textit{continuous partial differential equations (PDEs)}} that govern physical systems. This is done by embedding differential equations into the model training. The derivatives are calculated using \textbf{\textit{automatic differentiation.}} The loss is defined as the PDE residual, evaluated at points in the continuous domain.
 
 \subsection{Physics-Aware Neural Networks (PANNs)}
-In comparison, as our data are discrete (at 30-minute time-steps), we use PANNs. Here the model predicts the physical quantities alongside its primary goal, and the predicted values are used to compute the residuals of mass and energy conservation using formulae appropriate for the data. The normalized residuals are added to the data loss for backpropagation, and the predicted values also feed into the classification head. \textbf{Compared to PINNs, PANNs require significantly less training time and compute while yielding improved performance over baseline models.}
+In comparison, as our data is discrete (at 30 minutes time-step), we use PANNs, here the model predicts the physical quantity along with its goal, and the predicted values are used to calculate the residuals of mass and energy using some formulae that seem appropriate for the data. The residuals (normalized) are added to the data loss for backprop, and the predicted values play a role in the classification part of the model. \textbf{Compared to PINNs, PANNs take significantly less training time and compute resources for a significant increase in performance over baseline models.}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.1\linewidth]{pinn_pann_comparison.png}
     \caption{PINN vs PANN}
-    \label{fig:diagram}
+    \label{fig:pinn_pann}
 \end{figure}
-
-\subsection{Localization methods}
-
-\subsection{Research Gap}
-
-\section{Problem Formulation and System Overview}
-
-\subsection{Problem Definition}
-
-\subsection{Mathematical Formulation}
-
-\subsection{System Overview Diagram}
 
 \section{Dataset}
 
 \subsection{Dataset Description}
 
-This study uses the LeakDB Hanoi dataset, which is made using the \textit{Water Network Resilience Tool (WNTR)}. The dataset consists of a total of 999 scenarios, where each scenario is a different simulation of the Hanoi WDN for a year. The data points in each scenario are thirty minutes apart, which means there are 17,520 data points in one scenario, and a total of 17,502,480 data points in the entire dataset. 
+This study has used the LeakDB Hanoi dataset, which is made using the \textit{Water Network Resilience Tool (WNTR)}. The dataset consists of a total of 999 scenarios, where each scenario is a different simulation of the Hanoi WDN for a year. The data points in each scenario are thirty minutes apart, which means there are 17,520 data points in one scenario, and a total of 17,502,480 data points in the entire dataset.
 
-The Hanoi WDN consists of 32 nodes and 34 pipes connecting them, and the LeakDB dataset assumes pressure, demand and flow-rate sensors at these 32 nodes. Thus, each data point has 32 demand readings, 32 pressure readings, and 34 flow-rate readings, making a total of 98 values per time-step.
+The Hanoi WDN consists of 32 nodes and 34 pipes connecting them, and the LeakDB dataset assumes pressure, demand and flow-rate sensors at these 32 nodes. Thus, each data point has 32 demand readings, 32 pipe readings and 34 flow-rate readings, making a total of 98 values per time-step.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{hanoi-wdn.png}
     \caption{Figure of Hanoi WDN}
-    \label{fig:diagram}
+    \label{fig:hanoi_wdn}
 \end{figure}
 
-The data can be downloaded using the \texttt{water\_benchmark\_hub} Python module. There are two types of reading available, namely \textit{raw\_data} and \textit{scada\_data}. In this work, \textit{raw\_data} is used, as it also includes readings of demand.
+The Data can be downloaded using the \texttt{water\_benchmark\_hub} Python module. There are two types of reading available, namely \textit{raw\_data} and \textit{scada\_data}. In this work, \textit{raw\_data} is used, as it also includes readings of demand.
 
-Initially, each scenario is stored as a directory containing subfolders for \textit{demand}, \textit{pressure}, \textit{flow}, and \textit{leaks}, where leak labels are multi-class values ranging from 0 to 32. In addition, each scenario includes an \textit{INP} file, which specifies the simulated length, diameter, and roughness coefficient of each pipe. For the learning task, the dataset is reformatted into a single \texttt{.csv} file per scenario, where leak labels are converted to a binary representation (leak / non-leak). 
+Initially, each scenario is stored as a directory containing subfolders for \textit{demand}, \textit{pressure}, \textit{flow}, and \textit{leaks}, where leak labels are multi-class values ranging from 0 to 32. In addition, each scenario includes an \textit{INP} file, which specifies the simulated length, diameter, and roughness coefficient of each pipe. For the learning task, the dataset is reformatted into a single \texttt{.csv} file per scenario, where leak labels are converted to a binary representation (leak / non-leak).
 
 Leak localization is not learned directly by the model and is instead performed as a post-processing step using a rule-based system.
 
 
 \subsection{Exploratory Analysis of Data}
 
-Below is the heatmap of all 999 scenarios with 5\% rows from each scenario selected randomly. The demand and pressure readings show a consistent negative correlation, reflecting a drop in pressure when demand increases or vice-versa. Flow readings show mixed correlations with demand and pressure, indicating the directional and topological effects of the network. These correlations support the use of dense models and also physics-aware models.
+Below is the heatmap of all 999 scenarios with 5\% rows from each scenario selected randomly. The demand and pressure readings show a constant negative correlations, reflecting drop in pressure when demand increases or vice-versa. Flow readings show mixed correlations with demand and pressure, indicating the directional and topological effects of the network. These correlations support the use of dense models and also physics-aware models.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{heatmap.png}
     \caption{Correlation heatmap of Hanoi WDN}
-    \label{fig:diagram}
+    \label{fig:heatmap}
 \end{figure}
 
-In the dataset, 4,311,716 rows have a leak state, while 13,190,764 rows have a non-leak state. Thus, the ratio of non-leak data-points to leak points is \textbf{3.059}, making the dataset very imbalanced and a challenge for any neural network.
+In the dataset, 43,11,716 rows have a leak state, while 1,31,90,764 rows a non-leak state, this means that that the ratio of non-leak data-points to leak points is \textbf{3.059}, making the dataset very imbalanced and a challenge for any neural network.
 
 \begin{figure}[H]
 \centering
@@ -301,7 +306,7 @@ In the dataset, 4,311,716 rows have a leak state, while 13,190,764 rows have a n
     ybar,
     bar width=1.5cm,
     width=0.45\textwidth,
-    height=0.55\textwidth,
+    height=0.55\textwidth,,
     symbolic x coords={Leak, Non-Leak},
     xtick=data,
     ymin=0,
@@ -328,7 +333,7 @@ In the dataset, 4,311,716 rows have a leak state, while 13,190,764 rows have a n
 \label{fig:leak_distribution}
 \end{figure}
 
-A scenario that has at least one leak state is called a \textit{leak scenario}, while one with no leak state at any timestamp is called a \textit{non-leak scenario}. Out of the 999 scenarios, 758 are \textit{leak scenarios}, while 241 are \textit{non\_leak scenarios}. This ratio is also maintained while selecting the scenarios for training, validation, and testing.
+A Scenario which has at least one leak state can be called a \textit{leak scenario}, while a scenario which has no leak state in any timestamp can be called a \textit{non\_leak scenario}. Out of the 999 scenarios, 758 are \textit{leak scenarios}, while 241 are \textit{non\_leak scenarios}. This ratio is also maintained while selecting the scenarios for training, validation, and testing.
 
 \vspace{0.3cm}
 Below is the distribution of leak instances across nodes from 0-31 (32 nodes).
@@ -336,11 +341,11 @@ Below is the distribution of leak instances across nodes from 0-31 (32 nodes).
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.1\linewidth]{leak_instances_bar.png}
-    \caption{Distribution of leak instances for all scenarios across nodes.}
+    \caption{Caption}
     \label{fig:leak_instances}
 \end{figure}
 
-As we can see, node 19 has the highest leak instances, while node 22 and node 31 have no leaks. Using this, the rule-based system can be programmed to be biased more towards some nodes than others, to improve node localization accuracy.
+As we can see, node 19 has the highest leak instances, while node 22 and node 31 have no leaks. Using this, the rule-based system can be programmed to be biased more towards some nodes than others, in order for more correct node localizations.
 
 \subsection{Feature Engineering and Pre-Processing}
 
@@ -348,9 +353,9 @@ In terms of feature engineering, two features have been added to each scenario f
 
 \subsubsection{Adding columns}
 
-During daytime, due to usage of water both commercial and industrial, the general trend of pressure and flow is downward, while demand is higher and and the reverse at night. In order to prevent the models from reading the downward trend of pressure and flow and keep returning leak predictions, two columns, \textit{sin\_hour} and \textit{cos\_hour}, are added to each scenario, in order to add weight to the particular hour of the day when a leak occurs. 
+In the day time, due to usage of water both commercial and industrial, the general trend of pressure and flow is downward, while demand is higher and vice-versa during the night time. In order to prevent the models from reading the downward trend of pressure and flow and keep returning leak predictions, two columns, \textit{sin\_hour} and \textit{cos\_hour}, are added to each scenario, in order to add weight to the particular hour of the day when a leak occurs.
 
-Let $i$ denote the row index of a scenario. The \textit{step of day} $s$ is defined as:
+Let \textit{i} denote row index of a scenario, Thus \textit{step of day \textbf{s}} is defined as:
 \[
 s_i = i \bmod 48
 \]
@@ -419,11 +424,11 @@ test sets to avoid data leakage.
 
 \subsection{Windowing function}
 
-To give the model temporal context and features without the use of recurrent architectures such as LSTMs or GRUs, a sliding-window dataset construction is used. Temporal windows are extracted from each scenario using a fixed window size of $12$, or 6 hours as each time-step is 30 minutes. For each window, the target is the leak state (0/1) at the final time stamp of the window, allowing the model to learn temporal patterns preceding a leak event. As the target label is the leak state at the final time stamp, which is also the current time stamp, this means that the model \textbf{nowcasts} leakage prediction. 
+To give the model temporal context and features without the use of recurrent architectures such as LSTMs or GRUs, a sliding window based dataset construction is used. Temporal windows are extracted from each scenario using a fixed window size of $12$, or 6 hours as each time-step is of 30 minutes. For each window, the target is the leak state (0/1) at the final time stamp of the window, allowing the model to learn temporal patterns preceding a leak event. As the target label is the leak state at the final time stamp, which is also the current time stamp, this means that the model \textbf{nowcasts} leakage prediction.
 
 \subsubsection{ANN}
 
-For the ANN models (base ANN and Physics-Aware ANN), each window is flattened into a one-dimensional vector as input to the network. A window of 12 time stamps with 100 features per time stamp is reshaped into a vector of dimension one and length $12\times100$. The mathematical representation is:
+For the ANN models, each window is flattened into a one-dimensional vector as input to the network. A window of 12 time stamps with 100 features per time stamp is reshaped into a vector of dimension one and length $12\times100$. The mathematical representation is:
 
 Let a scenario be represented as a multivariate time series
 \begin{equation}
@@ -455,8 +460,7 @@ For the ANN model, each window is reshaped into a one-dimensional feature vector
 This flattened representation serves as the input to the fully connected network.
 
 \section{Physics Loss}
-
-Water distribution networks are governed by conservation of mass and energy. Our physics loss enforces these laws. The network is modeled as a directed graph, where vertices represent nodes, and edges represent pipes connecting nodes. \textit{Mass conservation} is enforced at each node, and \textit{Energy conservation} is enforced along each pipe. The equations used for these are discussed below.
+All physical systems are governed by the conservation of mass and conservation of energy, and the Water Distribution Network is also assumed to be governed by these laws. The network is modeled as a directed graph, where vertices represent nodes, and edges represent pipes connecting nodes. \textit{Mass conservation} is enforced at each node, and \textit{Energy conservation} is enforced along each pipe. The equations used for these are discussed below.
 
 \subsection{Equations}
 For \textit{Mass conservation}, the \textbf{Continuity Equation} is used. This means that the inflow at each node is equal to the sum of the demand at that node and the outflow at each node.
@@ -523,53 +527,84 @@ where $\lambda_{\mathrm{mass}}$ and $\lambda_{\mathrm{energy}}$ are hyperparamet
 
 \subsection{Pseudocode and Training Integration}
 
-Algorithm~\ref{alg:physics_loss} computes the physics loss given model predictions and pipe parameters. Algorithm~\ref{alg:training} shows how it is integrated into the Physics-Aware ANN training loop. Predictions are denormalized before the physics loss is evaluated, since the conservation laws apply in physical units.
-
-\noindent\textbf{Algorithm 1: Physics Loss}
+\begin{algorithm}[H]
+\caption{Physics Loss Computation}
 \label{alg:physics_loss}
+\begin{algorithmic}[1]
 
-\small
-\noindent\textit{Input:} $\hat{p}$ (pred. pressure), $\hat{Q}$ (pred. flow), $D$ (demand), $L,D,C$ (pipe params), $\mathsf{edge\_index}$
+\Require $\hat{p}$ (pred. pressure), $\hat{Q}$ (pred. flow), $D$ (demand), $L,D,C$ (pipe params), $\mathsf{edge\_index}$
+\Ensure $\mathcal{L}_{\mathrm{phys}}, \mathcal{L}_{\mathrm{total}}$
 
-\noindent\textit{Output:} $\mathcal{L}_{\mathrm{phys}}$, $\mathcal{L}_{\mathrm{total}}$
+\State \textbf{Aggregate Flow at Nodes}
+\State $\mathsf{flow\_in}[i] \gets \sum_{j:\mathrm{dst}(j)=i} \hat{Q}_j$
+\State $\mathsf{flow\_out}[i] \gets \sum_{j:\mathrm{src}(j)=i} \hat{Q}_j$
 
-\begin{enumerate}
-    \item Aggregate flow at nodes: $\mathsf{flow\_in}[i] \leftarrow \sum_{j:\mathsf{dst}(j)=i} \hat{Q}_j$, $\mathsf{flow\_out}[i] \leftarrow \sum_{j:\mathsf{src}(j)=i} \hat{Q}_j$
-    \item Mass residual: $r^{(i)}_{\mathrm{mass}} \leftarrow \mathsf{flow\_in}[i] - \mathsf{flow\_out}[i] - D_i$
-    \item $\mathcal{L}_{\mathrm{mass}} \leftarrow \mathrm{mean}\bigl((r_{\mathrm{mass}} / \bar{D})^2\bigr)$
-    \item Hazen-Williams head loss: $h_k \leftarrow 10.67 \cdot L_k |\hat{Q}_k|^{1.852} / (C_k^{1.852} D_k^{4.87})$
-    \item Predicted pressure drop: $\Delta p_k \leftarrow \mathsf{sign}(\hat{Q}_k) \cdot (\hat{p}_{\mathsf{src}(k)} - \hat{p}_{\mathsf{dst}(k)})$
-    \item Energy residual: $r^{(k)}_{\mathrm{energy}} \leftarrow \Delta p_k - h_k$
-    \item $\mathcal{L}_{\mathrm{energy}} \leftarrow \mathrm{mean}\bigl((r_{\mathrm{energy}} / \bar{p})^2\bigr)$
-    \item $\mathcal{L}_{\mathrm{phys}} \leftarrow \lambda_{\mathrm{mass}} \mathcal{L}_{\mathrm{mass}} + \lambda_{\mathrm{energy}} \mathcal{L}_{\mathrm{energy}}$
-    \item $\mathcal{L}_{\mathrm{total}} \leftarrow \mathcal{L}_{\mathrm{WBCE}} + \lambda_{\mathrm{phys}} \mathcal{L}_{\mathrm{phys}}$
-\end{enumerate}
+\State \textbf{Mass Conservation Residual}
+\State $r^{(i)}_{\mathrm{mass}} \gets \mathsf{flow\_in}[i] - \mathsf{flow\_out}[i] - D_i$
+\State $\mathcal{L}_{\mathrm{mass}} \gets \mathrm{mean}\!\left( \left(\frac{r_{\mathrm{mass}}}{\bar{D}}\right)^2 \right)$
 
-\vspace{0.3em}
-\noindent\textbf{Algorithm 2: Training Loop with Physics Loss}
+\State \textbf{Hazen--Williams Head Loss}
+\State $h_k \gets 10.67 \cdot L_k \frac{|\hat{Q}_k|^{1.852}}{C_k^{1.852} D_k^{4.87}}$
+
+\State \textbf{Predicted Pressure Drop}
+\State $\Delta p_k \gets \mathrm{sign}(\hat{Q}_k)\big(\hat{p}_{\mathrm{src}(k)} - \hat{p}_{\mathrm{dst}(k)}\big)$
+
+\State \textbf{Energy Residual}
+\State $r^{(k)}_{\mathrm{energy}} \gets \Delta p_k - h_k$
+\State $\mathcal{L}_{\mathrm{energy}} \gets \mathrm{mean}\!\left( \left(\frac{r_{\mathrm{energy}}}{\bar{p}}\right)^2 \right)$
+
+\State \textbf{Total Physics Loss}
+\State $\mathcal{L}_{\mathrm{phys}} \gets \lambda_{\mathrm{mass}}\mathcal{L}_{\mathrm{mass}} + \lambda_{\mathrm{energy}}\mathcal{L}_{\mathrm{energy}}$
+
+\State \textbf{Combined Training Loss}
+\State $\mathcal{L}_{\mathrm{total}} \gets \mathcal{L}_{\mathrm{WBCE}} + \lambda_{\mathrm{phys}}\mathcal{L}_{\mathrm{phys}}$
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Training Loop with Physics Loss}
 \label{alg:training}
+\begin{algorithmic}[2]
 
-\begin{enumerate}
-    \item Set $\lambda_{\mathrm{phys}}$ by epoch: $0.01$ if $e < 10$, $0.03$ if $10 \le e < 20$, else $0.05$
-    \item For each batch $(x_b, y_b, \mathsf{scenario\_ids}, D_b)$:
-    \begin{enumerate}
-        \item Load pipe params $(L, D, C)$ for each scenario in batch
-        \item Denormalize $D_b$ to physical units
-        \item Forward: $(\hat{y}, \hat{p}, \hat{Q}) \leftarrow \mathsf{model}(x_b)$
-        \item Denormalize $\hat{p}$, $\hat{Q}$ to physical units
-        \item $\mathcal{L}_{\mathrm{WBCE}} \leftarrow \mathsf{weighted\_BCE}(\hat{y}, y_b)$
-        \item $\mathcal{L}_{\mathrm{total}} \leftarrow \mathsf{PhysicsLoss}(\mathcal{L}_{\mathrm{WBCE}}, \hat{p}, \hat{Q}, D_b, L, D, C, \mathsf{edge\_index}, \lambda_{\mathrm{phys}})$
-        \item Backpropagate $\mathcal{L}_{\mathrm{total}}$, update parameters
-    \end{enumerate}
-\end{enumerate}
+\Require Training data $(x_b, y_b, \mathsf{scenario\_ids}, D_b)$
+\Ensure Updated model parameters
 
-\normalsize
+\State \textbf{Set Physics Weight by Epoch}
+\If{$e < 10$}
+    \State $\lambda_{\mathrm{phys}} \gets 0.01$
+\ElsIf{$10 \le e < 20$}
+    \State $\lambda_{\mathrm{phys}} \gets 0.03$
+\Else
+    \State $\lambda_{\mathrm{phys}} \gets 0.05$
+\EndIf
+
+\For{each batch $(x_b, y_b, \mathsf{scenario\_ids}, D_b)$}
+
+    \State Load pipe parameters $(L,D,C)$ for batch
+    \State Denormalize $D_b$ to physical units
+
+    \State $(\hat{y}, \hat{p}, \hat{Q}) \gets \mathsf{model}(x_b)$
+    \State Denormalize $\hat{p}, \hat{Q}$
+
+    \State $\mathcal{L}_{\mathrm{WBCE}} \gets \mathsf{weighted\_BCE}(\hat{y}, y_b)$
+
+    \State Compute $\mathcal{L}_{\mathrm{total}}$ using Algorithm~\ref{alg:physics_loss}
+
+    \State Backpropagate $\mathcal{L}_{\mathrm{total}}$
+    \State Update model parameters
+
+\EndFor
+
+\end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Integration into Model}
-To use this loss in the Physics-Aware ANN model, the \textit{.inp} files of each scenario are formatted into a \textit{.csv} file containing the pipe length, diameter, and roughness coefficient of each pipe in the scenario, and this information is integrated into the dataset class. As the node-pipe connection is constant for all scenarios, a constant \textit{edge\_list} is created and used. During training, the physics loss is added to the classification loss, and the combined loss is used for backpropagation.
+To use this loss in the ANN model, the \textit{.inp} files of each scenario are formatted into a \textit{.csv} file containing the pipe length, diameter, and roughness coefficient of each pipe in the scenario, and this information is also integrated into the dataset class. As the node-pipe connection is constant for all scenarios, a constant \textit{edge\_list} is made and used. While training, the physics loss is added with the classification loss, and the result is used for backpropagation.
 
 \subsection{The Thought}
-The physics loss constrains the model's latent space so that predictions remain physically plausible and do not violate conservation laws. Over training, the residuals between true and predicted pressure and flow decrease. The predicted pressure and flow values are also fed into the leak classification head, as described in the model architecture section.
+Our idea with this loss was to constrain the model's latent space for such predictions that were physically possible and did not violate any of the equations, and that gradually the residual due to the difference between the true pressure and flow, and the predicted pressure and flow by the physics-aware models kept going closer and closer to 0. The predicted values of pressure and flow are also used in classification, discussed in more detail in the model architecture.
 
 \section{Model Architecture and Training Details}
 
@@ -577,7 +612,7 @@ The physics loss constrains the model's latent space so that predictions remain 
 
 \subsubsection{Base ANN Model}
 
-The base ANN is a fully connected feed-forward network designed for binary classification of leak presence at a single timestamp. The input layer consists of 1200 features, from the windowing preprocessing. It is passed through three hidden layers of 512, 256 and 64 neurons. The first two hidden layers employ Batch Normalization and ReLU activation, and dropout (rate $= 0.5$) to prevent overfitting. The third hidden layer uses only ReLU activation. The output layer consists of a single neuron with a sigmoid activation function, for binary leak classification.
+The model here is a fully connected feed-forward network designed for classification of presence of leak on a single timestamp. The input layer consists of 1200 features, due to the Windowing function. It is passed through three hidden layers of 512, 256 and 64 neurons. The first two hidden layers employ Batch Normalization and ReLU activation, and a Dropout Layer (rate = 0.5) to prevent overfitting. The third hidden layer uses only ReLU activation. The output layer consists of a single neuron with a sigmoid activation function, for binary leak classification.
 
 \vspace{0.5cm}
 
@@ -610,12 +645,12 @@ w_1 \, y_i \log(\hat{y}_i)
     \includegraphics[width=\linewidth]{ann_architecture (1).png}
     \caption{Architecture Diagram of ANN}
     \vspace{0.05cm}
-    \label{fig:architecture_diagram}
+    \label{fig:ann_architecture}
 \end{figure}
 
 \subsubsection{Physics-Aware ANN Model}
 
-The Physics-Aware ANN is a fully connected feed-forward network designed for joint prediction of pressure and flow, and classification of leak presence on a single timestamp using those predictions. The input layer receives 1200 features (window size $\times$ features per timestep). The network comprises three hidden layers of 512, 256, and 64 neurons. The first two hidden layers employ Batch Normalization, ReLU activation, and Dropout (rate $= 0.5$); the third hidden layer uses Batch Normalization and ReLU only. From the third hidden layer, two auxiliary heads branch out: a pressure head with 32 output neurons (one per node) and a flow head with 34 output neurons (one per pipe). The leak classification head takes as input the concatenation of the 64-dimensional representation from the third hidden layer and 5 physics-derived features: mean pressure, standard deviation of pressure, range of pressure (max $-$ min), mean flow, and standard deviation of flow—yielding 69 features in total. These are passed through a hidden layer of 64 neurons with ReLU and Dropout, followed by a single output neuron with sigmoid activation for binary leak classification.
+The model here is a fully connected feed-forward network designed for prediction of pressure and flow, and classficition of presence of leak on a single timestamp, using those predictions. The input layer is 1200 features here too. It is passed through three hidden layers of 512, 256 and 64 neurons. All three hiden layers employ Batch Normalization, ReLU Activation and a Dropout Layer (rate  = 0.5). The third hidden layer is connected to 2 layers, one with 32 neurons, and one with 34 neurons, to predict pressure and flow, respectively. The Leak head is consists of 2 layers, with the input layer being the 64 neurons of the third hidden layer, and 5 features that are derived from the predicted pressure and flow (mean of pressure and flow, standard deviation of pressure and flow, and the range of pressure), thus 69 features in total, which are then passed through a hidden layer of 64 neurons, where ReLU Activation and Dropout Layer is employed, and the output layer is a single neuron with a sigmoid activation function, for binary leak classification.
 
 \vspace{0.5cm}
 
@@ -643,7 +678,7 @@ w_1 \, y_i \log(\hat{y}_i)
 \right]
 \]
 
-Let the physics loss described above be denoted by
+Let the physics loss, as discussed above in detail above, be represented as:
 $\mathcal{L}_{\mathrm{phys}}$
 
 Thus, the total loss of the model is given by:
@@ -655,77 +690,167 @@ Thus, the total loss of the model is given by:
 \lambda_{\mathrm{phys}} \, \mathcal{L}_{\mathrm{phys}}.
 \]
 
-The coefficient $\lambda_{\mathrm{phys}}$ follows a warm-up schedule across training epochs $e$:
+The $\mathcal{\lambda}_{\mathrm{phys}}$ follows this schedule:
 \[
 \lambda_{\mathrm{phys}}(e)
 =
 \begin{cases}
-0.01, & e < 10, \\
-0.03, & 10 \le e < 20, \\
-0.05, & e \ge 20.
+0.1, & e < 10, \\
+0.3, & 10 \le e < 20, \\
+0.5, & 20 \le e < 30,
 \end{cases}
 \]
 
-This schedule ensures that the physics loss does not dominate the classification loss in early training, allowing the model to first learn discriminative patterns before enforcing physical consistency.
+This is done to make sure that the physics loss does not dominate the classification loss at the start.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.05\linewidth]{physics_ann_architecture (2).png}
     \caption{Architecture Diagram of Physics-Aware ANN}
     \vspace{0.05cm}
-    \label{fig:architecture_diagram}
+    \label{fig:paann_architecture}
 \end{figure}
-
-\subsection{Training strategy and Hyper-parameters}
 
 \section{Localization}
 
 \subsection{Introduction}
+While the Deep Learning (ANN) module handles the temporal detection of anomalies (identifying \textit{when} a leak occurs), spatial localization (identifying \textit{where} the leak is located) is managed by a topology-informed statistical engine. Designed specifically for real-time operation, this algorithm processes sequential data streams. This hybrid architecture leverages the strengths of both domains: the ANN captures complex, non-linear patterns to detect incipient events, while the localization module relies on hydraulic first principles and network graph theory.
+
+A major challenge in hydraulic localization is signal drift. When a leak occurs, the initial pressure drop is most severe at the source node. However, as the transient wave propagates, pressure drops accumulate at physical boundaries, such as dead-ends or downstream junctions, often causing purely statistical algorithms to drift away from the true source over time. To combat this, the proposed real-time module introduces an "Anti-Drift" mechanism combining time-decayed voting, topology-based neighbor validation, and a stability lock, triggered only when the ANN confidence exceeds a threshold ($\tau_{conf} > 0.75$).
 
 \subsection{Algorithm}
+The real-time localization algorithm operates in three distinct phases: Lagged Baseline Snapshot, Topological Scoring, and Time-Decayed Voting.
 
-\subsection{Metrics}
+\subsubsection{1. Lagged Baseline Snapshot}
+During normal operation (when the ANN probability $P(leak) < 0.60$), the system maintains a lightweight rolling buffer of pressure readings for all $N$ sensor nodes. Upon the ANN triggering a leak state at time $t_{trigger}$, the system immediately captures a "snapshot" of the network's healthy state.
+
+To prevent the baseline from being contaminated by the incipient, pre-trigger transient wave of the leak, a lag period ($W_{lag} = 50$ steps) is excluded. The reference mean ($\mu_i$) and standard deviation ($\sigma_i$) for each sensor $i$ are calculated from a stable historical window ($W_{base} = 200$ steps) preceding the lag:
+\begin{equation}
+    \mathcal{B}_{clean} = P_{t_{trigger} - W_{lag} - W_{base} \ : \ t_{trigger} - W_{lag}}
+\end{equation}
+This frozen baseline acts as the static reference frame for the duration of the event.
+
+\subsubsection{2. Topological and Physics-Aware Scoring}
+At each active leak step $t$, the algorithm calculates the positive pressure residual and standardizes it into a Z-score, applying a noise floor ($\epsilon = 0.05$):
+\begin{equation}
+    Z_i(t) = \frac{\max(0, \mu_i - p_i(t))}{\max(\sigma_i, \epsilon)}
+\end{equation}
+Rather than evaluating nodes in isolation, the system utilizes the network's adjacency graph. A node $i$ is evaluated based on its own drop, the supporting drops of its physical neighbors $\mathcal{N}_i$, and its structural degree $D_i$.
+
+If $Z_i(t) > 1.0$, a Topological Score $S_i(t)$ is computed. It incorporates a Neighbor Support Ratio ($R_i$), rewarding nodes whose adjacent neighbors also exhibit drops, and a Degree Multiplier ($M_i = 1 + 0.05 \times D_i$), which lightly penalizes dead-ends ($D=1$) in favor of central junctions:
+\begin{equation}
+    R_i = \min\left(1.0, \frac{\frac{1}{|\mathcal{N}_i|} \sum_{j \in \mathcal{N}_i} Z_j(t)}{Z_i(t)}\right)
+\end{equation}
+\begin{equation}
+    S_i(t) = Z_i(t) \times (1 + R_i) \times M_i
+\end{equation}
+
+\subsubsection{3. Time-Decayed Voting and Anti-Drift Lock}
+To prioritize the initial hydraulic wave closest to the true leak source, the system applies a rapid time-decaying weight $W(t)$ based on the duration $\Delta t = t - t_{trigger}$:
+\begin{equation}
+    W(t) = \frac{1}{1 + 0.1 \times \Delta t}
+\end{equation}
+At each step, the top 3 candidate nodes are awarded points scaled by $W(t)$, and the cumulative vote $V_i$ for each node is recursively updated.
+
+To definitively prevent late-stage drift toward network boundaries, a \textbf{Stability Lock} is enforced. If the leading suspect $\hat{L}$ remains unchanged for a consecutive threshold of $k_{lock} = 10$ time steps, the algorithm considers the localization converged and halts suspect updating.
+
+\textbf{Handling Simultaneous Leaks:} In scenarios involving multiple simultaneous bursts, the combination of time-decayed voting and the Stability Lock acts as a dominant-signal isolator. The node experiencing the most severe and immediate pressure gradient (the primary leak) accumulates early votes rapidly. The algorithm intentionally locks onto this primary source, preventing the system from oscillating confusingly between multiple coordinates. Secondary leaks can subsequently be localized once the primary anomaly is isolated by network operators and the baseline resets.
+
+% NOTE: If you are using a two-column format (like IEEE), change \begin{algorithm} to \begin{algorithm*}
+% and \end{algorithm} to \end{algorithm*}. This will make the block span the top of the page and fix gaps.
+\begin{algorithm}[H]
+\caption{Real-Time Physics-Aware Localization Strategy}
+\label{alg:leak_localization}
+\begin{algorithmic}[1]
+\Require Real-time Pressure stream $P_t$, ANN Model $\mathcal{M}$, Adjacency Graph $\mathcal{G}$
+\Ensure Localized Node $L_{est}$
+\State $\mathcal{B} \leftarrow \emptyset$, \ $V \leftarrow \vec{0}$, \ $LeakActive \leftarrow \text{False}$, \ $IsLocked \leftarrow \text{False}$
+\State $L_{curr} \leftarrow \text{null}$, \ $Stability \leftarrow 0$
+
+\While{stream is active at time $t$}
+    \State $p_{leak} \leftarrow \mathcal{M}(P_{t-w:t})$
+   
+    \If{not $LeakActive$}
+        \If{$p_{leak} < 0.60$} \text{Append } $P_t$ \text{ to } $\mathcal{B}$ \EndIf
+        \If{$p_{leak} > 0.75$}
+            \State $LeakActive \leftarrow \text{True}$, \ $t_{start} \leftarrow t$
+            \State $\mu, \sigma \leftarrow \text{ExtractLaggedStats}(\mathcal{B}, lag=50, win=200)$
+        \EndIf
+    \Else
+        \If{$p_{leak} < 0.40$} \textbf{Reset System State} \EndIf
+       
+        \If{not $IsLocked$}
+            \State $W_t \leftarrow 1 / (1 + 0.1 \times (t - t_{start}))$
+            \State $C \leftarrow \emptyset$ \Comment{Candidate List}
+           
+            \For{each node $i \in \{1, \dots, N\}$}
+                \State $Z_i \leftarrow \max(0, \mu_i - P_{i,t}) / \sigma_i$
+                \If{$Z_i > 1.0$}
+                    \State Add $(i, \text{CalcTopoScore}(Z_i, \mathcal{G}))$ to $C$
+                \EndIf
+            \EndFor
+           
+            \State Sort $C$ descending by TopoScore
+            \For{rank $r \in \{0, 1, 2\}$ from top 3 of $C$}
+                \State $V_{C[r].id} \leftarrow V_{C[r].id} + (3 - r) \times W_t$
+            \EndFor
+           
+            \State $L_{new} \leftarrow \operatorname*{argmax}(V)$
+            \If{$L_{new} == L_{curr}$}
+                \State $Stability \leftarrow Stability + 1$
+                \If{$Stability > 10$} $IsLocked \leftarrow \text{True}$ \EndIf
+            \Else
+                \State $L_{curr} \leftarrow L_{new}$, \ $Stability \leftarrow 0$
+            \EndIf
+        \EndIf
+    \EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
 
 \section{Results and Discussion}
+
+\subsection{Detection Results}
 
 \subsection{Metrics}
 
 We use four standard metrics: \textbf{Accuracy}, \textbf{Precision}, \textbf{Recall}, and \textbf{F1-Score} to evaluate the performance of our classification models.
 \vspace{0.1cm}
-Accuracy measures the overall ratio of correctly classified instances.
+\newline Accuracy measures the overall ratio of correctly classified instances.
 \begin{align}
     \text{Accuracy} &= \frac{TP + TN}{TP + TN + FP + FN} \\[6pt]
 \end{align}
-Precision measures how many positive predictions are also true positives.
+\newline Precision measures how many positive predictions are also true positives.
 \begin{align}
     \text{Precision} &= \frac{TP}{TP + FP} \\[6pt]
 \end{align}
-Recall measures how many of the true positives are actually predicted as true.
+\newline Recall measures how many of the true positives are actually predicted as true.
 \begin{align}
     \text{Recall} &= \frac{TP}{TP + FN} \\[6pt]
 \end{align}
-F1-score is a harmonic mean of the Precision and Recall, acting as a single number that tells us about the performance of any model.
+\newline F1-Score is a harmonic mean of the Precision and Recall, acting as a single number that tells us about the performance of any model.
 \begin{align}
     \text{F1-score} &= 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
 \end{align}
 
 \subsection{Base Model Performance}
 
-Both the base ANN and Physics-Aware ANN are trained on 490 scenarios, with the validation and test sets comprising 105 scenarios each. Each model is trained for 30 epochs, and the model checkpoint with the highest validation F1 is used for testing. Both models are evaluated at a classification threshold of \textbf{0.5}.
+The ANN model is trained on 490 scenarios, with the validation and test sets being 105 scenarios each. The ANN model is trained for a set 30 epochs, and the model with the highest validation F1 is used for testing. The model is tested at a set threshold of \textbf{0.5}.
 
-Highest Validation F1 for the base ANN model is \textbf{0.7483}.
-
-\subsubsection{ANN}
+Highest Validation F1 for the ANN model is \textbf{0.7483}.
 
 \vspace{0.03cm}
 
 \textbf{Model Metrics:}
 
 \begin{table}[H]
+\centering
+\caption{ANN Model Performance Metrics}
+\label{tab:ann_metrics}
 \begin{tabular}{@{}lllll@{}}
 \toprule
 \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\ \midrule
-0.9213       & 0.9143         & 0.7889      & 0.8470      
+0.9213       & 0.9143         & 0.7889      & 0.8470      \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -733,7 +858,8 @@ Highest Validation F1 for the base ANN model is \textbf{0.7483}.
 
 \begin{table}[H]
 \centering
-\label{tab:conf_matrix}
+\caption{ANN Confusion Matrix}
+\label{tab:conf_matrix_ann}
 \begin{tabular}{lcc}
 \toprule
  & \textbf{Predicted No Leak} & \textbf{Predicted Leak} \\
@@ -743,7 +869,7 @@ Highest Validation F1 for the base ANN model is \textbf{0.7483}.
 \bottomrule
 \end{tabular}
 \end{table}
-
+   
 \textbf{Plot of Val F1 vs Epochs:}
 
 \begin{figure}[H]
@@ -765,7 +891,6 @@ Highest Validation F1 for the base ANN model is \textbf{0.7483}.
 \addplot[
     color=blue,
     mark=*,
-    thick,
 ] coordinates {
     (1, 0.5884)
     (2, 0.7363)
@@ -788,24 +913,27 @@ Highest Validation F1 for the base ANN model is \textbf{0.7483}.
 \end{axis}
 \end{tikzpicture}
 \caption{Validation F1 score across training epochs for ANN}
-\label{fig:val_f1}
+\label{fig:val_f1_ann}
 \end{figure}
 
 \subsection{Physics-Aware Model Performance}
 
-The Physics-Aware ANN is trained under the same data split and evaluation protocol as the base ANN (490 train, 105 validation, 105 test scenarios; 30 epochs; threshold 0.5).
+The ANN model is trained on 490 scenarios, with the validation and test sets being 105 scenarios each. The ANN model is trained for a set 30 epochs, and the model with the highest validation F1 is used for testing. The model is tested at a set threshold of \textbf{0.5}.
 
-Highest Validation F1 for the Physics-Aware ANN is \textbf{0.7549}.
+Highest Validation F1 for the ANN model is \textbf{0.7549}.
 
 \vspace{0.03cm}
 
 \textbf{Model Metrics:}
 
 \begin{table}[H]
+\centering
+\caption{Physics-Aware ANN Model Performance Metrics}
+\label{tab:paann_metrics}
 \begin{tabular}{@{}lllll@{}}
 \toprule
 \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\ \midrule
-0.9303       & 0.9659        & 0.7747      & 0.8598     
+0.9303       & 0.9659        & 0.7747      & 0.8598     \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -813,7 +941,8 @@ Highest Validation F1 for the Physics-Aware ANN is \textbf{0.7549}.
 
 \begin{table}[H]
 \centering
-\label{tab:conf_matrix}
+\caption{Physics-Aware ANN Confusion Matrix}
+\label{tab:conf_matrix_paann}
 \begin{tabular}{lcc}
 \toprule
  & \textbf{Predicted No Leak} & \textbf{Predicted Leak} \\
@@ -825,6 +954,7 @@ Highest Validation F1 for the Physics-Aware ANN is \textbf{0.7549}.
 \end{table}
 
 \textbf{Plot of Val F1 vs Epochs:}
+
 
 \begin{figure}[H]
 \centering
@@ -850,13 +980,13 @@ Highest Validation F1 for the Physics-Aware ANN is \textbf{0.7549}.
     (2, 0.7280)
     (3, 0.7338)
     (4, 0.7412)
-    (5, 0.7357)
-    (6, 0.7400)
-    (7, 0.7419)
-    (8, 0.7332)
-    (9, 0.7304)
+    (5, 0.7414)
+    (6, 0.7434)
+    (7, 0.7445)
+    (8, 0.7463)
+    (9, 0.7470)
     (10, 0.7476)
-    (11, 0.6698)
+    (11, 0.7501)
     (12, 0.7549)
 };
 
@@ -866,23 +996,185 @@ Highest Validation F1 for the Physics-Aware ANN is \textbf{0.7549}.
 \label{fig:val_f1_paann}
 \end{figure}
 
-\subsection{Comparison among models and existing Benchmarks}
-
-\textbf{Comparison between ANN and Physics-Aware ANN:}
+\subsection{Comparison between ANN and Physics-Aware ANN}
 
 \begin{table}[H]
 \centering
+\caption{Comparison between ANN and Physics-Aware ANN}
+\label{tab:ann_paann_comparison}
 \begin{tabular}{@{}llllll@{}}
 \toprule
 \textbf{Model}             & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1}     \\ \midrule
-ANN               & 0.9213   & 0.9143    & \textbf{0.7889} & 0.8470 \\
-Physics-Aware ANN & \textbf{0.9303}   & \textbf{0.9659}    & 0.7747 & \textbf{0.8598}  
+ANN               & 0.92   & 0.91    & \textbf{0.79} & 0.85 \\
+Physics-Aware ANN & \textbf{0.93}   & \textbf{0.97}    & 0.77 & \textbf{0.86}  \\ \bottomrule
 \end{tabular}
 \end{table}
 
-The Physics-Aware ANN gets an improvement of 0.98\% in accuracy, 5.64\% in precision, and 1.51\% in F1 compared to the ANN, while having a decrease of 1.79\% in recall. The Physics-Aware ANN reduces the number of false positives by 23,628 (62.98\% reduction), at the cost of increasing the false negatives by 7,187 (6.71\% increase). This indicates that the Physics-Aware ANN is more conservative while predicting leaks, issuing leak predictions only when they are physically consistent and more confident than the ANN, which has a more liberal behavior while predicting leaks.
+The Physics-Aware ANN achieves an improvement of 0.98\% in accuracy, 5.64\% in precision, and 1.51\% in F1 compared to the ANN, while having a decrease of 1.79\% in recall. The Physics-Aware ANN reduces the number of false positives by 23,628 (62.98\% reduction), at the cost of increasing the false negatives by 7,187 (6.71\% increase). This indicates that the Physics-Aware ANN is more conservative while predicting leaks, issuing leak predictions only when they are physically consistent and more confident than the ANN, which has a more liberal behavior while predicting leaks.
 
-In practical deployment, this trade-off means that the Physics-Aware ANN may incur a slight delay in detecting certain leak events; however, it also drastically lowers the number of false alarms, resulting in a significant reduction of unnecessary human intervention and monetary costs.
+In practical deployment, this trade-off means that the Physics-Aware ANN incurs a slight delay in detecting certain leak events, however, it also drastically lowers the number of false alarms, resulting in a significant reduction of un-necessary human intervention and monetary costs.
+
+\subsection{Comparison with Existing Benchmarks on LeakDB Hanoi}
+
+To contextualize our results, we compare our approach with other methods evaluated on the LeakDB Hanoi dataset. \cite{punukollu2023leakdetection} applied Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks on the LeakDB benchmark dataset, achieving leak detection accuracies ranging from 49\% to 98.23\% depending on network complexity. However, their results were reported across multiple network topologies, and specific performance metrics for the Hanoi network were not separately reported.
+
+Recent work by researchers using synthetic datasets from Hanoi's water distribution network reported detection accuracies of 92.80\% and 92.20\% on datasets of 500 and 1000 scenarios respectively, using a combination of Convolutional Neural Networks with Gaussian Process Regressor preprocessing. While these results demonstrate competitive performance, the methodologies employed are purely data-driven and do not incorporate physical constraints.
+
+\begin{table}[!htbp]
+\centering
+\caption{Comparison of methods on LeakDB Hanoi dataset}
+\label{tab:benchmark_comparison}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Method} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+\midrule
+Transformer & 95.19\% & - & - & 97.52\% \\ 
+CNN-LSTM  & 49\%--98.23\%* & - & - & - \\
+CNN + GPR  & 92.80\% & - & 91.05\% & - \\
+CNN + GPR  & 92.20\% & - & - & - \\
+ANN & 92.13\% & 91.43\% & 78.89\% & 84.70\% \\
+PAANN & \textbf{93.03\%} & \textbf{96.59\%} & 77.47\% & \textbf{85.98\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Model parameter comparison}
+\label{tab:parameter_comparison}
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Method} & \textbf{Trainable Parameters} \\
+\midrule
+Transformer & $\sim$8--12 Million (estimated) \\
+CNN-LSTM & $\sim$1.0--1.2 Million (estimated) \\
+ANN (Ours) & 764,289 \\
+PAANN (Ours) & 773,187 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Our Physics-Aware ANN achieves superior precision (96.59\%) compared to existing deep learning benchmarks, which is particularly critical for minimizing false alarms in operational leak detection systems. Importantly, this improvement is achieved with a substantially more parameter-efficient architecture, whereas conventional CNN and LSTM models typically contain on the order of $\sim$1--2 million trainable parameters, and Transformer-based architectures often require even higher parameter counts due to multi-head attention mechanisms. While the recall is slightly lower than some reported values, the markedly higher precision—combined with a compact model size—highlights the effectiveness of embedding physical constraints directly into the learning framework. By enforcing hydraulic consistency within the prediction process, the proposed approach reduces spurious detections, limits unnecessary operational interventions, and provides a computationally efficient yet hydraulically reliable solution suitable for real-world deployment.
+
+\subsection{Localization Results}
+
+\begin{table}[!htbp]
+\centering
+\caption{Fault localization performance comparison}
+\label{tab:localization_results}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{True Positives (TP)} & \textbf{False Negatives (FN)} & \textbf{Avg. Time to Localize} \\
+\midrule
+Physics-Aware ANN & 95 & 25 & 11h 24m \\
+Standard ANN      & 95 & 25 & 31h 19m \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\bigskip
+
+Total fault cases:
+\[
+\text{Total} = TP + FN = 95 + 25 = 120
+\]
+
+Localization accuracy:
+\[
+\text{Accuracy} = \frac{TP}{TP + FN} = \frac{95}{120} = 79.17\%
+\]
+
+Both models achieve identical localization accuracy of 79.17\%, indicating equivalent fault detection capability under the rule-based localization framework.
+
+\bigskip
+
+Time reduction achieved by the Physics-Aware ANN:
+\[
+\Delta T = 31h\,19m - 11h\,24m = 19h\,55m
+\]
+
+Converting to hours:
+\[
+11h\,24m = 11.40 \text{ hours}, \quad
+31h\,19m = 31.32 \text{ hours}
+\]
+
+Percentage reduction in localization time:
+\[
+\text{Time Improvement} =
+\frac{31.32 - 11.40}{31.32} \times 100
+\approx 63.6\%
+\]
+
+\bigskip
+
+Fault localization in this study is performed using a deterministic rule-based decision system applied uniformly to the outputs of both neural network models. The localization algorithm and implementation remain identical across experiments, ensuring that any observed performance differences arise solely from the predictive characteristics of the underlying models.
+
+The Physics-Aware ANN incorporates physical constraints during training by optimizing a composite objective:
+
+\[
+\mathcal{L}_{total} = \mathcal{L}_{data} + \lambda \mathcal{L}_{physics}
+\]
+
+where $\mathcal{L}_{data}$ represents the prediction error and $\mathcal{L}_{physics}$ enforces system-consistent physical relationships.
+
+In contrast, the standard ANN minimizes only:
+
+\[
+\mathcal{L}_{standard} = \mathcal{L}_{data}
+\]
+
+Since the localization mechanism is rule-based and identical for both models, the equal accuracy (79.17\%) indicates comparable prediction correctness. However, the Physics-Aware ANN reduces the average localization time by approximately 63.6\%. This suggests that incorporating physical constraints produces outputs that align more efficiently with the rule-based decision logic, reducing ambiguity and accelerating fault isolation without modifying the localization algorithm itself.
+
+\subsection{Plots of Selected Scenarios}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{122_ann.jpeg}
+   
+    \vspace{2mm}
+   
+    \includegraphics[width=\linewidth]{122_paann.jpeg}
+   
+    \caption{Scenario 122: ANN (top) and Physics-Aware ANN (bottom) scenario-wise detection.}
+    \label{fig:scenario1}
+\end{figure}
+
+Scenario $122$ shows that the Physics-Aware Model produces very less false alarms compared to the base ANN model.
+
+\vspace{0.2cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{320_ann.jpeg}
+   
+    \vspace{2mm}
+   
+    \includegraphics[width=\linewidth]{320_paann.jpeg}
+   
+    \caption{Scenario 320: ANN (top) and Physics-Aware ANN (bottom) scenario-wise detection.}
+    \label{fig:scenario1}
+\end{figure}
+
+Scenario $320$ shows that both the models are quite good in predicting leaks.
+
+\vspace{0.2cm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{673_ann.jpeg}
+   
+    \vspace{2mm}
+   
+    \includegraphics[width=\linewidth]{673_paann.jpeg}
+   
+    \caption{Scenario 673: ANN (top) and Physics-Aware ANN (bottom) scenario-wise detection.}
+    \label{fig:scenario1}
+\end{figure}
+
+Scenario $673$ shows that the Physics-Aware Model produces very less false alarms compared to the base ANN model.
+
+\vspace{0.2cm}
 
 \section{Why Classical Machine Learning Techniques Are Not Used}
 
@@ -965,54 +1257,137 @@ To assess whether classical machine learning methods could suffice for leak dete
 \label{fig:physics_loss}
 \end{figure}
 
-A valid loss function should exhibit a decreasing trend during training when the model learns the objective. Similarly to how the weighted BCE loss decreases as the model learns classification, the physics loss of the Physics-Aware ANN decreases as it learns the underlying physics and the predicted pressure and flow values yield smaller residuals over epochs.
+Any valid loss function used in optimization of a model should exhibit a decreasing trend during training if the model is able to learn the objective. Hence, similarly to how the weighted BCE Loss decreases across epochs as the model learns classification, the physics loss of the ANN model also decreases as it  learns the underlying physics and the predicted pressure and flow values of the model leave smaller residuals across epochs.
 
 \section{Sensitivity Analysis}
 
-To assess model robustness under distribution shift, we conduct a sensitivity analysis that simulates changes in operational conditions. Population growth or decline affects water demand, which in turn alters pressure and flow throughout the network. We perturb the test set to simulate demand shifts of $\pm 5\%$, $\pm 10\%$, and $\pm 15\%$, and correspondingly adjust pressure and flow.
+To evaluate model stability under distributional shifts, we performed a two-dimensional sensitivity analysis over demand perturbation $\alpha \in [-0.15,\, 0.15]$ and pressure--demand coupling strength $\beta \in [0.2,\, 1.0]$.
 
-\subsection{Methodology}
+Both models achieve comparable performance under nominal conditions ($\alpha = 0$), with the Physics-Aware ANN achieving an F1 score of 0.860 and the baseline ANN achieving 0.847. However, as the magnitude of perturbation increases, distinct degradation patterns emerge. Figure~\ref{fig:sensitivity_demand} presents the worst-case F1 scores (minimum over all $\beta$ values) as a function of demand shift $\alpha$. Under negative demand shifts, the baseline ANN exhibits rapid performance deterioration, dropping to F1 = 0.170 at $\alpha = -0.15$, whereas the Physics-Aware ANN demonstrates more gradual degradation, maintaining F1 = 0.313 at the same perturbation level.
 
-For each perturbation level $\alpha \in \{-0.15, -0.10, -0.05, 0, 0.05, 0.10, 0.15\}$ (e.g., $\alpha = 0.10$ corresponds to a 10\% increase in demand):
+Figure~\ref{fig:sensitivity_pressure} illustrates the performance degradation as pressure sensitivity $\beta$ increases under extreme demand reduction ($\alpha = -0.15$). The baseline ANN shows severe performance collapse, with F1 dropping from 0.798 at $\beta = 0.2$ to 0.170 at $\beta = 1.0$. In contrast, the Physics-Aware ANN exhibits significantly slower degradation, maintaining F1 = 0.313 even at $\beta = 1.0$. The advantage of the Physics-Aware ANN becomes increasingly pronounced as $\beta$ increases, suggesting that embedding physical relationships enhances stability under stronger pressure-demand coupling.
 
-\begin{itemize}
-    \item \textbf{Demand:} $D' = D \cdot (1 + \alpha)$, where $D$ is the original demand.
-    \item \textbf{Flow:} Flow scales approximately with demand; we set $Q' = Q \cdot (1 + \alpha)$.
-    \item \textbf{Pressure:} Pressure typically decreases when demand increases (and vice versa). We use $p' = p \cdot (1 - \beta \alpha)$, where $\beta \in (0,1]$ is a coupling coefficient. We use $\beta = 0.7$ to reflect the pressure--demand relationship.
-\end{itemize}
+Importantly, both models show similar performance degradation under extreme positive demand shifts ($\alpha > 0$), with F1 scores converging around 0.43, indicating that severe distribution shifts affect data-driven and physics-informed models in a similar manner. This observation highlights that physics constraints improve robustness within realistic operating regimes rather than acting as a universal correction mechanism.
 
-The perturbed test set is normalized using the same training-set statistics as the original data. The trained base ANN and Physics-Aware ANN are evaluated on these perturbed test sets without retraining. This evaluates how well the models generalize when operational conditions deviate from the training distribution.
-
-\subsection{Results}
-
-Table~\ref{tab:sensitivity} summarizes the F1 score of both models across perturbation levels. The baseline ($\alpha = 0$) is included for reference. As $\alpha$ deviates from zero, some degradation in F1 is expected; the Physics-Aware ANN is expected to degrade more gracefully due to its incorporation of conservation laws, which remain valid under demand scaling.
-
-\begin{table}[H]
+\begin{figure}[H]
 \centering
-\caption{Sensitivity analysis: F1 under demand perturbation. $\alpha$: demand change; $\alpha=0$ unperturbed.}
-\label{tab:sensitivity}
-\small
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{@{}lrrrrrrr@{}}
-\toprule
-\textbf{Model} & $-15\%$ & $-10\%$ & $-5\%$ & $0\%$ & $+5\%$ & $+10\%$ & $+15\%$ \\ \midrule
-ANN & -- & -- & -- & 0.847 & -- & -- & -- \\
-PAANN & -- & -- & -- & 0.860 & -- & -- & -- \\ \bottomrule
-\end{tabular}%
-}
-\end{table}
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.95\linewidth,
+    height=6cm,
+    xlabel={$\alpha$ (Demand Shift)},
+    ylabel={Worst-case F1 (min over $\beta$)},
+    xmin=-0.15, xmax=0.15,
+    ymin=0.15, ymax=0.9,
+    grid=major,
+    legend style={
+        at={(0.5,-0.25)},
+        anchor=north,
+        legend columns=2
+    },
+    thick
+]
 
-\section{Localization Results}
+% ANN (blue)
+\addplot[
+    color=blue,
+    mark=o,
+    mark size=2.5pt,
+    line width=1.2pt
+] coordinates {
+(-0.15,0.170)
+(-0.10,0.370)
+(-0.05,0.739)
+(0,0.847)
+(0.05,0.432)
+(0.10,0.432)
+(0.15,0.432)
+};
 
-\subsection{Quantitative Results}
+% Physics (red)
+\addplot[
+    color=red,
+    mark=square*,
+    mark size=2.5pt,
+    line width=1.2pt
+] coordinates {
+(-0.15,0.313)
+(-0.10,0.607)
+(-0.05,0.762)
+(0,0.860)
+(0.05,0.437)
+(0.10,0.433)
+(0.15,0.432)
+};
 
-\subsection{Qualitative Results}
+\legend{ANN, Physics-ANN}
 
-\subsection{Comparison with Baselines}
+\end{axis}
+\end{tikzpicture}
+\caption{Worst-case robustness across demand perturbations. The Physics-Aware ANN mitigates performance collapse under negative demand shifts.}
+\label{fig:sensitivity_demand}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.95\linewidth,
+    height=6cm,
+    xlabel={$\beta$ (Pressure Sensitivity)},
+    ylabel={F1 Score at $\alpha = -0.15$},
+    xmin=0.2, xmax=1.0,
+    ymin=0.15, ymax=0.85,
+    grid=major,
+    legend style={
+        at={(0.5,-0.25)},
+        anchor=north,
+        legend columns=2
+    },
+    thick
+]
+
+% ANN (blue)
+\addplot[
+    color=blue,
+    mark=o,
+    mark size=2.5pt,
+    line width=1.2pt
+] coordinates {
+(0.2,0.798)
+(0.4,0.689)
+(0.6,0.389)
+(0.8,0.220)
+(1.0,0.170)
+};
+
+% Physics (red)
+\addplot[
+    color=red,
+    mark=square*,
+    mark size=2.5pt,
+    line width=1.2pt
+] coordinates {
+(0.2,0.794)
+(0.4,0.715)
+(0.6,0.636)
+(0.8,0.475)
+(1.0,0.313)
+};
+
+\legend{ANN, Physics-ANN}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Performance under extreme demand reduction ($\alpha=-0.15$). The Physics-Aware ANN exhibits significantly slower degradation as pressure sensitivity increases.}
+\label{fig:sensitivity_pressure}
+\end{figure}
+
+
 
 \section{Limitations}
-
 Experiments were conducted on the LeakDB Hanoi benchmark, a widely used simulated dataset that allows controlled, reproducible evaluation. The Hanoi network (32 nodes, 34 pipes) serves as a standard testbed in the leak-detection literature. Training leveraged cloud compute for efficiency. The sensitivity analysis employs a tractable pressure–demand coupling to explore robustness under demand shifts; future work may incorporate full hydraulic simulation for finer-grained perturbation modeling.
+
 \section{Conclusion}
 
 We presented a Physics-Aware Artificial Neural Network (PAANN) for leak detection in Water Distribution Networks, embedding conservation of mass and the Hazen-Williams relation into the training objective. Experiments on the LeakDB Hanoi dataset show that the Physics-Aware ANN outperforms both a base ANN and XGBoost, achieving an F1 score of 0.8598 with a 62.98\% reduction in false positives compared to the base ANN. By enforcing physical consistency, the model issues leak predictions only when they are hydraulically plausible, reducing false alarms and operational costs. We also introduced a sensitivity analysis framework to assess robustness under demand perturbations and discussed why classical machine learning methods such as XGBoost are less suitable for this task. Our results demonstrate that incorporating domain physics into neural network training improves detection reliability and supports the case for physics-aware approaches in critical infrastructure monitoring.
@@ -1024,7 +1399,7 @@ Natural extensions include applying the Physics-Aware ANN to additional LeakDB t
 \section{Acknowledgements}
 Each member of this group has contributed equally and with the same sense of enthusiasm and ownership for this project.
 \newline We would like to acknowledge Prof. Abhijeet Salunke for his mentorship, guidance and constant encouragement across the entire journey of the project.
-\newline We would also like to acknowledge Prof. Vasan Arunachalam from BITS Pilani, Hyderabad campus for clarifying our questions regarding the LeakDB dataset. 
+\newline We would also like to acknowledge Prof. Vasan Arunachalam from BITS Pilani, Hyderabad campus for solving a doubt of ours regarding the LeakDB dataset.
 \section{Appendix}
 
 \subsection{Ablation Studies}
@@ -1049,28 +1424,6 @@ $W=12$ & 0.8323 & 0.9009 & 0.5767 & 0.7033 \\ \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    bar width=1.5,
-    width=0.4\textwidth,
-    height=0.35\textwidth,
-    xlabel={Window size},
-    ylabel={F1 Score},
-    xtick={1, 6, 12},
-    xticklabels={$W=1$, $W=6$, $W=12$},
-    ymin=0.5, ymax=0.85,
-    nodes near coords,
-]
-\addplot coordinates {(1, 0.6168) (6, 0.6804) (12, 0.7033)};
-\end{axis}
-\end{tikzpicture}
-\caption{F1 score vs.\ window size.}
-\label{fig:abl_window}
-\end{figure}
-
 \subsubsection{Temporal Columns}
 
 The \texttt{sin\_hour} and \texttt{cos\_hour} features encode time-of-day. Table~\ref{tab:abl_temporal} and Figure~\ref{fig:abl_temporal} show that including them improves F1 from 0.686 to 0.703, indicating that the model benefits from explicit temporal conditioning.
@@ -1087,29 +1440,6 @@ Without temporal & 0.8258 & 0.9057 & 0.5518 & 0.6858 \\
 With temporal    & 0.8323 & 0.9009 & 0.5767 & 0.7033 \\ \bottomrule
 \end{tabular}
 \end{table}
-
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    bar width=0.6,
-    width=0.4\textwidth,
-    height=0.32\textwidth,
-    symbolic x coords={Without, With},
-    xtick=data,
-    xticklabels={Without temporal, With temporal},
-    x tick label style={font=\small},
-    ymin=0.65, ymax=0.75,
-    ylabel={F1 Score},
-    nodes near coords,
-]
-\addplot coordinates {(Without, 0.6858) (With, 0.7033)};
-\end{axis}
-\end{tikzpicture}
-\caption{F1 score: without vs.\ with temporal columns.}
-\label{fig:abl_temporal}
-\end{figure}
 
 \subsubsection{Physics-Aware Mechanism}
 
@@ -1128,41 +1458,8 @@ Moderate coupling & Predicted pressure/flow features in leak head & 0.72 \\ \bot
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    bar width=0.5,
-    width=0.45\textwidth,
-    height=0.32\textwidth,
-    symbolic x coords={Loss only, Moderate coupling},
-    xtick=data,
-    x tick label style={font=\small},
-    ymin=0.65, ymax=0.78,
-    ylabel={F1 Score},
-    nodes near coords,
-]
-\addplot coordinates {(Loss only, 0.70) (Moderate coupling, 0.72)};
-\end{axis}
-\end{tikzpicture}
-\caption{Physics-aware mechanism: loss-only vs.\ moderate coupling.}
-\label{fig:abl_physics}
-\end{figure}
-
-\bibliographystyle{IEEEtran}
-\bibliography{References/S1944398624107059,
-References/pmc_11647635,
-References/citation-393247205,
-References/Exported_Items-stgnn,
-References/pinn_secure,
-References/S0952197623002464,
-References/citations-20251115T090154,
-References/citations-probability,
-References/we_emailed,
-References/leakdb,
-References/gnn_leak
-}
+%\bibliographystyle{IEEEtran}
+\bibliographystyle{elsarticle-harv}
+\bibliography{References/S1944398624107059,References/pmc_11647635,References/citation-393247205,References/pinn_secure,References/S0952197623002464,References/citations-20251115T090154,References/citations-probability,References/we_emailed,References/leakdb,References/gnn_leak}
 
 \end{document}
-

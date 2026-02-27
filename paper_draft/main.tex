@@ -198,21 +198,23 @@ Our model, which is Physics-Aware ANN (PAANN), tries to integrate physical laws 
 \section{Related work}
 
 The detection and localization of leaks in Water Distribution Networks (WDNs) have been
- investigated through various methods. This section presents a  synthesis of recent advances, organized into subsections showing the various methodologies applied, ranging from tradition data driven machine learning approaches to physics informed ones , along with the research gap motivating the present study.
+ investigated through various methods. This section presents a synthesis of recent advances, organized into subsections showing the various methodologies applied, ranging from tradition data driven machine learning approaches to physics informed ones , along with the research gap motivating the present study.
 
 \subsection{Traditional Data-Driven Approaches}
 
-Classical machine learning and deep learning methods have demonstrated considerable promise in leak detection, primarily by learning patterns from historical operational data. \cite{MAHDI2024100685} employed advanced statistical features—specifically, Autocorrelation Coefficient (Au-C) and Signal Energy (Sig-E)—extracted from accelerometer and dynamic pressure sensor measurements. Their Artificial Neural Network (ANN) achieved accuracies of 86.5\% and 86.2\% F1-scores for branched and looped configurations, respectively. The study highlighted the efficacy of data fusion in enhancing detection reliability; however, the approach remained purely empirical, lacking integration with underlying hydraulic principles.
+Classical machine learning and deep learning methods have shown considerable promise in leak detection, primarily by learning patterns from historical operational data. \cite{MAHDI2024100685} employed advanced statistical features—specifically, Autocorrelation Coefficient (Au-C) and Signal Energy (Sig-E)—extracted from accelerometer and dynamic pressure sensor measurements. Their Artificial Neural Network (ANN) achieved accuracies of 86.5\% and 86.2\% F1-scores for branched and looped configurations, respectively. The study highlighted the efficacy of data fusion in enhancing detection reliability; however, the approach remained purely empirical, lacking integration with underlying hydraulic principles.
 
 Similarly, \cite{sousa2023leakagedetection} investigated machine learning strategies including K-means clustering, Learning Vector Quantization (LVQ), and cluster validation techniques on data from a District Metered Area (DMA) in Stockholm, Sweden. Their methodology achieved classification rates up to 93.98\%, demonstrating robustness to common sensor noise levels within ±5\%. Nonetheless, the authors acknowledged limitations in handling dynamic operational variations and the absence of physical interpretability in model predictions.
 
-Deep learning architectures have also been explored. \cite{punukollu2023leakdetection} applied Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks on the LeakDB benchmark dataset \cite{kyriakou2018leakdb}, achieving leak detection accuracies ranging from 49\% to 98.23\% depending on network complexity. While these models captured temporal dependencies effectively, they required extensive labeled training data and exhibited reduced generalization under distribution shifts—a common challenge in purely data-driven paradigms.
+Deep learning architectures have also been explored. \cite{punukollu2023leakdetection} applied Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks on the LeakDB benchmark dataset, achieving leak detection accuracies ranging from 49\% to 98.23\% depending on network complexity. While these models captured temporal dependencies effectively, they required extensive labeled training data and exhibited reduced generalization under distribution shifts which is a common challenge in purely data-driven paradigms.
 
 \subsection{Hybrid and Model-Based Methodologies}
 
 Recognizing the limitations of purely data-driven approaches, recent research has integrated hydraulic modeling with statistical or machine learning techniques. \cite{mazaev2022probabilisticleaklocalization} proposed a hybrid framework combining EPANET hydraulic simulations with a Time-Windowed Head Bias Correction (TWHBC) mechanism and an Elastic-Net logistic regression classifier. Their approach explicitly accounted for model-data discrepancies through bias correction and achieved leak localization within predefined search radii for multiple in-field experiments. However, the methodology's reliance on accurate hydraulic model calibration and computational overhead limited its real-time applicability.
 
-\cite{barros_leak_2025} introduced a multilayer network representation integrating topological, correlation-based, and sensor coverage graphs. By combining graph theory with statistical anomaly detection (z-score and Interquartile Range), they successfully detected leaks within 15 minutes and localized them within a 50-meter range in the BattLeDIM benchmark network. Their approach reduced the need for exhaustive hydraulic simulations by regionalizing search spaces; nevertheless, the framework struggled with incipient leaks exhibiting gradual flow increases, underscoring the necessity for continuous physical constraint enforcement.
+\cite{s24196294} propose a novel transformer based model for the efficient detection of leakages in WDNs. The authors utilize a transformer architecture with an attention mechanism designed to learn normal pressure distributions by evaluating correlations between immediate historical data and data from the exact same time on different days. A key methodological improvement in their approach is concatenating rather than directly adding position embeddings to the pressure data, which prevents the blurring of subtle anomalous features caused by leaks.
+
+\cite{barros_leak_2025} introduced a multilayer network representation integrating topological, correlation-based, and sensor coverage graphs. By combining graph theory with statistical anomaly detection (z-score and Interquartile Range), they successfully detected leaks within 15 minutes and localized them within a 50-meter range in the BattLeDIM benchmark network. Their approach reduced the need for exhaustive hydraulic simulations by regionalizing search spaces; however, the framework struggled with incipient leaks exhibiting gradual flow increases, underscoring the necessity for continuous physical constraint enforcement.
 
 \subsection{Physics-Informed Neural Networks in WDNs}
 
@@ -223,14 +225,6 @@ Expanding on this foundation, \cite{falas2020pinnwatersecurity} explored PINNs f
 More recently, \cite{lin2025digitaltwin} developed a digital twin framework leveraging PINNs for pipeline leakage detection in Taiwan's water infrastructure. Their model embedded continuity and momentum equations into the loss function and utilized statistical control charts (z-score and IQR) on reconstruction errors to detect anomalies. Validation on real-world datasets yielded R² values of 88.91\% and 98.91\% for small- and large-scale networks, respectively, with leak detection within 15 minutes of occurrence. Despite these successes, the framework's dependency on accurate boundary conditions and its limited handling of transient flow regimes were noted as areas requiring further investigation.
 
 
-
-% \subsection{Leak-Specific Graph Learning Approaches}
-
-% Recent studies have moved beyond generic physics-informed modeling toward frameworks explicitly tailored for leak detection and localization in Water Distribution Networks (WDNs), integrating graph-based learning with hydraulic constraints to better capture leak-induced anomalies.
-
-% \cite{ORNGARDARSSON2022661} proposed a physics-informed graph neural network framework that embeds mass conservation and pressure–flow relationships directly into the learning process for leak localization. By representing the WDN as a graph and propagating leak-induced pressure residuals across adjacent nodes, the model exploited spatial correlations inherent in the network topology to improve localization accuracy. The incorporation of physics-based loss terms significantly reduced false positives compared to purely data-driven GNN baselines, particularly under moderate sensor noise conditions. Experimental validation demonstrated improved robustness to measurement uncertainty and partial observability. However, the approach primarily operated under quasi-steady-state assumptions and exhibited limited sensitivity to gradual or incipient leaks, where pressure deviations evolve slowly over time.
-
-% This work represents the most closely aligned prior research to the present study, demonstrating that leak-specific physics-informed graph learning can substantially enhance both detection reliability and spatial interpretability. Nevertheless, the framework predominantly emphasizes spatial correlations and does not explicitly model the temporal evolution of leak-induced dynamics. Moreover, the treatment of pressure transients and flow discontinuities remains approximate, particularly under evolving leak conditions and non-stationary operational regimes. These limitations motivate the development of a unified spatio-temporal graph-based physics-informed framework capable of jointly modeling network topology, temporal dynamics, and governing hydraulic laws for robust real-time leak detection and localization.
 
 \subsection{Benchmark Datasets and Evaluation Challenges}
 
@@ -799,8 +793,6 @@ To definitively prevent late-stage drift toward network boundaries, a \textbf{St
 
 \section{Results and Discussion}
 
-\subsection{Detection Results}
-
 \subsection{Metrics}
 
 We use four standard metrics: \textbf{Accuracy}, \textbf{Precision}, \textbf{Recall}, and \textbf{F1-Score} to evaluate the performance of our classification models.
@@ -1005,9 +997,9 @@ In practical deployment, this trade-off means that the Physics-Aware ANN incurs 
 
 \subsection{Comparison with Existing Benchmarks on LeakDB Hanoi}
 
-To contextualize our results, we compare our approach with other methods evaluated on the LeakDB Hanoi dataset. \cite{punukollu2023leakdetection} applied Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks on the LeakDB benchmark dataset, achieving leak detection accuracies ranging from 49\% to 98.23\% depending on network complexity. However, their results were reported across multiple network topologies, and specific performance metrics for the Hanoi network were not separately reported.
+To contextualize our results, we compare our approach with other methods evaluated on the LeakDB Hanoi dataset. \cite{punukollu2023leakdetection} applied Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks on the LeakDB benchmark dataset, achieving leak detection accuracies ranging from 87\% to 96\% depending on the type of leak. However, their results do not include specific precision and recall metrics 
 
-Recent work by researchers using synthetic datasets from Hanoi's water distribution network reported detection accuracies of 92.80\% and 92.20\% on datasets of 500 and 1000 scenarios respectively, using a combination of Convolutional Neural Networks with Gaussian Process Regressor preprocessing. While these results demonstrate competitive performance, the methodologies employed are purely data-driven and do not incorporate physical constraints.
+Experiments on transformer models by \cite{s24196294} significantly outperforms traditional machine learning approaches by using daily periodicity and long-term global information. On the Hanoi network, the it achieved an Accuracy of 95.19\% and an F1-score of 97.52\%.
 
 \begin{table}[!htbp]
 \centering
@@ -1018,12 +1010,12 @@ Recent work by researchers using synthetic datasets from Hanoi's water distribut
 \textbf{Method} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
 \midrule
 Transformer & 95.19\% & - & - & 97.52\% \\ 
-CNN-LSTM  & 49\%--98.23\%* & - & - & - \\
-CNN + GPR  & 92.80\% & - & 91.05\% & - \\
-CNN + GPR  & 92.20\% & - & - & - \\
+CNN & 88.86\%--96.55\%* & - & - & - \\
+LSTM & 87.21\%--89.65\%* & - & - & - \\
 ANN & 92.13\% & 91.43\% & 78.89\% & 84.70\% \\
 PAANN & \textbf{93.03\%} & \textbf{96.59\%} & 77.47\% & \textbf{85.98\%} \\
 \bottomrule
+\multicolumn{5}{l}{\footnotesize *Averaged across mixed, incipient, and abrupt leak scenarios.}
 \end{tabular}
 \end{table}
 
@@ -1472,6 +1464,19 @@ Coupling & pressure/flow features in leak head & 0.72 \\
 
 %\bibliographystyle{IEEEtran}
 \bibliographystyle{elsarticle-harv}
-\bibliography{References/citation-water-introduction,References/S1944398624107059,References/pmc_11647635,References/citation-393247205,References/pinn_secure,References/S0952197623002464,References/citations-20251115T090154,References/citations-probability,References/we_emailed,References/leakdb,References/gnn_leak}
+\bibliography{
+References/citation-water-introduction,
+References/S1944398624107059,
+References/pmc_11647635,
+References/citation-393247205,
+References/pinn_secure,
+References/S0952197623002464,
+References/citations-20251115T090154,
+References/citations-probability,
+References/we_emailed,
+References/leakdb,
+References/gnn_leak,
+References/transformers
+}
 
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.14)  28 FEB 2026 12:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.14)  28 FEB 2026 13:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1204,74 +1204,70 @@ Overfull \hbox (21.90009pt too wide) in paragraph at lines 1018--1031
  []
 
 
-Underfull \hbox (badness 3849) in paragraph at lines 1049--1050
+Underfull \hbox (badness 3849) in paragraph at lines 1050--1051
 []\T1/txr/m/n/10 (+20) Our Physics-Aware ANN achieves su-pe-rior pre-ci-sion
  []
 
 [11]
-Overfull \hbox (141.70999pt too wide) in paragraph at lines 1057--1066
- [][] 
- []
+LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
+(Font)              scaled to size 8.54997pt on input line 1060.
+LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
+(Font)              scaled to size 5.69998pt on input line 1060.
+LaTeX Font Info:    Font shape `T1/txr/b/n' in size <9> not available
+(Font)              Font shape `T1/txr/bx/n' tried instead on input line 1062.
 
-
-Underfull \hbox (badness 1033) in paragraph at lines 1080--1081
+Underfull \hbox (badness 1033) in paragraph at lines 1086--1087
 []\T1/txr/m/n/10 (+20) Both mod-els achieve iden-ti-cal lo-cal-iza-tion ac-cu-racy of
  []
 
 <122_ann.jpeg, id=402, 1420.30624pt x 609.27625pt>
 File: 122_ann.jpeg Graphic file (type jpg)
 <use 122_ann.jpeg>
-Package pdftex.def Info: 122_ann.jpeg  used on input line 1126.
+Package pdftex.def Info: 122_ann.jpeg  used on input line 1132.
 (pdftex.def)             Requested size: 252.0pt x 108.09383pt.
 <122_paann.jpeg, id=403, 1410.26875pt x 609.27625pt>
 File: 122_paann.jpeg Graphic file (type jpg)
 <use 122_paann.jpeg>
-Package pdftex.def Info: 122_paann.jpeg  used on input line 1130.
+Package pdftex.def Info: 122_paann.jpeg  used on input line 1136.
 (pdftex.def)             Requested size: 252.0pt x 108.86546pt.
 <320_ann.jpeg, id=404, 1404.24625pt x 616.3025pt>
 File: 320_ann.jpeg Graphic file (type jpg)
 <use 320_ann.jpeg>
-Package pdftex.def Info: 320_ann.jpeg  used on input line 1142.
+Package pdftex.def Info: 320_ann.jpeg  used on input line 1148.
 (pdftex.def)             Requested size: 252.0pt x 110.59111pt.
 <320_paann.jpeg, id=405, 1426.32875pt x 618.31pt>
 File: 320_paann.jpeg Graphic file (type jpg)
 <use 320_paann.jpeg>
-Package pdftex.def Info: 320_paann.jpeg  used on input line 1146.
+Package pdftex.def Info: 320_paann.jpeg  used on input line 1152.
 (pdftex.def)             Requested size: 252.0pt x 109.23424pt.
 [12 <./122_ann.jpeg> <./122_paann.jpeg>]
 <673_ann.jpeg, id=413, 1410.26875pt x 614.295pt>
 File: 673_ann.jpeg Graphic file (type jpg)
 <use 673_ann.jpeg>
-Package pdftex.def Info: 673_ann.jpeg  used on input line 1158.
+Package pdftex.def Info: 673_ann.jpeg  used on input line 1164.
 (pdftex.def)             Requested size: 252.0pt x 109.7622pt.
 <673_paann.jpeg, id=414, 1414.28375pt x 613.29124pt>
 File: 673_paann.jpeg Graphic file (type jpg)
 <use 673_paann.jpeg>
-Package pdftex.def Info: 673_paann.jpeg  used on input line 1162.
+Package pdftex.def Info: 673_paann.jpeg  used on input line 1168.
 (pdftex.def)             Requested size: 252.0pt x 109.27405pt.
 LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
-(Font)              scaled to size 7.59998pt on input line 1178.
-LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
-(Font)              scaled to size 5.69998pt on input line 1178.
-LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
-(Font)              scaled to size 8.54997pt on input line 1190.
-LaTeX Font Info:    Font shape `T1/txr/b/n' in size <9> not available
-(Font)              Font shape `T1/txr/bx/n' tried instead on input line 1190.
+(Font)              scaled to size 7.59998pt on input line 1184.
  [13 <./320_ann.jpeg> <./320_paann.jpeg> <./673_ann.jpeg> <./673_paann.jpeg>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [14]
 
-LaTeX Warning: Reference `fig:abl_window' on page 15 undefined on input line 1404.
+LaTeX Warning: Reference `fig:abl_window' on page 15 undefined on input line 1410.
 
 
-LaTeX Warning: Reference `fig:abl_temporal' on page 15 undefined on input line 1422.
+LaTeX Warning: Reference `fig:abl_temporal' on page 15 undefined on input line 1428.
 
 
-LaTeX Warning: Reference `fig:abl_physics' on page 15 undefined on input line 1439.
+LaTeX Warning: Reference `fig:abl_physics' on page 15 undefined on input line 1445.
 
 
-Overfull \hbox (27.91495pt too wide) in paragraph at lines 1446--1452
+Overfull \hbox (27.91495pt too wide) in paragraph at lines 1452--1458
  [][] 
  []
 
@@ -1366,7 +1362,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  99i,19n,118p,1162b,2278s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\david\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtcxr.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbmi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxmi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxr.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txex.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txsy.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (16 pages, 1685855 bytes).
+Output written on main.pdf (16 pages, 1686100 bytes).
 PDF statistics:
  610 PDF objects out of 1000 (max. 8388607)
  138 named destinations out of 1000 (max. 500000)

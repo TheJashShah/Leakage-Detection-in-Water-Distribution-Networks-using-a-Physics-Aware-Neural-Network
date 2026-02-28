@@ -1034,12 +1034,13 @@ PAANN & \textbf{93.03\%} & \textbf{96.59\%} & 77.47\% & \textbf{85.98\%} \\
 \centering
 \caption{Model parameter comparison}
 \label{tab:parameter_comparison}
-\begin{tabular}{@{}lc@{}}
+\begin{tabular}{@{}lllll@{}}
 \toprule
 \textbf{Method} & \textbf{Trainable Parameters} \\
 \midrule
 Transformer & $\sim$8--12 Million (estimated) \\
 CNN-LSTM & $\sim$1.0--1.2 Million (estimated) \\
+Autoencoder & $\sim$64,000 (estimated) \\
 ANN (Ours) & 764,289 \\
 PAANN (Ours) & 773,187 \\
 \bottomrule
@@ -1054,9 +1055,14 @@ Our Physics-Aware ANN achieves superior precision (96.59\%) compared to existing
 \centering
 \caption{Fault localization performance comparison}
 \label{tab:localization_results}
-\begin{tabular}{lccc}
+\small % Slightly reduces font size
+\setlength{\tabcolsep}{4pt} % Reduces horizontal padding between columns
+\begin{tabular}{@{}lccc@{}}
 \toprule
-\textbf{Model} & \textbf{True Positives (TP)} & \textbf{False Negatives (FN)} & \textbf{Avg. Time to Localize} \\
+\textbf{Model} & 
+\begin{tabular}{@{}c@{}}\textbf{True} \\ \textbf{Positives} \\ \textbf{(TP)}\end{tabular} & 
+\begin{tabular}{@{}c@{}}\textbf{False} \\ \textbf{Negatives} \\ \textbf{(FN)}\end{tabular} & 
+\begin{tabular}{@{}c@{}}\textbf{Avg. Time} \\ \textbf{to Localize}\end{tabular} \\
 \midrule
 Physics-Aware ANN & 95 & 25 & 11h 24m \\
 Standard ANN      & 95 & 25 & 31h 19m \\

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.14)  27 FEB 2026 18:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.14)  28 FEB 2026 12:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1199,7 +1199,7 @@ Overfull \hbox (9.59007pt too wide) in paragraph at lines 997--1003
  []
 
 
-Overfull \hbox (19.88008pt too wide) in paragraph at lines 1019--1031
+Overfull \hbox (21.90009pt too wide) in paragraph at lines 1018--1031
  [][] 
  []
 
@@ -1209,134 +1209,134 @@ Underfull \hbox (badness 3849) in paragraph at lines 1049--1050
  []
 
 [11]
-Overfull \hbox (141.70999pt too wide) in paragraph at lines 1057--1065
+Overfull \hbox (141.70999pt too wide) in paragraph at lines 1057--1066
  [][] 
  []
 
 
-Underfull \hbox (badness 1033) in paragraph at lines 1079--1080
+Underfull \hbox (badness 1033) in paragraph at lines 1080--1081
 []\T1/txr/m/n/10 (+20) Both mod-els achieve iden-ti-cal lo-cal-iza-tion ac-cu-racy of
  []
 
-<122_ann.jpeg, id=399, 1420.30624pt x 609.27625pt>
+<122_ann.jpeg, id=402, 1420.30624pt x 609.27625pt>
 File: 122_ann.jpeg Graphic file (type jpg)
 <use 122_ann.jpeg>
-Package pdftex.def Info: 122_ann.jpeg  used on input line 1125.
+Package pdftex.def Info: 122_ann.jpeg  used on input line 1126.
 (pdftex.def)             Requested size: 252.0pt x 108.09383pt.
-<122_paann.jpeg, id=400, 1410.26875pt x 609.27625pt>
+<122_paann.jpeg, id=403, 1410.26875pt x 609.27625pt>
 File: 122_paann.jpeg Graphic file (type jpg)
 <use 122_paann.jpeg>
-Package pdftex.def Info: 122_paann.jpeg  used on input line 1129.
+Package pdftex.def Info: 122_paann.jpeg  used on input line 1130.
 (pdftex.def)             Requested size: 252.0pt x 108.86546pt.
-<320_ann.jpeg, id=401, 1404.24625pt x 616.3025pt>
+<320_ann.jpeg, id=404, 1404.24625pt x 616.3025pt>
 File: 320_ann.jpeg Graphic file (type jpg)
 <use 320_ann.jpeg>
-Package pdftex.def Info: 320_ann.jpeg  used on input line 1141.
+Package pdftex.def Info: 320_ann.jpeg  used on input line 1142.
 (pdftex.def)             Requested size: 252.0pt x 110.59111pt.
-<320_paann.jpeg, id=402, 1426.32875pt x 618.31pt>
+<320_paann.jpeg, id=405, 1426.32875pt x 618.31pt>
 File: 320_paann.jpeg Graphic file (type jpg)
 <use 320_paann.jpeg>
-Package pdftex.def Info: 320_paann.jpeg  used on input line 1145.
+Package pdftex.def Info: 320_paann.jpeg  used on input line 1146.
 (pdftex.def)             Requested size: 252.0pt x 109.23424pt.
 [12 <./122_ann.jpeg> <./122_paann.jpeg>]
-<673_ann.jpeg, id=410, 1410.26875pt x 614.295pt>
+<673_ann.jpeg, id=413, 1410.26875pt x 614.295pt>
 File: 673_ann.jpeg Graphic file (type jpg)
 <use 673_ann.jpeg>
-Package pdftex.def Info: 673_ann.jpeg  used on input line 1157.
+Package pdftex.def Info: 673_ann.jpeg  used on input line 1158.
 (pdftex.def)             Requested size: 252.0pt x 109.7622pt.
-<673_paann.jpeg, id=411, 1414.28375pt x 613.29124pt>
+<673_paann.jpeg, id=414, 1414.28375pt x 613.29124pt>
 File: 673_paann.jpeg Graphic file (type jpg)
 <use 673_paann.jpeg>
-Package pdftex.def Info: 673_paann.jpeg  used on input line 1161.
+Package pdftex.def Info: 673_paann.jpeg  used on input line 1162.
 (pdftex.def)             Requested size: 252.0pt x 109.27405pt.
 LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
-(Font)              scaled to size 7.59998pt on input line 1177.
+(Font)              scaled to size 7.59998pt on input line 1178.
 LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
-(Font)              scaled to size 5.69998pt on input line 1177.
+(Font)              scaled to size 5.69998pt on input line 1178.
 LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
-(Font)              scaled to size 8.54997pt on input line 1189.
+(Font)              scaled to size 8.54997pt on input line 1190.
 LaTeX Font Info:    Font shape `T1/txr/b/n' in size <9> not available
-(Font)              Font shape `T1/txr/bx/n' tried instead on input line 1189.
+(Font)              Font shape `T1/txr/bx/n' tried instead on input line 1190.
  [13 <./320_ann.jpeg> <./320_paann.jpeg> <./673_ann.jpeg> <./673_paann.jpeg>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [14]
 
-LaTeX Warning: Reference `fig:abl_window' on page 15 undefined on input line 1403.
+LaTeX Warning: Reference `fig:abl_window' on page 15 undefined on input line 1404.
 
 
-LaTeX Warning: Reference `fig:abl_temporal' on page 15 undefined on input line 1421.
+LaTeX Warning: Reference `fig:abl_temporal' on page 15 undefined on input line 1422.
 
 
-LaTeX Warning: Reference `fig:abl_physics' on page 15 undefined on input line 1438.
+LaTeX Warning: Reference `fig:abl_physics' on page 15 undefined on input line 1439.
 
 
-Overfull \hbox (27.91495pt too wide) in paragraph at lines 1445--1451
+Overfull \hbox (27.91495pt too wide) in paragraph at lines 1446--1452
  [][] 
  []
 
 (main.bbl
-Underfull \hbox (badness 2941) in paragraph at lines 68--81
+Underfull \hbox (badness 2941) in paragraph at lines 79--92
 []\T1/txr/m/n/10 (+20) Mahdi, N.M., Jas-sim, A.H., Ab-ulqasim, S.A., Basem,
  []
 
 
-Underfull \hbox (badness 2941) in paragraph at lines 68--81
+Underfull \hbox (badness 2941) in paragraph at lines 79--92
 \T1/txr/m/n/10 (+20) A., Ogaili, A.A.F., Al-Haddad, L.A., 2024.  Leak
  []
 
 
-Underfull \hbox (badness 5970) in paragraph at lines 68--81
+Underfull \hbox (badness 5970) in paragraph at lines 79--92
 \T1/txr/m/n/10 (+20) de-tec-tion and lo-cal-iza-tion in wa-ter dis-tri-bu-tion sys-
  []
 
 
-Underfull \hbox (badness 1400) in paragraph at lines 68--81
+Underfull \hbox (badness 1400) in paragraph at lines 79--92
 \T1/txr/m/n/10 (+20) tems us-ing ad-vanced fea-ture anal-y-sis and an ar-ti-fi-cial
  []
 
 
-Underfull \hbox (badness 3417) in paragraph at lines 68--81
+Underfull \hbox (badness 3417) in paragraph at lines 79--92
 \T1/txr/m/n/10 (+20) neu-ral net-work.  De-sali-na-tion and Wa-ter Treat-ment
  []
 
 
-Underfull \hbox (badness 3354) in paragraph at lines 68--81
+Underfull \hbox (badness 3354) in paragraph at lines 79--92
 \T1/txr/m/n/10 (+20) 320, 100685.  URL: []$\T1/cmtt/m/n/10 https : / / www . sciencedirect .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 68--81
+Underfull \hbox (badness 10000) in paragraph at lines 79--92
 \T1/cmtt/m/n/10 com / science / article / pii / S1944398624107059$[]\T1/txr/m/n/10 (+20) ,
  []
 
 [15]
-Underfull \hbox (badness 2027) in paragraph at lines 117--126
+Underfull \hbox (badness 2027) in paragraph at lines 128--137
 []\T1/txr/m/n/10 (+20) Tornyeviadzi, H.M., Seidu, R., 2023.  Leak-age de-tec-
  []
 
 
-Underfull \hbox (badness 2443) in paragraph at lines 117--126
+Underfull \hbox (badness 2443) in paragraph at lines 128--137
 \T1/txr/m/n/10 (+20) tion in wa-ter dis-tri-bu-tion net-works via 1d cnn deep
  []
 
 
-Underfull \hbox (badness 1360) in paragraph at lines 117--126
+Underfull \hbox (badness 1360) in paragraph at lines 128--137
 \T1/txr/m/n/10 (+20) au-toen-coder for mul-ti-vari-ate scada data.  En-gi-neer-ing
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 117--126
+Underfull \hbox (badness 10000) in paragraph at lines 128--137
 \T1/txr/m/n/10 (+20) Ap-pli-ca-tions of Ar-ti-fi-cial In-tel-li-gence 122, 106062.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 117--126
+Underfull \hbox (badness 10000) in paragraph at lines 128--137
 \T1/txr/m/n/10 (+20) URL: []$\T1/cmtt/m/n/10 https : / / www . sciencedirect . com / science /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 117--126
+Underfull \hbox (badness 10000) in paragraph at lines 128--137
 \T1/cmtt/m/n/10 article / pii / S0952197623002464$[]\T1/txr/m/n/10 (+20) , doi:[]$\T1/cmtt/m/n/10 https :
  []
 
@@ -1358,17 +1358,17 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: AF1F294F91C04892C9C0DE85E0D5C27E;9995.
  ) 
 Here is how much of TeX's memory you used:
- 37385 strings out of 467866
- 837451 string characters out of 5418325
- 1442322 words of memory out of 5000000
- 64938 multiletter control sequences out of 15000+600000
+ 37389 strings out of 467866
+ 837512 string characters out of 5418325
+ 1442425 words of memory out of 5000000
+ 64941 multiletter control sequences out of 15000+600000
  731930 words of font info for 546 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,19n,118p,1162b,2278s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\david\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtcxr.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbmi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxmi.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxr.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txex.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txsy.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/david/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (16 pages, 1680166 bytes).
+Output written on main.pdf (16 pages, 1685855 bytes).
 PDF statistics:
- 601 PDF objects out of 1000 (max. 8388607)
- 137 named destinations out of 1000 (max. 500000)
+ 610 PDF objects out of 1000 (max. 8388607)
+ 138 named destinations out of 1000 (max. 500000)
  144401 words of extra memory for PDF output out of 154059 (max. 10000000)
 

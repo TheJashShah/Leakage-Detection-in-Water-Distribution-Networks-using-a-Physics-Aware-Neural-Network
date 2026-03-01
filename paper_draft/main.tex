@@ -999,8 +999,7 @@ In practical deployment, this trade-off means that the Physics-Aware ANN incurs 
 
 To contextualize our results, we compare our approach with other methods evaluated on the LeakDB Hanoi dataset. \cite{punukollu2023leakdetection} applied Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks on the LeakDB benchmark dataset, achieving leak detection accuracies ranging from 87\% to 96\% depending on the type of leak. However, their results do not include specific precision and recall metrics 
 
-Experiments on transformer models by \cite{s24196294} significantly outperforms traditional machine learning approaches by using daily periodicity and long-term global information. On the Hanoi network, the it achieved an Accuracy of 95.19\% and an F1-score of 97.52\%.
-
+Experiments on transformer models by \cite{s24196294} significantly outperform traditional machine learning approaches by using daily periodicity and long-term global information. On the Hanoi network, it achieved an Accuracy of 95.19\% and an F1-score of 97.52\%. Additionally, fully data-driven anomaly detection approaches, such as the Convolutional Autoencoder proposed by \cite{10095760}, use reconstructed pressure matrices to identify leaks, achieving an overall accuracy of 89\% on the LeakDB dataset.
 \begin{table}[!htbp]
 \centering
 \caption{Comparison of methods on LeakDB Hanoi dataset}
@@ -1010,6 +1009,7 @@ Experiments on transformer models by \cite{s24196294} significantly outperforms 
 \textbf{Method} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
 \midrule
 Transformer & 95.19\% & - & - & 97.52\% \\ 
+Autoencoder & 89.00\% & - & - & 78.84\% \\
 CNN & 88.86\%--96.55\%* & - & - & - \\
 LSTM & 87.21\%--89.65\%* & - & - & - \\
 ANN & 92.13\% & 91.43\% & 78.89\% & 84.70\% \\
@@ -1049,6 +1049,7 @@ Our Physics-Aware ANN achieves superior precision (96.59\%) compared to existing
 \midrule
 Physics-Aware ANN & 95 & 25 & 11h 24m \\
 Standard ANN      & 95 & 25 & 31h 19m \\
+Autoencoder       & -  & -  & 13h 00m \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1476,7 +1477,8 @@ References/citations-probability,
 References/we_emailed,
 References/leakdb,
 References/gnn_leak,
-References/transformers
+References/transformers,
+References/autoencoders
 }
 
 \end{document}

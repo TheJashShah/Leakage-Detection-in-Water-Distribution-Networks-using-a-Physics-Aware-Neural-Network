@@ -58,6 +58,7 @@
 \usepackage{amsmath}
 \usepackage{tabularx}
 \usepackage{svg}
+\usepackage{caption}
 
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
@@ -66,7 +67,7 @@
 
 %% You might want to define your own abbreviated commands for common used terms, e.g.:
 \newcommand{\kms}{km\,s$^{-1}$}
-\newcommand{\msun}{$M_\odot}
+\newcommand{\msun}{$M_\odot$}
 
 \journal{Results in Physics}
 
@@ -182,11 +183,11 @@ Physics-Aware Neural Networks \sep Leakage Detection \sep Water Distribution Net
 \label{introduction}
 
 \subsection{Motivation and Relevance}
-Water is one of the most essential resources for human survival, economic growth, and sustainable urban development. With rapid urbanization and increasing population density in major towns and cities, Water Distribution Networks (WDNs) have become more extensive and complex.  These networks are responsible for delivering potable water from natural water bodies or reserviors to consumers, and their efficient operation is crucial to ensure water security and sustainability.
-The volume of leakages in WDNs varies throughout different geographies, and the primary factors affecting the amount of water lost due to leakage are the general condition of the network and the maintenance and monitoring system in place. According to \cite{serafeim2024leakages}, Some places suffer from as much as 70-80\% loss in water due to leakages, while places and areas where the infrastructure is secure, the lost water volume is as low as 7-8\%. In total, around the World, the amount of non-revenue water (NRW) is around 126 billion cubic meters annually, and amounts to monetary loss of approximately 39 billion dollars(USD.)
+Water is one of the most essential resources for human survival, economic growth, and sustainable urban development. With rapid urbanization and increasing population density in major towns and cities, Water Distribution Networks (WDNs) have become more extensive and complex \cite{SALEHI2022106936} , \cite{Gupta2018}.  These networks are responsible for delivering potable water from natural water bodies or reserviors to consumers, and their efficient operation is crucial to ensure water security and sustainability.
+The volume of leakages in WDNs varies throughout different geographies, and the primary factors affecting the amount of water lost due to leakage are the general condition of the network and the maintenance and monitoring system in place. According to \cite{serafeim2024leakages}, Some places suffer from as much as 70-80\% loss in water due to leakages, while places and areas where the infrastructure is secure, the lost water volume is as low as 7-8\%. In total, around the World, the amount of non-revenue water (NRW) is around 126 billion cubic meters annually, and amounts to monetary loss of approximately 39 billion dollars(USD.) \cite{article_liem}
 
 \subsection{Challenges}
-Monitoring systems for WDNs are primarily acoustic monitoring systems, or they rely heavily on manual inspection and are labor-intensive, time-consuming, and costly. Recent advancements in data-driven methods and sensor-based monitoring have improved detection accuracy; however, many of these approaches rely heavily on data driven and complex models that do not explicitly incorporate the underlying physical laws of fluid dynamics. As a result, their predictions may lack physical interpretability and generalization in unseen scenarios.
+Monitoring systems for WDNs are primarily acoustic monitoring systems, or they rely heavily on manual inspection and are labor-intensive, time-consuming, and costly \cite{w16202975}. Recent advancements in data-driven methods and sensor-based monitoring have improved detection accuracy \cite{smartcities9030045}; however, many of these approaches rely heavily on data driven and complex models that do not explicitly incorporate the underlying physical laws of fluid dynamics \cite{LIU2025111432}. As a result, their predictions may lack physical interpretability and generalization in unseen scenarios \cite{s25165069}. Furthermore, the efficacy of any data-driven or model-based detection algorithm is intrinsically bounded by the quality and spatial distribution of the monitoring hardware. The Optimal Sensor Placement (OSP) problem remains a vital coupled challenge; advanced optimization strategies, such as Genetic Algorithms combined with Information Theory, are frequently required to maximize leak diagnosability and ensure that the sparse subset of monitored nodes captures the maximum variance of network anomalies \cite{s22020443}.
 
 \subsection{Contribution}
 Our model, which is Physics-Aware ANN (PAANN), tries to integrate physical laws into the model latent space so the predictions do not violate the equations and laws of conservation of mass and energy, and the models vastly reduce the number of false-positives which save both the monetary and human cost, predicting a leak only when the model is very sure. This is a comparatively low cost solution that can be generalized for any WDN, and our localization method predicts the leakage area using a relatively simple set of rules, not relying on expensive models for localization which are both time and compute consuming.
@@ -202,11 +203,11 @@ Classical machine learning and deep learning methods have shown considerable pro
 
 Similarly, \cite{sousa2023leakagedetection} investigated machine learning strategies including K-means clustering, Learning Vector Quantization (LVQ), and cluster validation techniques on data from a District Metered Area (DMA) in Stockholm, Sweden. Their methodology achieved classification rates up to 93.98\%, demonstrating robustness to common sensor noise levels within ±5\%. Nonetheless, the authors acknowledged limitations in handling dynamic operational variations and the absence of physical interpretability in model predictions.
 
-Deep learning architectures have also been explored. \cite{punukollu2023leakdetection} applied Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks on the LeakDB benchmark dataset, achieving leak detection accuracies ranging from 49\% to 98.23\% depending on network complexity. While these models captured temporal dependencies effectively, they required extensive labeled training data and exhibited reduced generalization under distribution shifts which is a common challenge in purely data-driven paradigms.
+Deep learning architectures have also been explored. \cite{punukollu2023leakdetection} and \cite{w12123399} applied Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks on the LeakDB benchmark dataset, achieving leak detection accuracies ranging from 49\% to 98.23\% depending on network complexity. While these models captured temporal dependencies effectively, they required extensive labeled training data and exhibited reduced generalization under distribution shifts which is a common challenge in purely data-driven paradigms.
 
 \subsection{Hybrid and Model-Based Methodologies}
 
-Recognizing the limitations of purely data-driven approaches, recent research has integrated hydraulic modeling with statistical or machine learning techniques. \cite{mazaev2022probabilisticleaklocalization} proposed a hybrid framework combining EPANET hydraulic simulations with a Time-Windowed Head Bias Correction (TWHBC) mechanism and an Elastic-Net logistic regression classifier. Their approach explicitly accounted for model-data discrepancies through bias correction and achieved leak localization within predefined search radii for multiple in-field experiments. However, the methodology's reliance on accurate hydraulic model calibration and computational overhead limited its real-time applicability.
+Recognizing the limitations of purely data-driven approaches, recent research has integrated hydraulic modeling with statistical or machine learning techniques \cite{Hu2021LeakReview}. \cite{mazaev2022probabilisticleaklocalization} proposed a hybrid framework combining EPANET hydraulic simulations with a Time-Windowed Head Bias Correction (TWHBC) mechanism and an Elastic-Net logistic regression classifier. Their approach explicitly accounted for model-data discrepancies through bias correction and achieved leak localization within predefined search radii for multiple in-field experiments. However, the methodology's reliance on accurate hydraulic model calibration and computational overhead limited its real-time applicability.
 
 \cite{s24196294} propose a novel transformer based model for the efficient detection of leakages in WDNs. The authors utilize a transformer architecture with an attention mechanism designed to learn normal pressure distributions by evaluating correlations between immediate historical data and data from the exact same time on different days. A key methodological improvement in their approach is concatenating rather than directly adding position embeddings to the pressure data, which prevents the blurring of subtle anomalous features caused by leaks.
 
@@ -214,7 +215,7 @@ Recognizing the limitations of purely data-driven approaches, recent research ha
 
 \subsection{Physics-Informed Neural Networks in WDNs}
 
-Physics-Informed Neural Networks (PINNs) represent an emerging paradigm that embeds governing partial differential equations (PDEs) directly into neural network loss functions, ensuring adherence to known physical laws. \cite{TORNYEVIADZI2023106062} pioneered the application of a 1D CNN deep autoencoder with semi-supervised learning on multivariate SCADA data from the L-TOWN benchmark network. Their PINN-based framework incorporated continuity and momentum equations via Pruned Exact Linear Time (PELT) change point detection, achieving identification of 16 out of 19 leaks and accurate localization of 13 within a 300-meter radius—without requiring a calibrated hydraulic model. The study demonstrated minimal identification lag for abrupt leaks, though incipient leaks remained challenging.
+Physics-Informed Neural Networks (PINNs) represent an emerging paradigm that embeds governing partial differential equations (PDEs) directly into neural network loss functions, ensuring adherence to known physical laws \cite{RAISSI2019686}. \cite{TORNYEVIADZI2023106062} pioneered the application of a 1D CNN deep autoencoder with semi-supervised learning on multivariate SCADA data from the L-TOWN benchmark network. Their PINN-based framework incorporated continuity and momentum equations via Pruned Exact Linear Time (PELT) change point detection, achieving identification of 16 out of 19 leaks and accurate localization of 13 within a 300-meter radius—without requiring a calibrated hydraulic model. The study demonstrated minimal identification lag for abrupt leaks, though incipient leaks remained challenging.
 
 Expanding on this foundation, \cite{falas2020pinnwatersecurity} explored PINNs for cybersecurity applications in WDNs, specifically mitigating sensor-based cyberattacks. By training surrogate models on Navier-Stokes equations, they achieved predictive accuracies exceeding 99\% for velocity fields, enabling the detection of data integrity attacks within simulated environments. While conceptually innovative, the work focused on small-scale proof-of-concept scenarios and did not address scalability to operational networks.
 
@@ -735,11 +736,14 @@ To definitively prevent late-stage drift toward network boundaries, a \textbf{St
 
 \textbf{Handling Simultaneous Leaks:} In scenarios involving multiple simultaneous bursts, the combination of time-decayed voting and the Stability Lock acts as a dominant-signal isolator. The node experiencing the most severe and immediate pressure gradient (the primary leak) accumulates early votes rapidly. The algorithm intentionally locks onto this primary source, preventing the system from oscillating confusingly between multiple coordinates. Secondary leaks can subsequently be localized once the primary anomaly is isolated by network operators and the baseline resets.
 
-% NOTE: If you are using a two-column format (like IEEE), change \begin{algorithm} to \begin{algorithm*}
-% and \end{algorithm} to \end{algorithm*}. This will make the block span the top of the page and fix gaps.
-\begin{algorithm}[H]
-\caption{Real-Time Physics-Aware Localization Strategy}
+% --- Start of Breakable Algorithm ---
+\vspace{10pt}
+\noindent\rule{\columnwidth}{0.8pt}
+\captionof{algorithm}{Real-Time Physics-Aware Localization Strategy}
 \label{alg:leak_localization}
+\vspace{-8pt}
+\noindent\rule{\columnwidth}{0.4pt}
+
 \begin{algorithmic}[1]
 \Require Real-time Pressure stream $P_t$, ANN Model $\mathcal{M}$, Adjacency Graph $\mathcal{G}$
 \Ensure Localized Node $L_{est}$
@@ -748,7 +752,7 @@ To definitively prevent late-stage drift toward network boundaries, a \textbf{St
 
 \While{stream is active at time $t$}
     \State $p_{leak} \leftarrow \mathcal{M}(P_{t-w:t})$
-   
+    
     \If{not $LeakActive$}
         \If{$p_{leak} < 0.60$} \text{Append } $P_t$ \text{ to } $\mathcal{B}$ \EndIf
         \If{$p_{leak} > 0.75$}
@@ -757,23 +761,23 @@ To definitively prevent late-stage drift toward network boundaries, a \textbf{St
         \EndIf
     \Else
         \If{$p_{leak} < 0.40$} \textbf{Reset System State} \EndIf
-       
+        
         \If{not $IsLocked$}
             \State $W_t \leftarrow 1 / (1 + 0.1 \times (t - t_{start}))$
             \State $C \leftarrow \emptyset$ \Comment{Candidate List}
-           
+            
             \For{each node $i \in \{1, \dots, N\}$}
                 \State $Z_i \leftarrow \max(0, \mu_i - P_{i,t}) / \sigma_i$
                 \If{$Z_i > 1.0$}
                     \State Add $(i, \text{CalcTopoScore}(Z_i, \mathcal{G}))$ to $C$
                 \EndIf
             \EndFor
-           
+            
             \State Sort $C$ descending by TopoScore
             \For{rank $r \in \{0, 1, 2\}$ from top 3 of $C$}
                 \State $V_{C[r].id} \leftarrow V_{C[r].id} + (3 - r) \times W_t$
             \EndFor
-           
+            
             \State $L_{new} \leftarrow \operatorname*{argmax}(V)$
             \If{$L_{new} == L_{curr}$}
                 \State $Stability \leftarrow Stability + 1$
@@ -785,7 +789,10 @@ To definitively prevent late-stage drift toward network boundaries, a \textbf{St
     \EndIf
 \EndWhile
 \end{algorithmic}
-\end{algorithm}
+
+\noindent\rule{\columnwidth}{0.8pt}
+\vspace{10pt}
+% --- End of Breakable Algorithm ---
 
 \section{Results and Discussion}
 
@@ -1515,7 +1522,18 @@ References/we_emailed,
 References/leakdb,
 References/gnn_leak,
 References/transformers,
-References/autoencoders
+References/autoencoders,
+References/intro_cite_1,
+References/intro_cite_2,
+References/intro_cite_3,
+References/intro_cite_4,
+References/intro_cite_5,
+References/intro_cite_6,
+References/we_emailed_2,
+References/intro_new_cite,
+References/hybrid_model_based,
+References/pinn_define,
+References/senor_placement,
 }
 
 \end{document}

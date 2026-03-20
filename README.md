@@ -57,11 +57,18 @@ To reproduce the methodology described in the paper, run the scripts in the foll
 If you find this code or our methodology useful in your research, please consider citing our pre-print:
 
 ```bibtex
-@misc{shah2024leakage,
-  title={Leakage Detection in Water Distribution Networks using a Physics-Aware Neural Network and Leakage Localization using a Rule-based System},
-  author={Shah, Jash and Daniels, David and Shah, Heet and Salunke, Abhijeet},
-  year={2024},
-  publisher={Zenodo},
-  doi={10.5281/zenodo.18938356},
-  url={[https://zenodo.org/records/18938356](https://zenodo.org/records/18938356)}
+@misc{shah_2026_18938356,
+  author       = {Shah, Jash and
+                  Daniels, David and
+                  Shah, Heet and
+                  Salunke, Abhijeet},
+  title        = {Leakage Detection in Water Distribution Networks
+                   using a Physics-Aware Neural Network and Leakage
+                   Localization using a Rule-based System
+                  },
+  month        = mar,
+  year         = 2026,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.18938356},
+  url          = {https://doi.org/10.5281/zenodo.18938356},
 }
